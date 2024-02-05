@@ -4,6 +4,7 @@ export default function AttendanceInput() {
   return (
     <div>
      <div>出勤時間</div>
+     
      <input type="button" value="出勤" />
      <div>退勤時間</div>
      <input type="button" value="退勤" />
