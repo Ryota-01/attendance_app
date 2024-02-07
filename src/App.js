@@ -1,8 +1,8 @@
 import logo from './logo.svg';
-import './App.css';
-import Header from './common/Header';
-import AttendanceInput from './common/AttendanceInput';
-import AttendTotal from './common/AttendTotal';
+import './css/App.css';
+import Header from './components/Header';
+import AttendanceInput from './components/AttendanceInput';
+import AttendTotal from './components/AttendTotal';
 
 function App() {
   return (
