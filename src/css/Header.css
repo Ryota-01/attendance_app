@@ -1,0 +1,18 @@
+.header {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background: rgb(0, 0, 120);
+}
+
+.header_item {
+  padding: 15px;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+.header_item_list {
+  color: white;
+  padding: 15px;
+}
