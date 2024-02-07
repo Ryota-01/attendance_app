@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  background: rgb(0, 0, 120);
+  background: rgb(0, 0, 90);
 }
 
 .header_item {
@@ -15,4 +15,8 @@
 .header_item_list {
   color: white;
   padding: 15px;
+}
+
+.header_item_list:last-child {
+  margin-left: auto;
 }
