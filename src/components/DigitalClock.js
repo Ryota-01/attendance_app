@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import '../css/DigitalClock.css'
 
 export default function DigitalClock() {
   const [ date, setDate ] = useState([]);
@@ -30,9 +31,9 @@ export default function DigitalClock() {
   }, []);
 
   return (
-    <>
+    <div className="databoxWrapper">
       <p class="currentDate">{date}</p>
       <h2 class="currentTime">{formattedTime}</h2>
-    </>
+    </div>
   )
 }
