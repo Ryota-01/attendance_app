@@ -1,15 +1,15 @@
 .databoxWrapper {
-  background: red;
+  /* background: red; */
   padding: 30px 0;
 }
 
 .currentDate {
   margin: 0;
   padding: 12px 0;
-  font-size: 1.2rem;
+  font-size: 3rem;
 }
 
 .currentTime {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 8rem;
 }
