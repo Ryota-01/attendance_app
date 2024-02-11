@@ -1,0 +1,57 @@
+.attendanceList_wrapper {
+  width: 80%;
+  padding: 36px 0;
+  margin: 0 auto;
+}
+
+/* h2タグ */
+.attendanceList_head {
+  font-size: 3rem;
+}
+
+.attendanceMonth {
+  font-size: 1.7rem;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  margin-left:0;
+}
+
+.currentMonth {
+  padding: 0 24px;
+}
+
+/* table共通スタイル */
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 40px 0;
+}
+
+/* th共通スタイル */
+th {
+  font-size: 1.8rem;
+  background: rgba(230, 230, 230);
+  font-weight: normal;
+  border: 1px solid;
+  padding: 8px 0;
+  letter-spacing: 0.1rem;
+}
+
+/* td共通スタイル */
+td {
+  font-size: 1.8rem;
+  padding: 8px 0;
+  border-bottom: 1px solid black;
+  letter-spacing: 0.2rem;
+  border: 1px solid;
+}
+
+.attendanceTotal_table th{
+  padding: 8px 12px;
+}
+
+.attendanceList_table {
+  width: 100%;
+}
+

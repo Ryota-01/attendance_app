@@ -8,6 +8,7 @@ export default function AttendanceButton() {
   const [clockOutDisabled, setClockOutDisabled] = useState(true);
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
   const [attendanceList, setAttendanceList] = useState([]);
+  const breakTime = 1000;
 
   //ローカルストレージから打刻時間のデータを取得
   const getDateFromLocalStorage = () => {
@@ -26,23 +27,12 @@ export default function AttendanceButton() {
   );
 
   useEffect(() => {
-    if (storageDate) {
+    // ローカルストレージがnullか判定
+    if (storageDate != null && storageDate.clockIn) {
       setClockInDisabled(true);
+      setClockOutDisabled(storageDate.clockOut);
     }
   }, []);
-
-  // useEffect(() => {
-  //   const dateFromLocalStorage = getDateFromLocalStorage();
-  //   const storedClockInTime = localStorage.getItem(`${currentDate}-clockIn`);
-  //   const parsedClockInTime = storedClockInTime
-  //     ? JSON.parse(storedClockInTime)
-  //     : null;
-  //   const storedClockOutTime = localStorage.getItem(`${currentDate}-clockOut`);
-  //   setAttendanceList(dateFromLocalStorage);
-  //   setClockInDisabled(!!storedClockInTime);
-  //   setClockOutDisabled(!!storedClockOutTime);
-  // }, [currentDate]
-  // );
 
   useEffect(() => {
     const midnight = new Date();
@@ -87,6 +77,8 @@ export default function AttendanceButton() {
     const currentTime = new Date().toLocaleTimeString();
     if (storageDate && storageDate.clockIn) {
       storageDate.clockOut = currentTime;
+      storageDate.breakTime = breakTime;
+      console.log(breakTime);
       localStorage.setItem(
         `${currentDate}-attendance`,
         JSON.stringify(storageDate)
