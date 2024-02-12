@@ -19,12 +19,12 @@ export default function AttendanceList() {
     setAttendanceList(dateFromLocalStorage);
   }, []);
 
-  //労働時間を関数する処理
+  //労働時間を計算する処理
   function calWorkingHours(clockIn, clockOut, breakTime) {
     const startTime = new Date(`2000-01-01 ${clockIn}`);
     const endTime = new Date(`2000-01-01 ${clockOut}`);
     const breakTimeDate = new Date(`2000-01-01 ${breakTime}`); //breakTimeは1:00:00
-    const diffInMilliseconds = (endTime - startTime) - breakTime + 1000;
+    const diffInMilliseconds = (endTime - startTime) - breakTimeDate;
 
     const positiveDiffInMilliSeconds = Math.max(diffInMilliseconds, 0);
 
@@ -89,7 +89,7 @@ export default function AttendanceList() {
           </tbody>
         </table>
       ) : (
-        <p>勤怠データはありません</p>
+        <h2>勤怠データはありません</h2>
       )}
     </div>
   );

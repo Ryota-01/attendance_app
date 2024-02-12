@@ -8,7 +8,7 @@ export default function AttendanceButton() {
   const [clockOutDisabled, setClockOutDisabled] = useState(true);
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
   const [attendanceList, setAttendanceList] = useState([]);
-  const breakTime = 1000;
+  const breakTime = "1:00:00";
 
   //ローカルストレージから打刻時間のデータを取得
   const getDateFromLocalStorage = () => {
@@ -54,10 +54,20 @@ export default function AttendanceButton() {
 
   //出勤ボタンが押されたときの処理
   const handleClockIn = () => {
+    const dateToday = new Date();
+    const options = {
+      month: "2-digit",
+      day: "2-digit",
+      weekday: "short",
+    };
+    const formattedDateToday = dateToday
+      .toLocaleDateString("ja-JP", options)
+      .replace(/(.+曜日)$/, "($1)");
+    console.log(formattedDateToday);
     const currentTime = new Date().toLocaleTimeString();
     //ローカルストレージにデータを保存フォーマット
     const dataToSave = {
-      data: currentDate,
+      data: formattedDateToday,
       clockIn: currentTime,
     };
     //キーを日付、値をオブジェクトとして保存
@@ -78,7 +88,6 @@ export default function AttendanceButton() {
     if (storageDate && storageDate.clockIn) {
       storageDate.clockOut = currentTime;
       storageDate.breakTime = breakTime;
-      console.log(breakTime);
       localStorage.setItem(
         `${currentDate}-attendance`,
         JSON.stringify(storageDate)
