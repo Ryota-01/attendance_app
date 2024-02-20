@@ -2,13 +2,13 @@ import logo from './logo.svg';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './css/App.css';
 import './css/Common.css';
-import Home from './components/Home';
-import Header from './components/Header';
-import AttendanceInput from './components/AttendanceInput';
-import AttendTotal from './components/AttendTotal';
-import DigitalClock from './components/DigitalClock';
-import AttendanceButton from './components/AttendanceButton';
-import AttendancePage from './components/AttendancePage';
+import Home from './Pages/Home';
+import Header from './Pages/Header';
+import AttendanceInput from './Components/AttendanceInput';
+import AttendTotal from './Components/AttendTotal';
+import DigitalClock from './Components/DigitalClock';
+import AttendanceButton from './Components/AttendanceButton';
+import AttendancePage from './Pages/AttendancePage';
 
 function App() {
   return (

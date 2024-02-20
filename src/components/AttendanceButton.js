@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "../css/AttendanceButton.css";
-import AttendanceList from "./AttendanceList";
+import AttendanceList from "../Pages/AttendanceList";
 
 export default function AttendanceButton() {
   const [clockInDisabled, setClockInDisabled] = useState(false);
