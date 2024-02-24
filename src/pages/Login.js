@@ -1,30 +1,30 @@
 import React, { useRef } from "react";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-export default function Signup() {
+export default function Login() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  console.log(emailRef, passwordRef);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
-        emailRef.current.value,
-        passwordRef.current.value
+        emailRef.current.Value,
+        passwordRef.current.Value
       );
-      console.log("登録");
-      alert("ユーザー情報を登録しました");
-    } catch (err) {
-      console.log("登録できませんでした。");
-      alert("登録できまませんでした");
+      console.log("Success!");
+    } catch(err) {
+      console.log("Error：ログインに失敗しました")
     }
   };
 
   return (
     <div>
-      <h2>ユーザー登録</h2>
+      <h2>ログイン</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>メールアドレス</label>
@@ -45,7 +45,10 @@ export default function Signup() {
           />
         </div>
         <div>
-          <button>登録</button>
+          <button>ログイン</button>
+        </div>
+        <div>
+          ユーザー登録は<Link to={'/signup'}>こちら</Link>から
         </div>
       </form>
     </div>
