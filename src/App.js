@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './css/App.css';
-import './css/Common.css';
 import Home from './Pages/Home';
 import Header from './Pages/Header';
 import AttendanceInput from './Components/AttendanceInput';
