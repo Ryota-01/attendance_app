@@ -29,8 +29,8 @@ export default function Signup() {
         <div>
           <label>メールアドレス</label>
           <input
-            name="e-mail"
-            type="e-mail"
+            name="email"
+            type="email"
             placeholder="e-mail"
             ref={emailRef}
           />

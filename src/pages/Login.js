@@ -13,12 +13,12 @@ export default function Login() {
     try {
       await signInWithEmailAndPassword(
         auth,
-        emailRef.current.Value,
-        passwordRef.current.Value
+        emailRef.current.value,
+        passwordRef.current.value
       );
       console.log("Success!");
     } catch(err) {
-      console.log("Error：ログインに失敗しました")
+      console.log("Error：ログインに失敗しました", err.message);
     }
   };
 
@@ -29,8 +29,8 @@ export default function Login() {
         <div>
           <label>メールアドレス</label>
           <input
-            name="e-mail"
-            type="e-mail"
+            name="email"
+            type="email"
             placeholder="e-mail"
             ref={emailRef}
           />
