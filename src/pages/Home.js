@@ -1,6 +1,6 @@
 import React from 'react'
-import DigitalClock from '../Components/DigitalClock'
-import AttendanceButton from '../Components/AttendanceButton'
+import DigitalClock from '../components/DigitalClock'
+import AttendanceButton from '../components/AttendanceButton'
 
 export default function Home() {
   return (
