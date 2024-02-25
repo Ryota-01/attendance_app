@@ -20,9 +20,9 @@ export default function AttendanceList() {
         return {
           ...attendance,
           serverTimestamp : "estimate",
-          date: attendance.date.toDate().toLocaleString(),
-          ClockingIn: attendance.ClockingIn.toDate().toLocaleString(),
-          ClockingOut: attendance.ClockingOut.toDate().toLocaleString(),
+          date: attendance.date?.toDate()?.toLocaleString(),
+          clockingIn: attendance.clockingIn?.toDate()?.toLocaleString(),
+          clockingOut: attendance.clockingOut?.toDate()?.toLocaleString(),
         };
       });
       console.log(formattedData);
@@ -37,8 +37,9 @@ export default function AttendanceList() {
         {attendanceLists.map((attendance, index) => (
           <ul key={index}>
             <li>日付：{attendance.date}</li>
-            <li>出勤：{attendance.ClockingIn}</li>
-            <li>退勤：{attendance.ClockingOut}</li>
+            <li>出勤：{attendance.clockingIn}</li>
+            <li>退勤：{attendance.clockingOut}</li>
+            <li>氏名：{attendance.clockingOut}</li>
           </ul>
         ))}
       </div>
