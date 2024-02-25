@@ -1,30 +1,37 @@
 import React, { useRef } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
-import { collection, addDoc, setDoc, doc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+  serverTimestamp,
+  getDoc,
+} from "firebase/firestore";
 
 export default function UserUpdata() {
   const { user } = useAuthContext();
   const userNameRef = useRef();
+  console.log(user.uid);
 
-  const handleSaveSubmit = (e) => {
+  const handleSaveSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
     const userName = userNameRef.current.value;
     const userEmail = user.email;
-    const userCollectionRef = doc(db, "users", userName + "_" + userEmail);
-    const documentRef = setDoc(userCollectionRef, {
-      admin : false,
-      name : userName,
-      email : userEmail,
-      timestamp : serverTimestamp()
-    })
-    .then (() => {
-      console.log("Success!");
-    })
-    .catch((e) => {
+    const userCollectionRef = doc(db, "users", user.uid);
+    try {
+      const documentRef = await setDoc(userCollectionRef, {
+        admin: false,
+        userId: user.uid,
+        name: userName,
+        email: userEmail,
+        timestamp: serverTimestamp(),
+      });
+      console.log("Success! ドキュメントID：", documentRef);
+    } catch (e) {
       console.log("Error", e.message);
-    })
+    }
   };
 
   return (
@@ -34,7 +41,13 @@ export default function UserUpdata() {
         <form onSubmit={handleSaveSubmit}>
           <div>
             <label>名前：</label>
-            <input type="text" name="name" placeholder="テスト太郎" ref={userNameRef} required/>
+            <input
+              type="text"
+              name="name"
+              placeholder="テスト太郎"
+              ref={userNameRef}
+              required
+            />
           </div>
           <div>
             <label>メールアドレス：{user.email}</label>

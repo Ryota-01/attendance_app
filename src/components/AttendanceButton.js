@@ -1,14 +1,22 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import AttendanceList from "../pages/AttendanceList";
+import { db } from "../firebase";
+import { useAuthContext } from "../context/AuthContext";
+import {
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export default function AttendanceButton() {
-  const [clockInDisabled, setClockInDisabled] = useState(false);
-  const [clockOutDisabled, setClockOutDisabled] = useState(true);
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
-  const [attendanceList, setAttendanceList] = useState([]);
-  const [data, setData] = useState([]);
+  const [userName, setUserName] = useState("");
+  const { user } = useAuthContext();
 
+  //時計
   useEffect(() => {
     const midnight = new Date();
     midnight.setHours(0, 0, 0, 0);
@@ -17,8 +25,8 @@ export default function AttendanceButton() {
       //日付が変わった瞬間にリセット
       if (now >= midnight && now < midnight + 1000) {
         if (now.getDate() !== new Date(currentDate).getDate()) {
-          setClockInDisabled(false);
-          setClockOutDisabled(true);
+          // setClockInDisabled(false);
+          // setClockOutDisabled(true);
           setCurrentDate(getFormattedDate());
         }
       }
@@ -36,21 +44,70 @@ export default function AttendanceButton() {
     return `${year}-${month}-${day}`;
   }
 
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        //usersコレクションから、認証（ログイン）中のIDと一致するドキュメントを取得。
+        const userDocumentRef = doc(db, "users", user.uid);
+        //ドキュメントの存在確認。
+        const userDocumentSnapshot = await getDoc(userDocumentRef);
+        if (userDocumentSnapshot.exists()) {
+          const userData = userDocumentSnapshot.data();
+          setUserName(userData.name);
+        } else {
+          console.log("ドキュメントが存在しません");
+        }
+      } catch (e) {
+        console.log("Error", e.message);
+      }
+    };
+
+    if(user) {
+      fetchUserName();
+    }
+  }, [user]);
+
+  //出勤ボタンを押した時の処理
+  const handleClockIn = async (e) => {
+    e.preventDefault();
+    const userDocumentRef = doc(db, "attendance", user.uid);
+    try {
+      const documentRef = await setDoc(userDocumentRef, {
+        name : userName,
+        date : new Date(),
+        clockingIn : new Date(),
+      });
+      console.log('Success! ドキュメントID：', documentRef);
+    } catch(e) {
+      console.log("Error", e.message);
+    }
+  };
+
+  //退勤ボタンを押した時の処理
+  const handleClockOut = async (e) => {
+    e.preventDefault();
+    const attendanceCollectionRef = collection(db, "attendance");
+    try {
+      const documentRef = await addDoc(attendanceCollectionRef, {
+        date : new Date(),
+        clockingOut : new Date(),
+      });
+      console.log('Success! ドキュメントID：', documentRef.id);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
   return (
     <div>
-      <div className="attendanceButton">
+      <div>
         <form action="">
           <button
-            className="inButton"
-            // onClick={handleClockIn}
-            disabled={clockInDisabled}
+            onClick={handleClockIn}
           >
             出勤
           </button>
           <button
-            className="outButton"
-            // onClick={handleClockOut}
-            disabled={clockOutDisabled}
+            onClick={handleClockOut}
           >
             退勤
           </button>
