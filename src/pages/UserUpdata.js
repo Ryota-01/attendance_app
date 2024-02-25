@@ -29,8 +29,7 @@ export default function UserUpdata() {
 
   return (
     <div>
-      ーーーーここからユーザー情報作成エリアーーーー
-      <h2>ユーザー情報追加だぞ</h2>
+      <h2>UserUpdata</h2>
       <div>
         <form onSubmit={handleSaveSubmit}>
           <div>
@@ -43,7 +42,6 @@ export default function UserUpdata() {
           <button>保存</button>
         </form>
       </div>
-      ーーーーここまでユーザー情報作成エリアーーーー
     </div>
   );
 }

@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <div>
       <header>
-        <h2>Headerなのだ</h2>
+        <h2>Header</h2>
         {user ? (
           <ul>
             <li>打刻</li>
