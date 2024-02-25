@@ -1,10 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import Header from "../components/Header";
 
 export default function Signup() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const [ errorMessage, setErrorMessage ] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,13 +19,16 @@ export default function Signup() {
       console.log("登録");
       alert("ユーザー情報を登録しました");
     } catch (err) {
-      console.log("登録できませんでした。");
-      alert("登録できまませんでした");
+      setErrorMessage(err.message);
+      console.log(errorMessage);
     }
   };
 
+  console.log(errorMessage);
+
   return (
     <div>
+      <Header />
       <h2>ユーザー登録</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -44,6 +49,9 @@ export default function Signup() {
             ref={passwordRef}
           />
         </div>
+        <p>
+          {errorMessage}
+        </p>
         <div>
           <button>登録</button>
         </div>

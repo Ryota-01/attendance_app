@@ -1,12 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { auth } from "../firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
+  const [errorMessage, setErrorMessage] = useState("");
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  console.log(emailRef, passwordRef);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +18,10 @@ export default function Login() {
         passwordRef.current.value
       );
       console.log("Success!");
-    } catch(err) {
-      console.log("Error：ログインに失敗しました", err.message);
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+      setErrorMessage(e.message);
     }
   };
 
@@ -47,10 +50,11 @@ export default function Login() {
         <div>
           <button>ログイン</button>
         </div>
-        <div>
-          ユーザー登録は<Link to={'/signup'}>こちら</Link>から
-        </div>
       </form>
+      <p>{errorMessage}</p>
+      <div>
+        ユーザー登録は<Link to={"/signup"}>こちら</Link>から
+      </div>
     </div>
   );
 }
