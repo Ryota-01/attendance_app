@@ -24,7 +24,7 @@ export default function Home() {
       <>
         <Header />
         <UserUpdata />
-        <h2>ホームなのです</h2>
+        <h2>Home</h2>
         <div>
           <DigitalClock />
         </div>
