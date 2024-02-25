@@ -1,9 +1,12 @@
 import React from "react";
-import DigitalClock from "../components/DigitalClock";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
-import AttendanceButton from "../components/AttendanceButton";
 import { useAuthContext } from "../context/AuthContext";
+import DigitalClock from "../components/DigitalClock";
+import AttendanceButton from "../components/AttendanceButton";
+import Header from "../components/Header";
+import UserUpdata from "./UserUpdata";
+import AttendanceList from "./AttendanceList";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -19,7 +22,9 @@ export default function Home() {
   } else {
     return (
       <>
-        <h2>ホーム</h2>
+        <Header />
+        <UserUpdata />
+        <h2>ホームなのです</h2>
         <div>
           <DigitalClock />
         </div>
@@ -28,6 +33,9 @@ export default function Home() {
         </div>
         <div>
           <button onClick={handleLogout}>ログアウト</button>
+        </div>
+        <div>
+          <AttendanceList />
         </div>
       </>
     );
