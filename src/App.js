@@ -19,6 +19,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";
+import AttendanceList from "./pages/AttendanceList";
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
           <Route
             path="/home" 
             element={<PrivateRoute index element={<Home />} />} 
+          />
+          <Route
+            path="/attendancelist" 
+            element={<PrivateRoute index element={<AttendanceList />} />} 
           />
         </Routes>
       </div>

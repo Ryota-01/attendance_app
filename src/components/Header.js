@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const { user } = useAuthContext();
@@ -37,8 +38,8 @@ export default function Header() {
         <h2>Header</h2>
         {user ? (
           <ul>
-            <li>打刻</li>
-            <li>勤怠一覧</li>
+            <Link to="/home"><li>打刻</li></Link>
+            <Link to="/attendancelist"><li>勤怠一覧</li></Link>
             <li>社員名：{userName}</li>
           </ul>
         ) : (
