@@ -25,8 +25,6 @@ export default function AttendanceButton() {
       //日付が変わった瞬間にリセット
       if (now >= midnight && now < midnight + 1000) {
         if (now.getDate() !== new Date(currentDate).getDate()) {
-          // setClockInDisabled(false);
-          // setClockOutDisabled(true);
           setCurrentDate(getFormattedDate());
         }
       }
