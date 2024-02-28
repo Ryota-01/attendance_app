@@ -54,7 +54,6 @@ export default function AttendanceButton() {
           setUserName(userData.name);
         } else {
           console.log("ドキュメントが存在しません");
-          
         }
       } catch (e) {
         console.log("Error", e.message);
@@ -69,6 +68,7 @@ export default function AttendanceButton() {
   //出勤ボタンを押した時の処理
   const handleClockIn = async (e) => {
     e.preventDefault();
+    // 現在の年と月を取得
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
     const currentYearAndMonth = `${currentYear}-${currentMonth}`;
