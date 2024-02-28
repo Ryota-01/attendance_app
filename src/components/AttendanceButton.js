@@ -54,6 +54,7 @@ export default function AttendanceButton() {
           setUserName(userData.name);
         } else {
           console.log("ドキュメントが存在しません");
+          
         }
       } catch (e) {
         console.log("Error", e.message);
