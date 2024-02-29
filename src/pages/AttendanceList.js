@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useAuthContext } from "../context/AuthContext";
 import {
   collection,
   addDoc,
@@ -6,29 +7,26 @@ import {
   doc,
   serverTimestamp,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
-
+  const { user } = useAuthContext();
   useEffect(() => {
-    const attendanceCollctionRef = collection(db, "attendance");
-    getDocs(attendanceCollctionRef).then((querySnapshot) => {
-      const formattedData = querySnapshot.docs.map((doc) => {
-        const attendance = doc.data();
-        return {
-          ...attendance,
-          serverTimestamp : "estimate",
-          date: attendance.date?.toDate()?.toLocaleString(),
-          clockingIn: attendance.clockingIn?.toDate()?.toLocaleString(),
-          clockingOut: attendance.clockingOut?.toDate()?.toLocaleString(),
-        };
-      });
-      console.log(formattedData);
-      setAttendanceLists(formattedData);
-    });
-  }, []);
+    // attendanceコレクションを取得
+    const attendanceCollctionRef =  db.collection("attendance").doc(user.uid);
+    const fetchAttendanceCollection = async () => {
+      try {
+        const attendanceCollctionDoc = await attendanceCollctionRef.get();
+        console.log(attendanceCollctionDoc.data());
+      } catch(e) {
+        console.error("error");
+      }
+    }
+    fetchAttendanceCollection();
+  }, [db, user.uid]);
 
   return (
     <div>
