@@ -8,8 +8,10 @@ import {
   setDoc,
   doc,
   getDoc,
+  updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
+import { update } from "firebase/database";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -65,13 +67,16 @@ export default function AttendanceButton() {
     }
   }, [user]);
 
+
   //出勤ボタンを押した時の処理
   const handleClockIn = async (e) => {
     e.preventDefault();
     // 現在の年と月を取得
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
-    const currentYearAndMonth = `${currentYear}-${currentMonth}`;
+    const currentDate = new Date().getDate();
+    const currentYearAndMonth = `${currentYear}-${currentMonth}`;  
+    const currentMonthAndDate = `${currentMonth}-${currentDate}`;  
     try {
       // コレクション参照を取得
       const userDocumentRef = doc(
@@ -79,7 +84,7 @@ export default function AttendanceButton() {
         "attendance",
         user.uid,
         currentYearAndMonth,
-        "clockingIn"
+        currentMonthAndDate
       );
       // ドキュメントにデータを追加
       await setDoc(userDocumentRef, {
@@ -96,16 +101,39 @@ export default function AttendanceButton() {
   //退勤ボタンを押した時の処理
   const handleClockOut = async (e) => {
     e.preventDefault();
-    const attendanceCollectionRef = collection(db, "attendance");
+    // const attendanceCollectionRef = collection(db, "attendance");
+
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    const currentDate = new Date().getDate();
+    const currentYearAndMonth = `${currentYear}-${currentMonth}`;  
+    const currentMonthAndDate = `${currentMonth}-${currentDate}`;  
+
     try {
-      const documentRef = await addDoc(attendanceCollectionRef, {
-        date: new Date(),
-        clockingOut: new Date(),
-      });
-      console.log("Success! ドキュメントID：", documentRef.id);
+      // コレクション参照を取得
+      const userDocumentRef = doc(
+        db,
+        "attendance",
+        user.uid,
+        currentYearAndMonth,
+        currentMonthAndDate
+      );
+
+      const docSnapShot = await getDoc(userDocumentRef);
+
+      if(docSnapShot.exists()) {
+        //既存のドキュメントが存在する場合、フィールドを追加して更新
+        await updateDoc(userDocumentRef, {
+          clockingOut : serverTimestamp(),
+        });
+        console.log("Success! ドキュメントが更新されました")
+      } else {
+        console.log("ドキュメントが存在しません");
+      } 
     } catch (e) {
-      console.log(e.message);
-    }
+        console.log("Error", e.message);
+      }
+
   };
   return (
     <div>
