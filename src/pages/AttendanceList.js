@@ -94,7 +94,6 @@ export default function AttendanceList() {
             <li>日付：{attendance.date}</li>
             <li>出勤：{attendance.clockingIn}</li>
             <li>退勤：{attendance.clockingOut}</li>
-            <li>氏名：{attendance.name}</li>
           </ul>
         ))}
       </div>

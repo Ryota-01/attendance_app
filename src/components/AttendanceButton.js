@@ -74,22 +74,18 @@ export default function AttendanceButton() {
     // 現在の年と月を取得
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1;
-    const currentDate = new Date().getDate();
-    const currentYearAndMonth = `${currentYear}-${currentMonth}`;  
-    const currentMonthAndDate = `${currentMonth}-${currentDate}`;  
+    const today = new Date().getDate();
+    const currentDate = `${currentYear}-${currentMonth}-${today}`;
     try {
       // コレクション参照を取得
       const userDocumentRef = doc(
         db,
         "attendance",
         user.uid,
-        currentYearAndMonth,
-        currentMonthAndDate
+        currentDate
       );
       // ドキュメントにデータを追加
       await setDoc(userDocumentRef, {
-        name: userName,
-        date: serverTimestamp(),
         clockingIn: serverTimestamp(),
       });
       console.log("Success! ドキュメントID：");
@@ -123,7 +119,7 @@ export default function AttendanceButton() {
 
       if(docSnapShot.exists()) {
         //既存のドキュメントが存在する場合、フィールドを追加して更新
-        await updateDoc(userDocumentRef, {
+        await addDoc(userDocumentRef, {
           clockingOut : serverTimestamp(),
         });
         console.log("Success! ドキュメントが更新されました")
