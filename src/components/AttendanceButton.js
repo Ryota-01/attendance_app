@@ -7,7 +7,7 @@ import {
   addDoc,
   setDoc,
   doc,
-  getDoc,
+  getDocs,
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -50,7 +50,7 @@ export default function AttendanceButton() {
         //usersコレクションから、認証（ログイン）中のIDと一致するドキュメントを取得。
         const userDocumentRef = doc(db, "users", user.uid);
         //ドキュメントの存在確認。
-        const userDocumentSnapshot = await getDoc(userDocumentRef);
+        const userDocumentSnapshot = await getDocs(userDocumentRef);
         if (userDocumentSnapshot.exists()) {
           const userData = userDocumentSnapshot.data();
           setUserName(userData.name);
@@ -67,69 +67,69 @@ export default function AttendanceButton() {
     }
   }, [user]);
 
+  // 現在の年と月を取得
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const today = new Date().getDate();
+  const currentYearAndMonth = `${currentYear}-${currentMonth
+    .toString()
+    .padStart(2, 0)}`;
+  const currentMonthAndDate = `${currentMonth.toString().padStart(2, 0)}-${today
+    .toString()
+    .padStart(2, 0)}`;
 
   //出勤ボタンを押した時の処理
   const handleClockIn = async (e) => {
     e.preventDefault();
-    // 現在の年と月を取得
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-    const today = new Date().getDate();
-    const currentDate = `${currentYear}-${currentMonth}-${today}`;
     try {
-      // コレクション参照を取得
-      const userDocumentRef = doc(
-        db,
-        "attendance",
-        user.uid,
-        currentDate
-      );
-      // ドキュメントにデータを追加
-      await setDoc(userDocumentRef, {
-        clockingIn: serverTimestamp(),
-      });
-      console.log("Success! ドキュメントID：");
+      // attendanceコレクションを参照（基本）
+      const attendanceCollectionRef = collection(db, "attendance");
+      //（setDocを使う場合）ドキュメントのIDを指定
+      // docメソッドは指定されたコレクション内のドキュメント参照するメソッド。
+      // ドキュメントが存在しない場合でも参照を取得する。この参照を使用して新しいドキュメントを作成することができる。getDocでも参照ができる。
+      const userDocRef = doc(attendanceCollectionRef, user.uid);
+      //サブコレクションが存在しているかチェック。
+      const subCollectionRef = collection(userDocRef, currentYearAndMonth);
+      const subCollectionDoc = await getDocs(subCollectionRef);
+      const value = {
+        userID: user.uid,
+        date: new Date(),
+        startTime: new Date(),
+      };
+      //ドキュメントを作成または更新
+      const userDoc = doc(subCollectionRef, currentMonthAndDate);
+      await setDoc(userDoc, value); // setDocはdocメソッドとセットで使う
+      console.log("success");
     } catch (e) {
-      console.log("Error", e.message);
+      console.log("error", e.message);
     }
   };
 
   //退勤ボタンを押した時の処理
   const handleClockOut = async (e) => {
     e.preventDefault();
-    // const attendanceCollectionRef = collection(db, "attendance");
-
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-    const currentDate = new Date().getDate();
-    const currentYearAndMonth = `${currentYear}-${currentMonth}`;  
-    const currentMonthAndDate = `${currentMonth}-${currentDate}`;  
-
     try {
-      // コレクション参照を取得
-      const userDocumentRef = doc(
-        db,
-        "attendance",
-        user.uid,
-        currentYearAndMonth,
-        currentMonthAndDate
-      );
-
-      const docSnapShot = await getDoc(userDocumentRef);
-
-      if(docSnapShot.exists()) {
-        //既存のドキュメントが存在する場合、フィールドを追加して更新
-        await addDoc(userDocumentRef, {
-          clockingOut : serverTimestamp(),
-        });
-        console.log("Success! ドキュメントが更新されました")
+      // attendanceコレクションを参照
+      const attendanceCollectionRef = collection(db, "attendance");
+      // attendanceコレクション内のuserドキュメントを参照
+      const userDocRef = doc(attendanceCollectionRef, user.uid);
+      // userドキュメント内のcurrentYearAndMonthコレクションを参照
+      const subCollectionRef = collection(userDocRef, currentYearAndMonth);
+      // currentYearAndMonth内のドキュメントを取得
+      const subCollectionDoc = await getDocs(subCollectionRef);
+      if (!subCollectionDoc.empty) {
+        const userDoc = doc(subCollectionRef, currentMonthAndDate);
+        const value = {
+          endTime: new Date(),
+        };
+        await setDoc(userDoc, value, {merge : true});
+        console.log("退勤しました");
       } else {
-        console.log("ドキュメントが存在しません");
-      } 
-    } catch (e) {
-        console.log("Error", e.message);
+        console.log("対象のドキュメントが存在しません");
       }
-
+    } catch (e) {
+      console.log("退勤処理が実行できませんでした", e.message);
+    }
   };
   return (
     <div>
