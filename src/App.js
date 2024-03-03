@@ -1,30 +1,22 @@
 import logo from "./logo.svg";
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./css/App.css";
+import "./css/Common.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import AttendanceInput from "./components/AttendanceInput";
-import AttendTotal from "./components/AttendTotal";
-import DigitalClock from "./components/DigitalClock";
-import AttendanceButton from "./components/AttendanceButton";
-import AttendancePage from "./pages/AttendancePage";
 import SignUp from "./pages/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { AuthProvider } from "./context/AuthContext";
-import Header from "./components/Header";
 import AttendanceList from "./pages/AttendanceList";
+import LeaveRequestForm from "./pages/LeaveRequestForm";
+import UserUpdata from "./pages/UserUpdata";
+import Logout from "./components/Logout";
 
 function App() {
   return (
     <AuthProvider>
-      <div className="App" style={{ margin: "2em" }}>
+      <div className="App">
         <Routes>
           <Route
             path="/signup"
@@ -35,16 +27,29 @@ function App() {
             element={<PublicRoute index element={<Login />} />}
           />
           <Route
-            path="/" 
-            element={<PrivateRoute index element={<Home />} />} 
+            path="/logout"
+            element={<PrivateRoute index element={<Logout />} />}
+          />
+          <Route path="/" element={<PrivateRoute index element={<Home />} />} />
+          <Route
+            path="/home"
+            element={<PrivateRoute index element={<Home />} />}
           />
           <Route
-            path="/home" 
-            element={<PrivateRoute index element={<Home />} />} 
+            path="/attendance"
+            element={<PrivateRoute index element={<Home />} />}
           />
           <Route
-            path="/attendancelist" 
-            element={<PrivateRoute index element={<AttendanceList />} />} 
+            path="/attendancelist"
+            element={<PrivateRoute index element={<AttendanceList />} />}
+          />
+          <Route
+            path="/leaverequest"
+            element={<PrivateRoute index element={<LeaveRequestForm />} />}
+          />
+          <Route
+            path="/userinfo"
+            element={<PrivateRoute index element={<UserUpdata />} />}
           />
         </Routes>
       </div>

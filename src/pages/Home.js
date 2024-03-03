@@ -4,40 +4,23 @@ import { auth } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
 import DigitalClock from "../components/DigitalClock";
 import AttendanceButton from "../components/AttendanceButton";
-import Header from "../components/Header";
-import UserUpdata from "./UserUpdata";
-import AttendanceList from "./AttendanceList";
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
-  const handleLogout = () => {
-    auth.signOut();
-    navigation("/login");
-    console.log(auth.user);
-  };
   if (!user) {
     console.log(user);
     return navigation("/login");
   } else {
     return (
-      <>
-        <Header />
-        <UserUpdata />
-        <h2>Home</h2>
+      <div className="wrapper">
+        <Sidebar />
         <div>
           <DigitalClock />
-        </div>
-        <div>
           <AttendanceButton />
         </div>
-        <div>
-          <button onClick={handleLogout}>ログアウト</button>
-        </div>
-        <div>
-          <AttendanceList />
-        </div>
-      </>
+      </div>
     );
   }
 }

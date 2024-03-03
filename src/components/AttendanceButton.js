@@ -2,20 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
-import {
-  collection,
-  addDoc,
-  setDoc,
-  doc,
-  getDocs,
-  updateDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { update } from "firebase/database";
+import { collection, setDoc, doc, getDocs } from "firebase/firestore";
+import Button from "@mui/material/Button";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
-  const [userName, setUserName] = useState("");
   const { user } = useAuthContext();
 
   //時計
@@ -43,29 +34,6 @@ export default function AttendanceButton() {
     const day = d.getDate();
     return `${year}-${month}-${day}`;
   }
-
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        //usersコレクションから、認証（ログイン）中のIDと一致するドキュメントを取得。
-        const userDocumentRef = doc(db, "users", user.uid);
-        //ドキュメントの存在確認。
-        const userDocumentSnapshot = await getDocs(userDocumentRef);
-        if (userDocumentSnapshot.exists()) {
-          const userData = userDocumentSnapshot.data();
-          setUserName(userData.name);
-        } else {
-          console.log("ドキュメントが存在しません");
-        }
-      } catch (e) {
-        console.log("Error", e.message);
-      }
-    };
-
-    if (user) {
-      fetchUserName();
-    }
-  }, [user]);
 
   // 現在の年と月を取得
   const currentYear = new Date().getFullYear();
@@ -122,7 +90,7 @@ export default function AttendanceButton() {
         const value = {
           endTime: new Date(),
         };
-        await setDoc(userDoc, value, {merge : true});
+        await setDoc(userDoc, value, { merge: true });
         console.log("退勤しました");
       } else {
         console.log("対象のドキュメントが存在しません");
@@ -133,12 +101,14 @@ export default function AttendanceButton() {
   };
   return (
     <div>
-      <div>
-        <form action="">
-          <button onClick={handleClockIn}>出勤</button>
-          <button onClick={handleClockOut}>退勤</button>
-        </form>
-      </div>
+      <form action="">
+        <Button variant="contained" onClick={handleClockIn}>
+          出勤
+        </Button>
+        <Button variant="contained" disabled onClick={handleClockOut}>
+          退勤
+        </Button>
+      </form>
     </div>
   );
 }

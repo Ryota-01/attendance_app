@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
-import {
-  collection,
-  addDoc,
-  setDoc,
-  doc,
-  serverTimestamp,
-  getDocs,
-  getDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import Sidebar from "../components/Sidebar";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -25,7 +18,7 @@ export default function AttendanceList() {
         minute: "numeric",
         second: "numeric",
         timeZone: "Asia/Tokyo", //日本時間に設定
-        weekday : 'short'
+        weekday: "short",
       };
       return new Intl.DateTimeFormat("ja-JP", options).format(date);
     } else {
@@ -34,68 +27,65 @@ export default function AttendanceList() {
   };
 
   const d = new Date();
+  // 現在の年と月を取得
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
-  const currentDate = new Date().getDate();
+  const today = new Date().getDate();
   const dayOfWeek = d.getDay();
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
-  const currentYearAndMonth = `${currentYear}-${currentMonth}`;
-  const currentMonthAndDate = `${currentMonth}-${currentDate}`;
+  const currentYearAndMonth = `${currentYear}-${currentMonth
+    .toString()
+    .padStart(2, 0)}`;
+  const currentMonthAndDate = `${currentMonth.toString().padStart(2, 0)}-${today
+    .toString()
+    .padStart(2, 0)}`;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // attendanceコレクションを取得
         const attendanceRef = collection(db, "attendance");
-        //ユーザードキュメントを取得
+        // ユーザードキュメントを取得
         const userDocumentRef = doc(attendanceRef, user.uid);
-        // 年月のサブコレクションを取得
-        const yearAndMonthSubCollectionRef = collection(
+        // 年月のサブコレクションのドキュメント(勤怠データ)を取得
+        // getDocはDocumentReference（=docメソッド)を引数として受け取る(collectionではない)
+        const subCollectionRef = collection(
           userDocumentRef,
           currentYearAndMonth
         );
-        // 月日のドキュメントを取得
-        const monthAndDateDocumentRef = doc(
-          yearAndMonthSubCollectionRef,
-          currentMonthAndDate
-        );
-        const docSnapShot = await getDoc(monthAndDateDocumentRef);
-        if (docSnapShot.exists()) {
-          const data = docSnapShot.data();
-          const convertedData = {
-            date: convertTimestampToJapanTime(data.date),
-            clockingIn: convertTimestampToJapanTime(data.clockingIn),
-            clockingOut: convertTimestampToJapanTime(data.clockingOut),
-            name: data.name,
-            weekday : convertTimestampToJapanTime(data.data, { weekday : 'short' }),
-          };
-          setAttendanceLists([convertedData]);
+        const subCollectionSnapshot = await getDocs(subCollectionRef);
+        if (!subCollectionRef.empty) {
+          const data = subCollectionSnapshot.docs.map((doc) => doc.data());
+          setAttendanceLists(data);
         } else {
-          setAttendanceLists([]);
+          console.log("ドキュメントが存在しません");
         }
       } catch (e) {
-        console.log(e.message);
+        console.log("データの取得中にエラーが発生しました", e.message);
       }
     };
     fetchData();
-  }, [db, user.uid]);
+  }, [user.uid, currentYearAndMonth]);
 
   return (
-    <div>
-      <h2>AttendanceList</h2>
-      <h3>{`${currentYear}年${currentMonth}月`}</h3>
+    <div className="wrapper">
+      <Sidebar />
       <div>
-        <button>前月</button>
-        <button>次月</button>
-      </div>
-      <div>
-        {attendanceLists.map((attendance, index) => (
-          <ul key={index}>
-            <li>日付：{attendance.date}</li>
-            <li>出勤：{attendance.clockingIn}</li>
-            <li>退勤：{attendance.clockingOut}</li>
-          </ul>
-        ))}
+        <h2>勤怠一覧</h2>
+        <h3>{`${currentYear}年${currentMonth}月`}</h3>
+        <div>
+          {/* <button>前月</button> */}
+          {/* <button>次月</button> */}
+        </div>
+        <div>
+          {attendanceLists.map((attendance, index) => (
+            <ul key={index}>
+              <li>日付：{convertTimestampToJapanTime(attendance.date)}</li>
+              <li>出勤：{convertTimestampToJapanTime(attendance.startTime)}</li>
+              <li>退勤：{convertTimestampToJapanTime(attendance.endTime)}</li>
+            </ul>
+          ))}
+        </div>
       </div>
     </div>
   );

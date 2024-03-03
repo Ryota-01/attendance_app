@@ -1,23 +1,19 @@
 import React, { useRef } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
-import {
-  collection,
-  addDoc,
-  setDoc,
-  doc,
-  serverTimestamp,
-  getDoc,
-} from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import Sidebar from "../components/Sidebar";
 
 export default function UserUpdata() {
   const { user } = useAuthContext();
   const userNameRef = useRef();
+  const joiningDateRef = useRef();
   console.log(user.uid);
 
   const handleSaveSubmit = async (e) => {
     e.preventDefault();
     const userName = userNameRef.current.value;
+    const joiningDate = joiningDateRef.current.value;
     const userEmail = user.email;
     const userCollectionRef = doc(db, "users", user.uid);
     try {
@@ -26,6 +22,7 @@ export default function UserUpdata() {
         userId: user.uid,
         name: userName,
         email: userEmail,
+        joiningDate: joiningDate,
         timestamp: serverTimestamp(),
       });
       console.log("Success! ドキュメントID：", documentRef);
@@ -35,25 +32,32 @@ export default function UserUpdata() {
   };
 
   return (
-    <div>
-      <h2>UserUpdata</h2>
+    <div className="wrapper">
+      <Sidebar />
       <div>
-        <form onSubmit={handleSaveSubmit}>
-          <div>
-            <label>名前：</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="テスト太郎"
-              ref={userNameRef}
-              required
-            />
-          </div>
-          <div>
-            <label>メールアドレス：{user.email}</label>
-          </div>
-          <button>保存</button>
-        </form>
+        <h2>ユーザー情報</h2>
+        <div>
+          <form onSubmit={handleSaveSubmit}>
+            <div>
+              <label>名前：</label>
+              <input
+                type="text"
+                name="name"
+                placeholder="テスト太郎"
+                ref={userNameRef}
+                required
+              />
+            </div>
+            <div>
+              <label>入社日：</label>
+              <input type="date" name="date" ref={joiningDateRef} required />
+            </div>
+            <div>
+              <label>メールアドレス：{user.email}</label>
+            </div>
+            <button>保存</button>
+          </form>
+        </div>
       </div>
     </div>
   );
