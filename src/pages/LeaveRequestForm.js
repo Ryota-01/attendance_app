@@ -24,7 +24,7 @@ export default function LeaveRequestForm() {
   const leaveReasonRef = useRef("");
   const paidLeaveReasonRef = useRef(""); //有給休暇かその他特別休暇か
   const acquisitionStartDateRef = useRef("");
-  const acquisitionEndDateRef = useRef("");
+  // const acquisitionEndDateRef = useRef("");
   const navigate = useNavigate();
 
   const leaveRequestType = [
@@ -78,7 +78,7 @@ export default function LeaveRequestForm() {
         const value = {
           userId: user.uid,
           startDate: acquisitionStartDateRef.current.value,
-          endDate: acquisitionEndDateRef.current.value,
+          // endDate: acquisitionEndDateRef.current.value,
           type: paidLeaveReasonRef.current.value,
           reason: leaveReasonRef.current.value,
           status: "承認待ち",
@@ -98,13 +98,13 @@ export default function LeaveRequestForm() {
     <div className="wrapper">
       <Sidebar />
       <div className="leaveRequestForm">
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           休暇申請フォーム
         </Typography>
         <Box
           component="form"
           sx={{
-            "& .MuiTextField-root": { m: 1.5, width: "100%" },
+            "& .MuiTextField-root": { m: 1.6, width: "100%" },
             // "& > :not(style) + :not(style)" : {marginTop : "16px"},
           }}
           noValidate
@@ -134,14 +134,14 @@ export default function LeaveRequestForm() {
             inputRef={acquisitionStartDateRef}
             helperText="休暇取得日を入力してください"
             />
-          <TextField
+          {/* <TextField
             label="終了日"
             type="date"
             variant="filled"
             margin="normal"
             inputRef={acquisitionEndDateRef}
             helperText="休暇終了日を入力してください"
-          />
+          /> */}
           <TextField
             required
             label="申請理由"
