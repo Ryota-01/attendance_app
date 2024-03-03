@@ -4,6 +4,7 @@ import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, setDoc, doc, getDocs } from "firebase/firestore";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -101,14 +102,26 @@ export default function AttendanceButton() {
   };
   return (
     <div>
-      <form action="">
-        <Button variant="contained" onClick={handleClockIn}>
+      <Box
+        sx={{ "& > *": { m: 1.1, margin: "10px"} }}
+        component="form"
+      >
+        <Button
+          variant="contained"
+          onClick={handleClockIn}
+          color="primary"
+        >
           出勤
         </Button>
-        <Button variant="contained" disabled onClick={handleClockOut}>
+        <Button
+          variant="contained"
+          onClick={handleClockOut}
+          color="secondary"
+          disabled
+        >
           退勤
         </Button>
-      </form>
+      </Box>
     </div>
   );
 }

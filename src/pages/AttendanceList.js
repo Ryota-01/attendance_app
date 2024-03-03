@@ -74,8 +74,6 @@ export default function AttendanceList() {
         <h2>勤怠一覧</h2>
         <h3>{`${currentYear}年${currentMonth}月`}</h3>
         <div>
-          {/* <button>前月</button> */}
-          {/* <button>次月</button> */}
         </div>
         <div>
           {attendanceLists.map((attendance, index) => (
