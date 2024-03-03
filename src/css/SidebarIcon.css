@@ -1,0 +1,15 @@
+.headTitle {
+  padding: 12px;
+}
+
+.sidebarIcon {
+  padding-top: 20px;
+  padding-bottom: 15px; 
+  text-align: center;
+  color: white;
+}
+
+.sidebarIcon_userId {
+  font-size: 0.7rem;
+  padding: 8px;
+}
