@@ -1,8 +1,7 @@
 .leaveRequestForm {
-  max-width: 60%;
+  max-width: 80%;
   padding: 16px;
   height: 100%;
   margin: 60px auto;
-  background: #f7f7f7;
-  box-shadow: 0 2px 4px lightgray;
+  /* box-shadow: 0 2px 4px lightgray; */
 }

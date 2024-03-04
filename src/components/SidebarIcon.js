@@ -34,7 +34,6 @@ export default function SidebarIcon() {
   return (
     <div className="sidebarIcon">
       <h1 className="headTitle">Kintai</h1>
-      <p className="sidebarIcon_userId">ID：{user.uid}</p>
       <p className="sidebarIcon_userName">{userName} さん</p>
     </div>
   );

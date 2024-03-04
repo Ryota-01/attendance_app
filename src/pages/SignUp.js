@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Header from "../components/Header";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 
 export default function Signup() {
   const emailRef = useRef(null);
@@ -28,7 +29,7 @@ export default function Signup() {
 
   return (
     <div>
-      <Header />
+      <ResponsiveAppBar />
       <h2>ユーザー登録</h2>
       <form onSubmit={handleSubmit}>
         <div>

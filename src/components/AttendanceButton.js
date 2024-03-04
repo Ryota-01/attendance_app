@@ -9,7 +9,9 @@ import "../css/AttendanceButton.css";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
-  const [disabled, setDisabled] = useState(true);
+  // const [disabled, setDisabled] = useState(true);
+  const [isClockInDisabled, setIsClockInDisabled] = useState()
+  const [isClockOutDisabled, setIsClockOutDisabled] = useState(true)
   const { user } = useAuthContext();
 
   //日付のフォーマット
@@ -46,7 +48,6 @@ export default function AttendanceButton() {
       }
     }, 1000);
     // コンポーネントがアンマウントされた時にタイマーをクリア
-    setDisabled(true);
     return () => clearInterval(timer);
   }, []);
 
@@ -60,19 +61,17 @@ export default function AttendanceButton() {
         const userDocSnapshot = await getDoc(userDoc);
         if (userDocSnapshot.exists()) {
           const userData = userDocSnapshot.data();
-          setDisabled(userData.isDisabled);
+          setIsClockInDisabled(userData.isClockInDisabled);
+          setIsClockOutDisabled(userData.isClockOutDisabled);
         }
       } catch (e) {
         console.error(e.message);
       }
     };
     fetchData();
-  },[]);
+  }, []);
 
-  //出勤ボタンを押した時の処理
-  const handleClockIn = async (e) => {
-    e.preventDefault();
-    try {
+  const getAttendanceCollection = async () => {
       // attendanceコレクションを参照（基本）
       const attendanceCollectionRef = collection(db, "attendance");
       //（setDocを使う場合）ドキュメントのIDを指定
@@ -81,43 +80,44 @@ export default function AttendanceButton() {
       const userDocRef = doc(attendanceCollectionRef, user.uid);
       //サブコレクションが存在しているかチェック。
       const subCollectionRef = collection(userDocRef, currentYearAndMonth);
-      const subCollectionDoc = await getDocs(subCollectionRef);
+      const subCollectionDoc =  await getDocs(subCollectionRef);  
+      return { subCollectionRef, subCollectionDoc };  
+  }
+
+  // 出勤ボタンを押した時の処理
+  const handleClockIn = async (e) => {
+    e.preventDefault();
+    try {
+      const {subCollectionRef, subCollectionDoc} = await getAttendanceCollection();
       const value = {
         userID: user.uid,
         date: new Date(),
         startTime: new Date(),
-        isDisabled: false,
+        isClockInDisabled: true,
       };
       //ドキュメントを作成または更新
       const userDoc = doc(subCollectionRef, currentMonthAndDate);
       await setDoc(userDoc, value); // setDocはdocメソッドとセットで使う
-      setDisabled(value.isDisabled);
-      console.log("success");
+      setIsClockInDisabled(value.isClockInDisabled);
+      console.log("出勤しました");
     } catch (e) {
       console.log("error", e.message);
     }
   };
 
-  //退勤ボタンを押した時の処理
+  // 退勤ボタンを押した時の処理
   const handleClockOut = async (e) => {
     e.preventDefault();
     try {
-      // attendanceコレクションを参照
-      const attendanceCollectionRef = collection(db, "attendance");
-      // attendanceコレクション内のuserドキュメントを参照
-      const userDocRef = doc(attendanceCollectionRef, user.uid);
-      // userドキュメント内のcurrentYearAndMonthコレクションを参照
-      const subCollectionRef = collection(userDocRef, currentYearAndMonth);
-      // currentYearAndMonth内のドキュメントを取得
-      const subCollectionDoc = await getDocs(subCollectionRef);
+      const {subCollectionRef, subCollectionDoc} = await getAttendanceCollection();
       if (!subCollectionDoc.empty) {
         const userDoc = doc(subCollectionRef, currentMonthAndDate);
         const value = {
           endTime: new Date(),
-          isDisabled: true,
+          isClockOutDisabled: true,
         };
         await setDoc(userDoc, value, { merge: true });
-        setDisabled(true);
+        setIsClockOutDisabled(value.isClockOutDisabled);
         console.log("退勤しました");
       } else {
         console.log("対象のドキュメントが存在しません");
@@ -133,7 +133,7 @@ export default function AttendanceButton() {
           variant="contained"
           onClick={handleClockIn}
           color="primary"
-          disabled={!disabled}
+          disabled={isClockInDisabled}
           style={{
             fontSize: "1.3rem",
             padding: "4px 60px",
@@ -145,7 +145,7 @@ export default function AttendanceButton() {
           variant="contained"
           onClick={handleClockOut}
           color="secondary"
-          disabled={disabled}
+          disabled={isClockOutDisabled}
           style={{
             fontSize: "1.3rem",
             padding: "4px 60px",

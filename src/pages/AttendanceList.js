@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Sidebar from "../components/Sidebar";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -79,7 +80,7 @@ export default function AttendanceList() {
 
   return (
     <div className="wrapper">
-      <Sidebar />
+      <ResponsiveAppBar />
       <div>
         <div>
           <CardContent>
