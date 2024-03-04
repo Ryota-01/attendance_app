@@ -1,0 +1,15 @@
+.databoxWrapper {
+  width: 100%;
+  text-align: center;
+}
+
+.currentDate {
+  letter-spacing: 0.1rem;
+  font-size: 1.6rem;
+}
+
+.currentTime {
+  letter-spacing: 0.2rem;
+  margin-top: 12px;
+  font-size: 4rem;
+}

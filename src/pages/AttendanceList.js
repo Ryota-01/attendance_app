@@ -3,10 +3,20 @@ import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Sidebar from "../components/Sidebar";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
   const { user } = useAuthContext();
+
   const convertTimestampToJapanTime = (timestamp) => {
     if (timestamp && timestamp.toDate()) {
       const date = timestamp.toDate();
@@ -71,18 +81,48 @@ export default function AttendanceList() {
     <div className="wrapper">
       <Sidebar />
       <div>
-        <h2>勤怠一覧</h2>
-        <h3>{`${currentYear}年${currentMonth}月`}</h3>
         <div>
-        </div>
-        <div>
-          {attendanceLists.map((attendance, index) => (
-            <ul key={index}>
-              <li>日付：{convertTimestampToJapanTime(attendance.date)}</li>
-              <li>出勤：{convertTimestampToJapanTime(attendance.startTime)}</li>
-              <li>退勤：{convertTimestampToJapanTime(attendance.endTime)}</li>
-            </ul>
-          ))}
+          <CardContent>
+            <Typography variant="h5" gutterBottom>
+              勤怠一覧
+            </Typography>
+            <Typography variant="h7" gutterBottom>
+              {`${currentYear}年${currentMonth}月`}
+            </Typography>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>日付</TableCell>
+                    <TableCell align="right">出勤時間</TableCell>
+                    <TableCell align="right">退勤時間</TableCell>
+                    <TableCell align="right">休憩時間</TableCell>
+                    <TableCell align="right">備考</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {attendanceLists.map((attendance, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {convertTimestampToJapanTime(attendance.date)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {convertTimestampToJapanTime(attendance.startTime)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {convertTimestampToJapanTime(attendance.endTime)}
+                      </TableCell>
+                      <TableCell align="right">1:00</TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
         </div>
       </div>
     </div>

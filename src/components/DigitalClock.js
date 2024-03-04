@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import "../css/DigitalClock.css"
 
 export default function DigitalClock() {
   const [ date, setDate ] = useState([]);

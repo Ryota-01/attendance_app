@@ -2,30 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
-import { collection, setDoc, doc, getDocs } from "firebase/firestore";
+import { collection, setDoc, doc, getDocs, getDoc } from "firebase/firestore";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import "../css/AttendanceButton.css";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
+  const [disabled, setDisabled] = useState(true);
   const { user } = useAuthContext();
-
-  //時計
-  useEffect(() => {
-    const midnight = new Date();
-    midnight.setHours(0, 0, 0, 0);
-    const timer = setInterval(() => {
-      const now = new Date();
-      //日付が変わった瞬間にリセット
-      if (now >= midnight && now < midnight + 1000) {
-        if (now.getDate() !== new Date(currentDate).getDate()) {
-          setCurrentDate(getFormattedDate());
-        }
-      }
-    }, 1000);
-    // コンポーネントがアンマウントされた時にタイマーをクリア
-    return () => clearInterval(timer);
-  }, []);
 
   //日付のフォーマット
   function getFormattedDate() {
@@ -47,6 +32,43 @@ export default function AttendanceButton() {
     .toString()
     .padStart(2, 0)}`;
 
+  //時計
+  useEffect(() => {
+    const midnight = new Date();
+    midnight.setHours(0, 0, 0, 0);
+    const timer = setInterval(() => {
+      const now = new Date();
+      //日付が変わった瞬間にリセット
+      if (now >= midnight && now < midnight + 1000) {
+        if (now.getDate() !== new Date(currentDate).getDate()) {
+          setCurrentDate(getFormattedDate());
+        }
+      }
+    }, 1000);
+    // コンポーネントがアンマウントされた時にタイマーをクリア
+    setDisabled(true);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const attendanceCollectionRef = collection(db, "attendance");
+        const userDocRef = doc(attendanceCollectionRef, user.uid);
+        const subCollectionRef = collection(userDocRef, currentYearAndMonth);
+        const userDoc = doc(subCollectionRef, currentMonthAndDate);
+        const userDocSnapshot = await getDoc(userDoc);
+        if (userDocSnapshot.exists()) {
+          const userData = userDocSnapshot.data();
+          setDisabled(userData.isDisabled);
+        }
+      } catch (e) {
+        console.error(e.message);
+      }
+    };
+    fetchData();
+  },[]);
+
   //出勤ボタンを押した時の処理
   const handleClockIn = async (e) => {
     e.preventDefault();
@@ -64,10 +86,12 @@ export default function AttendanceButton() {
         userID: user.uid,
         date: new Date(),
         startTime: new Date(),
+        isDisabled: false,
       };
       //ドキュメントを作成または更新
       const userDoc = doc(subCollectionRef, currentMonthAndDate);
       await setDoc(userDoc, value); // setDocはdocメソッドとセットで使う
+      setDisabled(value.isDisabled);
       console.log("success");
     } catch (e) {
       console.log("error", e.message);
@@ -90,8 +114,10 @@ export default function AttendanceButton() {
         const userDoc = doc(subCollectionRef, currentMonthAndDate);
         const value = {
           endTime: new Date(),
+          isDisabled: true,
         };
         await setDoc(userDoc, value, { merge: true });
+        setDisabled(true);
         console.log("退勤しました");
       } else {
         console.log("対象のドキュメントが存在しません");
@@ -101,27 +127,33 @@ export default function AttendanceButton() {
     }
   };
   return (
-    <div>
-      <Box
-        sx={{ "& > *": { m: 1.1, margin: "10px"} }}
-        component="form"
-      >
+    <div className="attendanceBtnWrapper">
+      <Stack direction="row" spacing={4}>
         <Button
           variant="contained"
           onClick={handleClockIn}
           color="primary"
+          disabled={!disabled}
+          style={{
+            fontSize: "1.3rem",
+            padding: "4px 60px",
+          }}
         >
-          出勤
+          出 勤
         </Button>
         <Button
           variant="contained"
           onClick={handleClockOut}
           color="secondary"
-          disabled
+          disabled={disabled}
+          style={{
+            fontSize: "1.3rem",
+            padding: "4px 60px",
+          }}
         >
-          退勤
+          退 勤
         </Button>
-      </Box>
+      </Stack>
     </div>
   );
 }

@@ -17,6 +17,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import { CardContent } from "@mui/material";
 
 export default function LeaveRequestForm() {
   const { user } = useAuthContext();
@@ -98,43 +99,44 @@ export default function LeaveRequestForm() {
     <div className="wrapper">
       <Sidebar />
       <div className="leaveRequestForm">
-        <Typography variant="h5" gutterBottom>
-          休暇申請フォーム
-        </Typography>
-        <Box
-          component="form"
-          sx={{
-            "& .MuiTextField-root": { m: 1.6, width: "100%" },
-            // "& > :not(style) + :not(style)" : {marginTop : "16px"},
-          }}
-          noValidate
-          autoComplete="off"
-          onSubmit={handleSubmit}
-        >
-          <TextField
-            id="filled-select-currency"
-            select
-            label="休暇種類"
-            defaultValue="有休休暇"
-            variant="filled"
-            inputRef={paidLeaveReasonRef}
-            // helperText="休暇の種類を選択してください"
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            休暇申請フォーム
+          </Typography>
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1.6, width: "100%" },
+              // "& > :not(style) + :not(style)" : {marginTop : "16px"},
+            }}
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit}
           >
-            {leaveRequestType.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            label="開始日"
-            type="date"
-            variant="filled"
-            margin="normal"
-            inputRef={acquisitionStartDateRef}
-            helperText="休暇取得日を入力してください"
+            <TextField
+              id="filled-select-currency"
+              select
+              label="休暇種類"
+              defaultValue="有休休暇"
+              variant="filled"
+              inputRef={paidLeaveReasonRef}
+              // helperText="休暇の種類を選択してください"
+            >
+              {leaveRequestType.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              label="開始日"
+              type="date"
+              variant="filled"
+              margin="normal"
+              inputRef={acquisitionStartDateRef}
+              helperText="休暇取得日を入力してください"
             />
-          {/* <TextField
+            {/* <TextField
             label="終了日"
             type="date"
             variant="filled"
@@ -142,20 +144,26 @@ export default function LeaveRequestForm() {
             inputRef={acquisitionEndDateRef}
             helperText="休暇終了日を入力してください"
           /> */}
-          <TextField
-            required
-            label="申請理由"
-            variant="filled"
-            margin="normal"
-            rows={4}
-            multiline
-            inputRef={leaveReasonRef}
-            helperText="申請理由を入力してください"
-          />
-          <Button type="submit" className="formBtn" variant="contained" onSubmit={handleSubmit}>
-            申請
-          </Button>
-        </Box>
+            <TextField
+              required
+              label="申請理由"
+              variant="filled"
+              margin="normal"
+              rows={4}
+              multiline
+              inputRef={leaveReasonRef}
+              helperText="申請理由を入力してください"
+            />
+            <Button
+              type="submit"
+              className="formBtn"
+              variant="contained"
+              onSubmit={handleSubmit}
+            >
+              申請
+            </Button>
+          </Box>
+        </CardContent>
       </div>
     </div>
   );
