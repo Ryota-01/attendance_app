@@ -11,7 +11,6 @@ import { AuthProvider } from "./context/AuthContext";
 import AttendanceList from "./pages/AttendanceList";
 import LeaveRequestForm from "./pages/LeaveRequestForm";
 import UserUpdata from "./pages/UserUpdata";
-import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -25,10 +24,6 @@ function App() {
           <Route
             path="/login"
             element={<PublicRoute index element={<Login />} />}
-          />
-          <Route
-            path="/logout"
-            element={<PrivateRoute index element={<Logout />} />}
           />
           <Route path="/" element={<PrivateRoute index element={<Home />} />} />
           <Route

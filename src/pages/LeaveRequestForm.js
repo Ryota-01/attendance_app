@@ -18,6 +18,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import { CardContent } from "@mui/material";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 
 export default function LeaveRequestForm() {
   const { user } = useAuthContext();
@@ -25,7 +26,6 @@ export default function LeaveRequestForm() {
   const leaveReasonRef = useRef("");
   const paidLeaveReasonRef = useRef(""); //有給休暇かその他特別休暇か
   const acquisitionStartDateRef = useRef("");
-  // const acquisitionEndDateRef = useRef("");
   const navigate = useNavigate();
 
   const leaveRequestType = [
@@ -97,7 +97,7 @@ export default function LeaveRequestForm() {
 
   return (
     <div className="wrapper">
-      <Sidebar />
+      <ResponsiveAppBar />
       <div className="leaveRequestForm">
         <CardContent>
           <Typography variant="h5" gutterBottom>

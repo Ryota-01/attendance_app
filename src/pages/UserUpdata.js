@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
-import Sidebar from "../components/Sidebar";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 
 export default function UserUpdata() {
   const { user } = useAuthContext();
@@ -33,7 +33,7 @@ export default function UserUpdata() {
 
   return (
     <div className="wrapper">
-      <Sidebar />
+      <ResponsiveAppBar />
       <div>
         <h2>ユーザー情報</h2>
         <div>

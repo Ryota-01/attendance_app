@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import DigitalClock from "../components/DigitalClock";
 import AttendanceButton from "../components/AttendanceButton";
-import Sidebar from "../components/Sidebar";
 import "../css/Home.css";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -15,7 +15,7 @@ export default function Home() {
   } else {
     return (
       <div className="wrapper">
-        <Sidebar />
+        <ResponsiveAppBar />
         <div className="primary">
           <DigitalClock />
           <AttendanceButton />
