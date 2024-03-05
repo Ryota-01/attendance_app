@@ -3,13 +3,8 @@ import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { DataGrid } from "@mui/x-data-grid";
+import DataTable from "../components/DataTable";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -79,42 +74,15 @@ export default function AttendanceList() {
   return (
     <div className="wrapper">
       <ResponsiveAppBar />
-      <DataGrid />
-      <Typography variant="h5" gutterBottom>
-        勤怠一覧
-      </Typography>
-      <Typography variant="h7" gutterBottom>
-        {`${currentYear}年${currentMonth}月`}
-      </Typography>
-      <Table sx={{ minWidth: 600 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">日付</TableCell>
-            <TableCell align="center">出勤時間</TableCell>
-            <TableCell align="center">退勤時間</TableCell>
-            <TableCell align="center">休憩時間</TableCell>
-            <TableCell align="center">備考</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {attendanceLists.map((attendance, index) => (
-            <TableRow
-              key={index}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="center">{attendance.date}</TableCell>
-              <TableCell align="center">{attendance.startTime}</TableCell>
-              {attendance.endTime == null ? (
-                <TableCell align="center">ー</TableCell>
-              ) : (
-                <TableCell align="center">{attendance.endTime}</TableCell>
-              )}
-              <TableCell align="center">1:00</TableCell>
-              <TableCell align="center"></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="attendanceLists">
+        <Typography variant="h5" gutterBottom>
+          勤怠一覧
+        </Typography>
+        <Typography variant="h7" gutterBottom>
+          {`${currentYear}年${currentMonth}月`}
+        </Typography>
+        <DataTable attendanceLists={attendanceLists} />
+      </div>
     </div>
   );
 }
