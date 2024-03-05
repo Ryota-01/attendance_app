@@ -23,7 +23,8 @@ export default function AttendanceButton() {
     return `${year}-${month}-${day}`;
   }
 
-  // 現在の年と月を取得
+  // 現在の年月日と時間を取得
+  const d = new Date();
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
   const today = new Date().getDate();
@@ -33,6 +34,12 @@ export default function AttendanceButton() {
   const currentMonthAndDate = `${currentMonth.toString().padStart(2, 0)}-${today
     .toString()
     .padStart(2, 0)}`;
+  const dayOfWeek = d.getDay();
+  const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+  const getHours = d.getHours();
+  const getMinutes = d.getMinutes();
+  console.log(getHours, getMinutes);
+
 
   //時計
   useEffect(() => {
@@ -91,8 +98,8 @@ export default function AttendanceButton() {
       const {subCollectionRef, subCollectionDoc} = await getAttendanceCollection();
       const value = {
         userID: user.uid,
-        date: new Date(),
-        startTime: new Date(),
+        date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
+        startTime: `${getHours}:${getMinutes}`,
         isClockInDisabled: true,
       };
       //ドキュメントを作成または更新
@@ -113,7 +120,7 @@ export default function AttendanceButton() {
       if (!subCollectionDoc.empty) {
         const userDoc = doc(subCollectionRef, currentMonthAndDate);
         const value = {
-          endTime: new Date(),
+          endTime: `${getHours}:${getMinutes}`,
           isClockOutDisabled: true,
         };
         await setDoc(userDoc, value, { merge: true });

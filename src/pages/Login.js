@@ -3,13 +3,11 @@ import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import Button from "@mui/material/Button";
 import "../css/LeaveRequestForm.css";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import { CardContent } from "@mui/material";
 import "../css/Login.css"
 
 export default function Login() {
@@ -77,10 +75,10 @@ export default function Login() {
             onSubmit={handleSubmit}
             fullWidth
           >
-            ログイン
+            login
           </Button>
           <Typography variant="body2" sx={{ mt : 2 }}>
-            ユーザー登録は<Link to={"/signup"}>こちら</Link>から
+            ユーザー登録は<Link to={"/signup"}>こちら</Link>
           </Typography>
         </Box>
       </div>
