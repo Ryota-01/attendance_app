@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContext";
 import AttendanceList from "./pages/AttendanceList";
 import LeaveRequestForm from "./pages/LeaveRequestForm";
 import UserUpdata from "./pages/UserUpdata";
+import UserInfo from "./pages/CreateUserInfo";
 
 function App() {
   return (
@@ -29,6 +30,10 @@ function App() {
           <Route
             path="/home"
             element={<PrivateRoute index element={<Home />} />}
+          />
+          <Route
+            path="/userinfo"
+            element={<PrivateRoute index element={<UserInfo />} />}
           />
           <Route
             path="/attendance"

@@ -5,6 +5,7 @@ import { db } from "../firebase";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Typography from "@mui/material/Typography";
 import DataTable from "../components/DataTable";
+import UserCollectionStatus from "../components/UserCollectionStatus";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -74,6 +75,8 @@ export default function AttendanceList() {
   return (
     <div className="wrapper">
       <ResponsiveAppBar />
+      <UserCollectionStatus />
+
       <div className="attendanceLists">
         <Typography variant="h5" gutterBottom>
           勤怠一覧

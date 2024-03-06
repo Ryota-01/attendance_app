@@ -55,8 +55,6 @@ function ResponsiveAppBar() {
     }
   ];
 
-  console.log(auth);
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
