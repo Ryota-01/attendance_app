@@ -93,7 +93,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            Kintai
+            Kinta
           </Typography>
 
           {user ? (
@@ -153,7 +153,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            Kintai
+            Kinta
           </Typography>
           {user ? (
             <>
