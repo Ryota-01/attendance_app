@@ -9,7 +9,7 @@ export default function PublicRoute({ component: Component, ...rest }) {
   const { user } = useAuthContext();
   const navigate = useNavigate();
   if(user) {
-    navigate("/home");
+    navigate("/userinfo");
     return;
   }
   return (

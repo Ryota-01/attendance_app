@@ -43,8 +43,12 @@ export default function LeaveRequestForm() {
     const fetchData = async () => {
       const userDocumentRef = doc(db, "users", user.uid);
       const userDocumentSnapshot = await getDoc(userDocumentRef);
-      const userName = userDocumentSnapshot.data().name;
-      setUserName(userName);
+      if(userDocumentSnapshot.exists() && userDocumentSnapshot.data().name) {
+        const userName = userDocumentSnapshot.data().name;
+        setUserName(userName);  
+      } else {
+        console.error("error");
+      }
     };
     fetchData();
   }, []);
@@ -52,7 +56,6 @@ export default function LeaveRequestForm() {
   //申請ボタンが押された時の処理
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(paidLeaveReasonRef);
     try {
       const currentDate = new Date();
       const year = currentDate.getFullYear();
@@ -99,71 +102,65 @@ export default function LeaveRequestForm() {
     <div className="wrapper">
       <ResponsiveAppBar />
       <div className="leaveRequestForm">
-        <CardContent>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ p: 3 }}
+        >
           <Typography variant="h5" gutterBottom>
             休暇申請フォーム
           </Typography>
-          <Box
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1.6, width: "100%" },
-              // "& > :not(style) + :not(style)" : {marginTop : "16px"},
-            }}
-            noValidate
-            autoComplete="off"
-            onSubmit={handleSubmit}
+          <TextField
+            select
+            required
+            label="休暇種類"
+            defaultValue="有休休暇"
+            variant="outlined"
+            inputRef={paidLeaveReasonRef}
+            fullWidth
+            margin="normal"
           >
-            <TextField
-              id="filled-select-currency"
-              select
-              label="休暇種類"
-              defaultValue="有休休暇"
-              variant="filled"
-              inputRef={paidLeaveReasonRef}
-              // helperText="休暇の種類を選択してください"
-            >
-              {leaveRequestType.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              label="開始日"
-              type="date"
-              variant="filled"
-              margin="normal"
-              inputRef={acquisitionStartDateRef}
-              helperText="休暇取得日を入力してください"
-            />
-            {/* <TextField
-            label="終了日"
+            {leaveRequestType.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            label="開始日"
             type="date"
             variant="filled"
             margin="normal"
-            inputRef={acquisitionEndDateRef}
-            helperText="休暇終了日を入力してください"
-          /> */}
-            <TextField
-              required
-              label="申請理由"
-              variant="filled"
-              margin="normal"
-              rows={4}
-              multiline
-              inputRef={leaveReasonRef}
-              helperText="申請理由を入力してください"
-            />
-            <Button
-              type="submit"
-              className="formBtn"
-              variant="contained"
-              onSubmit={handleSubmit}
-            >
-              申請
-            </Button>
-          </Box>
-        </CardContent>
+            inputRef={acquisitionStartDateRef}
+            helperText="休暇取得日を入力してください"
+            fullWidth
+          />
+          <TextField
+            required
+            label="申請理由"
+            variant="filled"
+            margin="normal"
+            rows={4}
+            multiline
+            inputRef={leaveReasonRef}
+            helperText="申請理由を入力してください"
+            fullWidth
+          />
+          <Typography
+            variant="body2"
+            sx={{ mb: 1 }}
+          >
+            {/* {errorMessage} */}
+          </Typography>
+          <Button
+            type="submit"
+            variant="contained"
+            onSubmit={handleSubmit}
+            fullWidth
+          >
+            申請
+          </Button>
+        </Box>
       </div>
     </div>
   );

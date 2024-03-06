@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import Header from "../components/Header";
@@ -9,12 +10,12 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { CardContent } from "@mui/material";
-import { Link } from "react-router-dom";
 
 export default function Signup() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const [ errorMessage, setErrorMessage ] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +33,6 @@ export default function Signup() {
     }
   };
 
-  console.log(errorMessage);
-
   return (
     <div>
       <ResponsiveAppBar />
@@ -41,7 +40,7 @@ export default function Signup() {
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{ p : 3 }}
+          sx={{ p: 3 }}
         >
           <Typography variant="h5" gutterBottom>
             Signup
@@ -53,7 +52,7 @@ export default function Signup() {
             variant="outlined"
             inputRef={emailRef}
             fullWidth
-            margin="normal"            
+            margin="normal"
           >
           </TextField>
           <TextField
@@ -66,8 +65,8 @@ export default function Signup() {
             margin="normal"
           />
           <Typography
-            variant="body2" 
-            sx={{ mb : 1 }}
+            variant="body2"
+            sx={{ mb: 1 }}
           >
             {errorMessage}
           </Typography>
@@ -79,7 +78,7 @@ export default function Signup() {
           >
             signup
           </Button>
-          <Typography variant="body2" sx={{ mt : 2 }}>
+          <Typography variant="body2" sx={{ mt: 2 }}>
             ログインは<Link to={"/login"}>こちら</Link>
           </Typography>
         </Box>
