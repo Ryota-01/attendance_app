@@ -6,12 +6,16 @@ import { collection, setDoc, doc, getDocs, getDoc } from "firebase/firestore";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../css/AttendanceButton.css";
+import AttendanceButtonPopup from "./AttendanceButtonPopup";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
-  // const [disabled, setDisabled] = useState(true);
-  const [isClockInDisabled, setIsClockInDisabled] = useState()
-  const [isClockOutDisabled, setIsClockOutDisabled] = useState(true)
+  const [isClockInDisabled, setIsClockInDisabled] = useState();
+  const [isClockOutDisabled, setIsClockOutDisabled] = useState(true);
+  const [isPopupMessage, setIsPopupMessage] = useState(false);
+  const [popupMessage, setPopupMessage] = useState(false);
+  // const [startTimeAlertMessage, setStartTimeAlertMessage] = useState("")
+  // const [endTimeAlertMessage, setEndTimeAlertMessage] = useState("")
   const { user } = useAuthContext();
 
   //日付のフォーマット
@@ -38,7 +42,6 @@ export default function AttendanceButton() {
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
   const getHours = d.getHours();
   const getMinutes = d.getMinutes();
-
 
   //時計
   useEffect(() => {
@@ -78,23 +81,24 @@ export default function AttendanceButton() {
   }, []);
 
   const getAttendanceCollection = async () => {
-      // attendanceコレクションを参照（基本）
-      const attendanceCollectionRef = collection(db, "attendance");
-      //（setDocを使う場合）ドキュメントのIDを指定
-      // docメソッドは指定されたコレクション内のドキュメント参照するメソッド。
-      // ドキュメントが存在しない場合でも参照を取得する。この参照を使用して新しいドキュメントを作成することができる。getDocでも参照ができる。
-      const userDocRef = doc(attendanceCollectionRef, user.uid);
-      //サブコレクションが存在しているかチェック。
-      const subCollectionRef = collection(userDocRef, currentYearAndMonth);
-      const subCollectionDoc =  await getDocs(subCollectionRef);  
-      return { subCollectionRef, subCollectionDoc };  
-  }
+    // attendanceコレクションを参照（基本）
+    const attendanceCollectionRef = collection(db, "attendance");
+    //（setDocを使う場合）ドキュメントのIDを指定
+    // docメソッドは指定されたコレクション内のドキュメント参照するメソッド。
+    // ドキュメントが存在しない場合でも参照を取得する。この参照を使用して新しいドキュメントを作成することができる。getDocでも参照ができる。
+    const userDocRef = doc(attendanceCollectionRef, user.uid);
+    //サブコレクションが存在しているかチェック。
+    const subCollectionRef = collection(userDocRef, currentYearAndMonth);
+    const subCollectionDoc = await getDocs(subCollectionRef);
+    return { subCollectionRef, subCollectionDoc };
+  };
 
   // 出勤ボタンを押した時の処理
   const handleClockIn = async (e) => {
     e.preventDefault();
     try {
-      const {subCollectionRef, subCollectionDoc} = await getAttendanceCollection();
+      const { subCollectionRef, subCollectionDoc } =
+        await getAttendanceCollection();
       const value = {
         userID: user.uid,
         date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
@@ -104,8 +108,9 @@ export default function AttendanceButton() {
       //ドキュメントを作成または更新
       const userDoc = doc(subCollectionRef, currentMonthAndDate);
       await setDoc(userDoc, value); // setDocはdocメソッドとセットで使う
+      setIsPopupMessage(true);
+      setPopupMessage("おはようございます！");
       setIsClockInDisabled(value.isClockInDisabled);
-      console.log("出勤しました");
     } catch (e) {
       console.log("error", e.message);
     }
@@ -115,7 +120,8 @@ export default function AttendanceButton() {
   const handleClockOut = async (e) => {
     e.preventDefault();
     try {
-      const {subCollectionRef, subCollectionDoc} = await getAttendanceCollection();
+      const { subCollectionRef, subCollectionDoc } =
+        await getAttendanceCollection();
       if (!subCollectionDoc.empty) {
         const userDoc = doc(subCollectionRef, currentMonthAndDate);
         const value = {
@@ -124,7 +130,8 @@ export default function AttendanceButton() {
         };
         await setDoc(userDoc, value, { merge: true });
         setIsClockOutDisabled(value.isClockOutDisabled);
-        console.log("退勤しました");
+        setIsPopupMessage(true);
+        setPopupMessage("お疲れさまでした！");
       } else {
         console.log("対象のドキュメントが存在しません");
       }
@@ -133,33 +140,40 @@ export default function AttendanceButton() {
     }
   };
   return (
-    <div className="attendanceBtnWrapper">
-      <Stack direction="row" spacing={4}>
-        <Button
-          variant="contained"
-          onClick={handleClockIn}
-          color="primary"
-          disabled={isClockInDisabled}
-          style={{
-            fontSize: "1.3rem",
-            padding: "4px 60px",
-          }}
-        >
-          出 勤
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleClockOut}
-          color="secondary"
-          disabled={isClockOutDisabled}
-          style={{
-            fontSize: "1.3rem",
-            padding: "4px 60px",
-          }}
-        >
-          退 勤
-        </Button>
-      </Stack>
-    </div>
+    <>
+      <div className="attendanceBtnWrapper">
+        <Stack direction="row" spacing={4}>
+          <Button
+            variant="contained"
+            onClick={handleClockIn}
+            color="primary"
+            disabled={isClockInDisabled}
+            style={{
+              fontSize: "1.3rem",
+              padding: "4px 60px",
+            }}
+          >
+            出 勤
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleClockOut}
+            color="secondary"
+            disabled={isClockOutDisabled}
+            style={{
+              fontSize: "1.3rem",
+              padding: "4px 60px",
+            }}
+          >
+            退 勤
+          </Button>
+        </Stack>
+      </div>
+      {isPopupMessage ? (
+        <AttendanceButtonPopup popupMessage={popupMessage} />
+      ) : (
+        <></>
+      )}
+    </>
   );
 }

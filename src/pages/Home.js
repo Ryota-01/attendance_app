@@ -21,7 +21,7 @@ export default function Home() {
         {/* <ResponsiveAppBar /> */}
         <Sidebar />
         <div className="primary">
-          <UserCollectionStatus />
+          {/* <UserCollectionStatus /> */}
           <DigitalClock />
           <AttendanceButton />
         </div>
