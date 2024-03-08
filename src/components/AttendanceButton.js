@@ -108,14 +108,23 @@ export default function AttendanceButton() {
       //ドキュメントを作成または更新
       const userDoc = doc(subCollectionRef, currentMonthAndDate);
       await setDoc(userDoc, value); // setDocはdocメソッドとセットで使う
+      const popupMessage = () => {
+        if (dayOfWeek === 5) {
+          return "おはようございます！今週も残り1日頑張りましょう！";
+        } if(dayOfWeek === 0 || 6) {
+          return `おやおや、${dayNames[dayOfWeek]}曜も出勤ですか？社畜で草`;
+        } else {
+          return "おはようございます！今日も１日頑張りましょう！";
+        }
+      };
       setIsPopupMessage(true);
-      setPopupMessage("おはようございます！");
+      setPopupMessage(popupMessage);
       setIsClockInDisabled(value.isClockInDisabled);
     } catch (e) {
       console.log("error", e.message);
     }
   };
-
+  console.log(getHours);
   // 退勤ボタンを押した時の処理
   const handleClockOut = async (e) => {
     e.preventDefault();
@@ -129,9 +138,18 @@ export default function AttendanceButton() {
           isClockOutDisabled: true,
         };
         await setDoc(userDoc, value, { merge: true });
+        const popupMessage = () => {
+          if (dayOfWeek === 5) {
+            return "お疲れさまでした！良い週末を！";
+          } if(dayOfWeek === 0 || 6) {
+            return `${dayNames[dayOfWeek]}曜出勤お疲れさまでした。ちゃんと代休取ってくださいね。`
+          } else {
+            return "お疲れさまでした！ゆっくり休んでくださいね！";
+          }
+        };
         setIsClockOutDisabled(value.isClockOutDisabled);
         setIsPopupMessage(true);
-        setPopupMessage("お疲れさまでした！");
+        setPopupMessage(popupMessage);
       } else {
         console.log("対象のドキュメントが存在しません");
       }
