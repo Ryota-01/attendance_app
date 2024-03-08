@@ -10,12 +10,11 @@ import { auth, db } from "../firebase";
 import {
   doc,
   getDoc,
-  getDocs,
   collection,
   setDoc,
-  addDoc,
 } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 export default function UserInfo() {
   const {user} = useAuthContext();
@@ -58,7 +57,7 @@ export default function UserInfo() {
           email: user.email,
           joinDate: joinDateRef.current.value,
           phoneNumber: phoneNumberRef.current.value,
-          employmentTypeRef: employmentTypeRef.current.value,
+          employmentType: employmentTypeRef.current.value,
           admin: false
         }
         await setDoc(userDocRef, data);
@@ -72,8 +71,9 @@ export default function UserInfo() {
   }
 
   return (
-    <div>
-      <ResponsiveAppBar />
+    <div className='wrapper'>
+      {/* <ResponsiveAppBar /> */}
+      <Sidebar />
       <div className='loginForm'>
         <Box
           component="form"
@@ -139,7 +139,6 @@ export default function UserInfo() {
           </Button>
         </Box>
       </div>
-
     </div >
   )
 }

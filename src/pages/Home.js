@@ -6,6 +6,8 @@ import AttendanceButton from "../components/AttendanceButton";
 import "../css/Home.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import UserCollectionStatus from "../components/UserCollectionStatus";
+import Sidebar from "../components/Sidebar";
+
 
 export default function Home() {
   const navigation = useNavigate();
@@ -16,9 +18,10 @@ export default function Home() {
   } else {
     return (
       <div className="wrapper">
-        <ResponsiveAppBar />
-        <UserCollectionStatus />
+        {/* <ResponsiveAppBar /> */}
+        <Sidebar />
         <div className="primary">
+          <UserCollectionStatus />
           <DigitalClock />
           <AttendanceButton />
         </div>

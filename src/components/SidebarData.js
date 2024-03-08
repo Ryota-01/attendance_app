@@ -7,34 +7,35 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 export const SidebarData = [
+  
   {
     title : "ホーム",
-    icon : <HomeOutlinedIcon />,
+    icon : <HomeOutlinedIcon fontSize='small'/>,
     link : "/home",
   },
   {
     title : "打刻",
-    icon : <AccessTimeIcon />,
+    icon : <AccessTimeIcon  fontSize='small'/>,
     link : "/attendance",
   },
   {
     title : "勤怠一覧",
-    icon : <SummarizeIcon />,
+    icon : <SummarizeIcon  fontSize='small'/>,
     link : "/attendancelist",
   },
   {
     title : "休暇申請",
-    icon : <SendIcon />,
+    icon : <SendIcon  fontSize='small'/>,
     link : "/leaverequest",
   },
   {
     title : "ユーザー情報",
-    icon : <PermIdentityIcon />,
+    icon : <PermIdentityIcon  fontSize='small'/>,
     link : "/userinfo",
   },
   {
     title : "ログアウト",
-    icon : <LogoutOutlinedIcon />,
+    icon : <LogoutOutlinedIcon  fontSize='small'/>,
     link : "/logout",
   },
 ];
