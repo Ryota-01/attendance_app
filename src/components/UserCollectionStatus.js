@@ -6,7 +6,6 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 
 export default function UserCollectionStatus() {
