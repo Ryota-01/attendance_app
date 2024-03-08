@@ -78,7 +78,7 @@ export default function AttendanceList() {
       {/* <ResponsiveAppBar /> */}
       <Sidebar />
       <div className="attendanceLists">
-      <UserCollectionStatus />
+      {/* <UserCollectionStatus /> */}
         <Typography variant="h5" gutterBottom>
           勤怠一覧
         </Typography>
