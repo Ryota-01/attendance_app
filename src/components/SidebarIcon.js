@@ -17,7 +17,7 @@ export default function SidebarIcon() {
         const userDocumentSnapshot = await getDoc(userDocumentRef);
         if (userDocumentSnapshot.exists()) {
           const userData = userDocumentSnapshot.data();
-          setUserName(userData.name);
+          setUserName(userData.userName);
         } else {
           console.log("ユーザー情報が存在しません");
         }
@@ -33,7 +33,7 @@ export default function SidebarIcon() {
   console.log(userName);
   return (
     <div className="sidebarIcon">
-      <h1 className="headTitle">Kintai</h1>
+      <h1 className="headTitle">KintaRo</h1>
       <p className="sidebarIcon_userName">{userName} さん</p>
     </div>
   );

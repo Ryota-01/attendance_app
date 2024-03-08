@@ -6,6 +6,7 @@ import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Typography from "@mui/material/Typography";
 import DataTable from "../components/DataTable";
 import UserCollectionStatus from "../components/UserCollectionStatus";
+import Sidebar from "../components/Sidebar";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -74,10 +75,10 @@ export default function AttendanceList() {
 
   return (
     <div className="wrapper">
-      <ResponsiveAppBar />
-      <UserCollectionStatus />
-
+      {/* <ResponsiveAppBar /> */}
+      <Sidebar />
       <div className="attendanceLists">
+      <UserCollectionStatus />
         <Typography variant="h5" gutterBottom>
           勤怠一覧
         </Typography>

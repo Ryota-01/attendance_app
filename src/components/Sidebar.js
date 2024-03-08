@@ -1,7 +1,7 @@
 import React from "react";
 import { SidebarData } from "./SidebarData";
 import SidebarIcon from "./SidebarIcon";
-import "../css/Sidebar.css"
+import "../css/Sidebar.css";
 
 export default function Sidebar() {
   return (
@@ -14,7 +14,12 @@ export default function Sidebar() {
               key={key}
               id={window.location.pathname === value.link ? "active" : ""}
               className="row"
-              onClick={() => (window.location.pathname = value.link)}
+              onClick={() => {
+                if(value.onClick) {
+                  
+                }
+                window.location.pathname = value.link;
+              }}
             >
               <div id="icon">{value.icon}</div>
               <div id="title">{value.title}</div>
