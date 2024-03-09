@@ -1,7 +1,6 @@
 .sidebar {
-  width: 200px;
-  height: 100vh;
-  background: #24292E;
+  /* z-index: 10;
+  background: #24292E; */
 }
 
 .sidebarList {

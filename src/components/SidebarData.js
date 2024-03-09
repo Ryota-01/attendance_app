@@ -4,7 +4,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import SendIcon from '@mui/icons-material/Send';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 export const SidebarData = [
   
@@ -29,13 +28,13 @@ export const SidebarData = [
     link : "/leaverequest",
   },
   {
+    title : "申請一覧",
+    icon : <SummarizeIcon  fontSize='small'/>,
+    link : "/applicationList",
+  },
+  {
     title : "ユーザー情報",
     icon : <PermIdentityIcon  fontSize='small'/>,
     link : "/userinfo",
-  },
-  {
-    title : "ログアウト",
-    icon : <LogoutOutlinedIcon  fontSize='small'/>,
-    link : "/logout",
   },
 ];

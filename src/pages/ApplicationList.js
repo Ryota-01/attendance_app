@@ -1,0 +1,61 @@
+import React, { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import Typography from "@mui/material/Typography";
+import ApplicationListDataTable from "../components/ApplicationListDataTable";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { useAuthContext } from "../context/AuthContext";
+import { db } from "../firebase";
+import "../css/ApplicationList.css";
+
+export default function ApplicationList() {
+  const { user } = useAuthContext("");
+  const [leaveRequests, setLeaveRequest] = useState([]);
+  const [requestIds, setRequestIds] = useState([]);
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  const currentYearAndMonth = `${currentYear}-${currentMonth
+    .toString()
+    .padStart(2, 0)}`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const leaveRequestRef = collection(db, "leaveRequest");
+        const leaveRequestDocRef = doc(leaveRequestRef, user.uid);
+        const leaveRequestSubCollectionRef = collection(
+          leaveRequestDocRef,
+          currentYearAndMonth
+        );
+        const subCollectionSnapshot = await getDocs(
+          leaveRequestSubCollectionRef
+        );
+        console.log(subCollectionSnapshot.query);
+        const data = subCollectionSnapshot.docs.map((doc) => doc.data());
+        const requestIds = subCollectionSnapshot.docs.map((doc) => doc.id);
+        setLeaveRequest(data);
+        setRequestIds(requestIds);
+      } catch (e) {
+        console.log("取得エラー", e.message);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <Sidebar />
+      <Typography
+        variant="h5"
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
+        申請一覧
+      </Typography>
+      <div className="applicationLists">
+        <ApplicationListDataTable
+          leaveRequests={leaveRequests}
+          requestIds={requestIds}
+        />
+      </div>
+    </div>
+  );
+}

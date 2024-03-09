@@ -23,7 +23,6 @@ function ResponsiveAppBar() {
   const navigate = useNavigate("");
   const { user } = useAuthContext();
 
-  console.log(auth.user);
   const handleLogout = () => {
     auth.signOut();
     navigate("/login");

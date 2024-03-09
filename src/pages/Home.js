@@ -8,20 +8,17 @@ import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import UserCollectionStatus from "../components/UserCollectionStatus";
 import Sidebar from "../components/Sidebar";
 
-
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
   if (!user) {
-    console.log(user);
     return navigation("/login");
   } else {
     return (
       <div className="wrapper">
-        {/* <ResponsiveAppBar /> */}
         <Sidebar />
+        <UserCollectionStatus />
         <div className="primary">
-          {/* <UserCollectionStatus /> */}
           <DigitalClock />
           <AttendanceButton />
         </div>
