@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Typography from "@mui/material/Typography";
 import DataTable from "../components/DataTable";
 import UserCollectionStatus from "../components/UserCollectionStatus";
 import Sidebar from "../components/Sidebar";
+import "../css/AttendanceList.css";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -74,17 +74,21 @@ export default function AttendanceList() {
   console.log(attendanceLists);
 
   return (
-    <div className="wrapper">
-      {/* <ResponsiveAppBar /> */}
+    <div className="attendanceListWrapper">
       <Sidebar />
-      <div className="attendanceLists">
-      {/* <UserCollectionStatus /> */}
-        <Typography variant="h5" gutterBottom>
-          勤怠一覧
-        </Typography>
-        <Typography variant="h7" gutterBottom>
-          {`${currentYear}年${currentMonth}月`}
-        </Typography>
+      <Typography
+        variant="h5"
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
+        勤怠一覧
+      </Typography>
+      <Typography
+        variant="h7"
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
+        {`${currentYear}年${currentMonth}月`}
+      </Typography>
+      <div className="dateTable">
         <DataTable attendanceLists={attendanceLists} />
       </div>
     </div>

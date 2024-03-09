@@ -4,9 +4,7 @@ import { useAuthContext } from "../context/AuthContext";
 import {
   doc,
   getDoc,
-  getDocs,
   collection,
-  setDoc,
   addDoc,
 } from "firebase/firestore";
 import Sidebar from "../components/Sidebar";
@@ -17,7 +15,6 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-import { CardContent } from "@mui/material";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 
 export default function LeaveRequestForm() {
@@ -33,66 +30,44 @@ export default function LeaveRequestForm() {
       value: "有休休暇",
       label: "有休休暇",
     },
-    // {
-    //   value: "特別休暇(代休)",
-    //   label: "特別休暇(代休)",
-    // },
+    {
+      value: "特別休暇(代休)",
+      label: "特別休暇(代休)",
+    },
   ];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const userDocumentRef = doc(db, "users", user.uid);
-      const userDocumentSnapshot = await getDoc(userDocumentRef);
-      if(userDocumentSnapshot.exists() && userDocumentSnapshot.data().name) {
-        const userName = userDocumentSnapshot.data().name;
-        setUserName(userName);  
-      } else {
-        console.error("error");
-      }
-    };
-    fetchData();
-  }, []);
 
   //申請ボタンが押された時の処理
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth() + 1;
-      const day = currentDate.getDate();
-      const currentFormattedDate = `${year}-${month}-${day}`;
+      // const currentDate = new Date();
+      const selectedDate = acquisitionStartDateRef.current.value; // 休暇の取得日
+      const dateObject = new Date(selectedDate);
+      const year = dateObject.getFullYear();
+      const month = dateObject.getMonth() + 1;
+      const day = dateObject.getDate();
+      const dayOfWeek = dateObject.getDay();
+      const currentYearAndMonth = `${year}-${month.toString().padStart(2, 0)}`;
+      const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+      const formattedDate = `${month}/${day}(${dayNames[dayOfWeek]})`
 
       // 休暇申請コレクションを参照
       const leaveRequestCollectionRef = collection(db, "leaveRequest");
       // 休暇申請コレクション内のuserドキュメントを参照
-      const userDocRef = doc(leaveRequestCollectionRef, user.uid);
-      // userドキュメントが存在するか確認
-      const userDocSnap = await getDoc(userDocRef);
-      if (!userDocSnap.empty) {
-        //userドキュメントが存在しない場合は新規作成
-        await setDoc(userDocRef, {});
-      }
-      // userドキュメント内のサブコレクション(申請データ)を参照
-      const subCollectionRef = collection(userDocRef, `${year}`);
-      // 申請データが存在するか確認
-      const subCollectionSnap = await getDocs(subCollectionRef);
-      if (subCollectionSnap.empty) {
-        const newDocRef = await addDoc(subCollectionRef, {}); // 新しいドキュメントを追加
-        const value = {
-          userId: user.uid,
-          startDate: acquisitionStartDateRef.current.value,
-          // endDate: acquisitionEndDateRef.current.value,
-          type: paidLeaveReasonRef.current.value,
-          reason: leaveReasonRef.current.value,
-          status: "承認待ち",
-        };
-        await setDoc(newDocRef, value);
-        console.log("Success!");
-        navigate("/home");
-      } else {
-        console.log("すでに申請データが存在しています");
-      }
+      const leaveRequestDocRef = doc(leaveRequestCollectionRef, user.uid);
+      const leaveRequestSubCollectionRef = collection(
+        leaveRequestDocRef,
+        currentYearAndMonth
+      );
+      const value = {
+        userId: user.uid,
+        startDate: formattedDate,
+        type: paidLeaveReasonRef.current.value,
+        reason: leaveReasonRef.current.value,
+        status: "承認待ち",
+      };
+      await addDoc(leaveRequestSubCollectionRef, value);
+      navigate("/home");
     } catch (e) {
       console.log("申請できませんでした", e.message);
     }
@@ -100,13 +75,9 @@ export default function LeaveRequestForm() {
 
   return (
     <div className="wrapper">
-      <ResponsiveAppBar />
+      <Sidebar />
       <div className="leaveRequestForm">
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{ p: 3 }}
-        >
+        <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
           <Typography variant="h5" gutterBottom>
             休暇申請フォーム
           </Typography>
@@ -125,9 +96,10 @@ export default function LeaveRequestForm() {
                 {option.label}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField>  
           <TextField
             label="開始日"
+            required
             type="date"
             variant="filled"
             margin="normal"
@@ -146,10 +118,7 @@ export default function LeaveRequestForm() {
             helperText="申請理由を入力してください"
             fullWidth
           />
-          <Typography
-            variant="body2"
-            sx={{ mb: 1 }}
-          >
+          <Typography variant="body2" sx={{ mb: 1 }}>
             {/* {errorMessage} */}
           </Typography>
           <Button

@@ -13,6 +13,7 @@ import LeaveRequestForm from "./pages/LeaveRequestForm";
 import UserUpdata from "./pages/UserUpdata";
 import CreateUserInfo from "./pages/CreateUserInfo";
 import UserInfo from "./pages/UserInfo";
+import ApplicationList from "./pages/ApplicationList";
 
 function App() {
   return (
@@ -51,6 +52,10 @@ function App() {
           <Route
             path="/leaverequest"
             element={<PrivateRoute index element={<LeaveRequestForm />} />}
+          />
+          <Route
+            path="/applicationList"
+            element={<PrivateRoute index element={<ApplicationList />} />}
           />
           <Route
             path="/userinfo"

@@ -6,17 +6,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import EditIcon from '@mui/icons-material/Edit';
 
-function DataTable(props) {
-  const { attendanceLists } = props;
+function ApplicationListDataTable(props) {
+  const {leaveRequests} = props;
+  const {requestIds} = props;
+  console.log(requestIds);
   const columns = [
-    { field: "edit", headerName: ""},
-    { field: "date", headerName: "日付"},
-    { field: "startTime", headerName: "出勤時間"},
-    { field: "endTime", headerName: "退勤時間"},
-    { field: "breakTime", headerName: "休憩時間"},
-    { field: "breakTime", headerName: "稼働時間"},
+    // { field: "requestId", headerName: "申請ID" },
+    { field: "date", headerName: "取得日" },
+    { field: "status", headerName: "ステータス" },
+    { field: "status", headerName: "種別" },
+    { field: "reason", headerName: "事由" },
   ];
   return (
     <div>
@@ -36,18 +36,13 @@ function DataTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {attendanceLists.map((attendance, index) => (
+            {leaveRequests.map((leaveRequest, index) => (
               <TableRow key={index}>
-                <TableCell align="center"><EditIcon sx={{ fontSize: "medium" }} /></TableCell>
-                <TableCell align="center">{attendance.date}</TableCell>
-                <TableCell align="center">{attendance.startTime}</TableCell>
-                {attendance.endTime ? (
-                  <TableCell align="center">{attendance.endTime}</TableCell>
-                ) : (
-                  <TableCell align="center">ー</TableCell>
-                )}
-                <TableCell align="center">1:00</TableCell>
-                <TableCell align="center"></TableCell>
+                {/* <TableCell align="center">{requestIds}</TableCell> */}
+                <TableCell align="center">{leaveRequest.startDate}</TableCell>
+                <TableCell align="center">{leaveRequest.status}</TableCell>
+                <TableCell align="center">{leaveRequest.type}</TableCell>
+                <TableCell align="left">{leaveRequest.reason}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -71,18 +66,12 @@ function DataTable(props) {
           </TableHead>
 
           <TableBody>
-            {attendanceLists.map((attendance, index) => (
+            {leaveRequests.map((leaveRequest, index) => (
               <TableRow key={index}>
-                <TableCell align="center"><EditIcon sx={{ fontSize: "medium" }} /></TableCell>
-                <TableCell align="center">{attendance.date}</TableCell>
-                <TableCell align="center">{attendance.startTime}</TableCell>
-                {attendance.endTime ? (
-                  <TableCell align="center">{attendance.endTime}</TableCell>
-                ) : (
-                  <TableCell align="center">ー</TableCell>
-                )}
-                <TableCell align="center">1:00</TableCell>
-                <TableCell align="center">{attendance.remarks}</TableCell>
+                <TableCell align="center">{leaveRequest.startDate}</TableCell>
+                <TableCell align="center">{leaveRequest.status}</TableCell>
+                <TableCell align="center">{leaveRequest.type}</TableCell>
+                <TableCell align="left">{leaveRequest.reason}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -92,4 +81,4 @@ function DataTable(props) {
   );
 }
 
-export default DataTable;
+export default ApplicationListDataTable;
