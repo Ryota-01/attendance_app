@@ -6,35 +6,33 @@ import SendIcon from '@mui/icons-material/Send';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 export const SidebarData = [
-  
   {
     title : "ホーム",
-    icon : <HomeOutlinedIcon fontSize='small'/>,
     link : "/home",
   },
   {
     title : "打刻",
-    icon : <AccessTimeIcon  fontSize='small'/>,
     link : "/attendance",
   },
   {
     title : "勤怠一覧",
-    icon : <SummarizeIcon  fontSize='small'/>,
     link : "/attendancelist",
   },
   {
     title : "休暇申請",
-    icon : <SendIcon  fontSize='small'/>,
     link : "/leaverequest",
   },
   {
     title : "申請一覧",
-    icon : <SummarizeIcon  fontSize='small'/>,
     link : "/applicationList",
   },
   {
-    title : "ユーザー情報",
-    icon : <PermIdentityIcon  fontSize='small'/>,
+    title : "社員情報作成",
+    link : "/createuserinfo",
+    roles: ["admin"]
+  },
+  {
+    title : "プロフィール",
     link : "/userinfo",
   },
 ];

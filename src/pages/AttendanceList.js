@@ -3,9 +3,9 @@ import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Typography from "@mui/material/Typography";
-import DataTable from "../components/DataTable";
-import UserCollectionStatus from "../components/UserCollectionStatus";
-import Sidebar from "../components/Sidebar";
+import DataTable from "../components/Table/DataTable.js";
+import UserCollectionStatus from "../components/Snackbar/UserCollectionStatus.js";
+import Sidebar from "../components/Sidebar/Sidebar.js";
 import "../css/AttendanceList.css";
 
 export default function AttendanceList() {

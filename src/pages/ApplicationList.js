@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/Sidebar/Sidebar";
 import Typography from "@mui/material/Typography";
-import ApplicationListDataTable from "../components/ApplicationListDataTable";
+import ApplicationListDataTable from "../components/Table/ApplicationListDataTable";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
@@ -12,10 +12,6 @@ export default function ApplicationList() {
   const [leaveRequests, setLeaveRequest] = useState([]);
   const [requestIds, setRequestIds] = useState([]);
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
-  const currentYearAndMonth = `${currentYear}-${currentMonth
-    .toString()
-    .padStart(2, 0)}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +20,7 @@ export default function ApplicationList() {
         const leaveRequestDocRef = doc(leaveRequestRef, user.uid);
         const leaveRequestSubCollectionRef = collection(
           leaveRequestDocRef,
-          currentYearAndMonth
+          `${currentYear}`
         );
         const subCollectionSnapshot = await getDocs(
           leaveRequestSubCollectionRef

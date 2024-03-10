@@ -2,11 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
-import { collection, setDoc, doc, getDocs, getDoc } from "firebase/firestore";
+import { collection, setDoc, doc, getDocs, getDoc, serverTimestamp } from "firebase/firestore";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../css/AttendanceButton.css";
-import AttendanceButtonPopup from "./AttendanceButtonPopup";
+import Snackbar from "./Snackbar/Snackbar.js";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -14,8 +14,6 @@ export default function AttendanceButton() {
   const [isClockOutDisabled, setIsClockOutDisabled] = useState(true);
   const [isPopupMessage, setIsPopupMessage] = useState(false);
   const [popupMessage, setPopupMessage] = useState(false);
-  // const [startTimeAlertMessage, setStartTimeAlertMessage] = useState("")
-  // const [endTimeAlertMessage, setEndTimeAlertMessage] = useState("")
   const { user } = useAuthContext();
 
   //日付のフォーマット
@@ -102,7 +100,7 @@ export default function AttendanceButton() {
       const value = {
         userID: user.uid,
         date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
-        startTime: `${getHours}:${getMinutes}`,
+        startTime: serverTimestamp(),
         isClockInDisabled: true,
       };
       //ドキュメントを作成または更新
@@ -112,7 +110,7 @@ export default function AttendanceButton() {
         if (dayOfWeek === 5) {
           return "おはようございます！今週も残り1日頑張りましょう！";
         } if(dayOfWeek === 0 || 6) {
-          return `おやおや、${dayNames[dayOfWeek]}曜も出勤ですか？社畜で草`;
+          return `${dayNames[dayOfWeek]}曜出勤お疲れさまです・・！`;
         } else {
           return "おはようございます！今日も１日頑張りましょう！";
         }
@@ -124,7 +122,6 @@ export default function AttendanceButton() {
       console.log("error", e.message);
     }
   };
-  console.log(getHours);
   // 退勤ボタンを押した時の処理
   const handleClockOut = async (e) => {
     e.preventDefault();
@@ -134,7 +131,7 @@ export default function AttendanceButton() {
       if (!subCollectionDoc.empty) {
         const userDoc = doc(subCollectionRef, currentMonthAndDate);
         const value = {
-          endTime: `${getHours}:${getMinutes}`,
+          endTime: serverTimestamp(),
           isClockOutDisabled: true,
         };
         await setDoc(userDoc, value, { merge: true });
@@ -142,7 +139,7 @@ export default function AttendanceButton() {
           if (dayOfWeek === 5) {
             return "お疲れさまでした！良い週末を！";
           } if(dayOfWeek === 0 || 6) {
-            return `${dayNames[dayOfWeek]}曜出勤お疲れさまでした。ちゃんと代休取ってくださいね。`
+            return `${dayNames[dayOfWeek]}曜出勤お疲れさまでした。代休取ってくださいね。`
           } else {
             return "お疲れさまでした！ゆっくり休んでくださいね！";
           }
@@ -188,7 +185,7 @@ export default function AttendanceButton() {
         </Stack>
       </div>
       {isPopupMessage ? (
-        <AttendanceButtonPopup popupMessage={popupMessage} />
+        <Snackbar popupMessage={popupMessage} />
       ) : (
         <></>
       )}
