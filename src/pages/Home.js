@@ -5,8 +5,8 @@ import DigitalClock from "../components/DigitalClock";
 import AttendanceButton from "../components/AttendanceButton";
 import "../css/Home.css";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import UserCollectionStatus from "../components/UserCollectionStatus";
-import Sidebar from "../components/Sidebar";
+import UserCollectionStatus from "../components/Snackbar/UserCollectionStatus.js";
+import Sidebar from "../components/Sidebar/Sidebar.js";
 
 export default function Home() {
   const navigation = useNavigate();

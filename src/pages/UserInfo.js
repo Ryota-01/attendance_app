@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import { doc, getDoc, collection } from "firebase/firestore";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/Sidebar/Sidebar.js";
 
 function UserInfo() {
   const { user } = useAuthContext();

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../context/AuthContext";
-import { db } from "../firebase";
+import { useAuthContext } from "../../context/AuthContext";
+import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import "../css/SidebarIcon.css";
+import "../../css/SidebarIcon.css";
+import { typography } from "@mui/system";
+import { List, ListItem, Typography } from "@mui/material";
 
 export default function SidebarIcon() {
   const { user } = useAuthContext();
@@ -30,11 +32,18 @@ export default function SidebarIcon() {
     }
   }, [user]);
 
-  console.log(userName);
   return (
     <div className="sidebarIcon">
-      <h1 className="headTitle">KintaRo</h1>
-      <p className="sidebarIcon_userName">{userName} さん</p>
+      <ListItem  sx={{ marginTop: "20px" }}>
+        <Typography variant="h4" sx={{ color: "white", fontWeight: "bold" }}>
+          TIMENOTE
+        </Typography>
+      </ListItem>
+      <ListItem>
+        <Typography variant="body" sx={{ color: "white", fontWeight: "bold" }}>
+          {userName}さん
+        </Typography>
+      </ListItem>
     </div>
   );
 }
