@@ -6,10 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card";
 
 function ApplicationListDataTable(props) {
-  const {leaveRequests} = props;
-  const {requestIds} = props;
+  const { leaveRequests } = props;
+  const { requestIds } = props;
   console.log(requestIds);
   const columns = [
     // { field: "requestId", headerName: "申請ID" },
@@ -20,63 +21,69 @@ function ApplicationListDataTable(props) {
   ];
   return (
     <div>
-      {/* PC用テーブル */}
-      <TableContainer
-        component={Paper}
-        sx={{ width: "100%", display: { xs: "none", sm: "flex" } }}
-      >
-        <Table size="small">
-          <TableHead sx={{ background: "#24292E" }}>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell align="center" sx={{ color: "white" }}>
-                  {column.headerName}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {leaveRequests.map((leaveRequest, index) => (
-              <TableRow key={index}>
-                {/* <TableCell align="center">{requestIds}</TableCell> */}
-                <TableCell align="center">{leaveRequest.startDate}</TableCell>
-                <TableCell align="center">{leaveRequest.status}</TableCell>
-                <TableCell align="center">{leaveRequest.type}</TableCell>
-                <TableCell align="left">{leaveRequest.reason}</TableCell>
+      <Card sx={{ width: "80%", margin: "auto" }}>
+        {/* PC用テーブル */}
+        <TableContainer
+          // component={Paper}
+          sx={{
+            display: { xs: "none", sm: "flex" },
+          }}
+        >
+          <Table>
+            <TableHead sx={{ background: "#24292E" }}>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    {column.headerName}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* SP用テーブル */}
-      <TableContainer
-        component={Paper}
-        sx={{ display: { xs: "flex", sm: "none" } }}
-      >
-        <Table size="small">
-          <TableHead sx={{ background: "#24292E" }}>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell align="center" sx={{ color: "white" }}>
-                  {column.headerName}
-                </TableCell>
+            </TableHead>
+            <TableBody>
+              {leaveRequests.map((leaveRequest, index) => (
+                <TableRow key={index}>
+                  {/* <TableCell align="center">{requestIds}</TableCell> */}
+                  <TableCell align="center">{leaveRequest.startDate}</TableCell>
+                  <TableCell align="center">{leaveRequest.status}</TableCell>
+                  <TableCell align="center">{leaveRequest.type}</TableCell>
+                  <TableCell align="left">{leaveRequest.reason}</TableCell>
+                </TableRow>
               ))}
-            </TableRow>
-          </TableHead>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
 
-          <TableBody>
-            {leaveRequests.map((leaveRequest, index) => (
-              <TableRow key={index}>
-                <TableCell align="center">{leaveRequest.startDate}</TableCell>
-                <TableCell align="center">{leaveRequest.status}</TableCell>
-                <TableCell align="center">{leaveRequest.type}</TableCell>
-                <TableCell align="left">{leaveRequest.reason}</TableCell>
+      <Card>
+        {/* SP用テーブル */}
+        <TableContainer
+          // component={Paper}
+          sx={{ display: { xs: "flex", sm: "none" } }}
+        >
+          <Table>
+            <TableHead sx={{ background: "#24292E" }}>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    {column.headerName}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+
+            <TableBody>
+              {leaveRequests.map((leaveRequest, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">{leaveRequest.startDate}</TableCell>
+                  <TableCell align="center">{leaveRequest.status}</TableCell>
+                  <TableCell align="center">{leaveRequest.type}</TableCell>
+                  <TableCell align="left">{leaveRequest.reason}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
     </div>
   );
 }
