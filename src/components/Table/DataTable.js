@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Card from "@mui/material/Card";
 import EditIcon from "@mui/icons-material/Edit";
 
 function DataTable(props) {
@@ -47,52 +48,51 @@ function DataTable(props) {
   }
   return (
     <div>
-      {/* PC用テーブル */}
-      <TableContainer
-        component={Paper}
-        sx={{
-          margin: "auto",
-          width: "800px",
-          display: { xs: "none", sm: "flex" },
-        }}
-      >
-        <Table size="normal">
-          <TableHead sx={{ background: "#24292E" }}>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell align="center" sx={{ color: "white" }}>
-                  {column.headerName}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {attendanceLists.map((attendance, index) => (
-              <TableRow key={index}>
-                <TableCell align="center">
-                  <EditIcon sx={{ fontSize: "medium" }} />
-                </TableCell>
-                <TableCell align="center">{attendance.date}</TableCell>
-                <TableCell align="center">
-                  {formatTimestamp(attendance.startTime)}
-                </TableCell>
-                {attendance.endTime ? (
-                  <TableCell align="center">
-                    {formatTimestamp(attendance.endTime)}
+      <Card sx={{ width: "80%", margin: "auto" }}>
+        {/* PC用テーブル */}
+        <TableContainer
+          sx={{
+            display: { xs: "none", sm: "flex" },
+          }}
+        >
+          <Table size="normal">
+            <TableHead sx={{ background: "#24292E" }}>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell align="center" sx={{ color: "white" }}>
+                    {column.headerName}
                   </TableCell>
-                ) : (
-                  <TableCell align="center">ー</TableCell>
-                )}
-                <TableCell align="center">1:00</TableCell>
-                <TableCell align="center">
-                  {workingHours(attendance.startTime, attendance.endTime)}
-                </TableCell>
-                <TableCell align="center"></TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {attendanceLists.map((attendance, index) => (
+                <TableRow key={index}>
+                  <TableCell align="center">
+                    <EditIcon sx={{ fontSize: "medium" }} />
+                  </TableCell>
+                  <TableCell align="center">{attendance.date}</TableCell>
+                  <TableCell align="center">
+                    {formatTimestamp(attendance.startTime)}
+                  </TableCell>
+                  {attendance.endTime ? (
+                    <TableCell align="center">
+                      {formatTimestamp(attendance.endTime)}
+                    </TableCell>
+                  ) : (
+                    <TableCell align="center">ー</TableCell>
+                  )}
+                  <TableCell align="center">1:00</TableCell>
+                  <TableCell align="center">
+                    {workingHours(attendance.startTime, attendance.endTime)}
+                  </TableCell>
+                  <TableCell align="center"></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
 
       {/* SP用テーブル */}
       <TableContainer

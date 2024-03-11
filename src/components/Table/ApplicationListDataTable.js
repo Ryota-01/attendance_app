@@ -5,7 +5,6 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 
 function ApplicationListDataTable(props) {
@@ -24,7 +23,6 @@ function ApplicationListDataTable(props) {
       <Card sx={{ width: "80%", margin: "auto" }}>
         {/* PC用テーブル */}
         <TableContainer
-          // component={Paper}
           sx={{
             display: { xs: "none", sm: "flex" },
           }}
