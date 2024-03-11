@@ -40,6 +40,7 @@ export default function AttendanceButton() {
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
   const getHours = d.getHours();
   const getMinutes = d.getMinutes();
+  console.log(dayOfWeek)
 
   //時計
   useEffect(() => {
@@ -109,7 +110,7 @@ export default function AttendanceButton() {
       const popupMessage = () => {
         if (dayOfWeek === 5) {
           return "おはようございます！今週も残り1日頑張りましょう！";
-        } if(dayOfWeek === 0 || 6) {
+        } if(dayOfWeek === 0 || dayOfWeek === 6) {
           return `${dayNames[dayOfWeek]}曜出勤お疲れさまです・・！`;
         } else {
           return "おはようございます！今日も１日頑張りましょう！";
@@ -138,7 +139,7 @@ export default function AttendanceButton() {
         const popupMessage = () => {
           if (dayOfWeek === 5) {
             return "お疲れさまでした！良い週末を！";
-          } if(dayOfWeek === 0 || 6) {
+          } if(dayOfWeek === 0 || dayOfWeek === 6) {
             return `${dayNames[dayOfWeek]}曜出勤お疲れさまでした。代休取ってくださいね。`
           } else {
             return "お疲れさまでした！ゆっくり休んでくださいね！";
