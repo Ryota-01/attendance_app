@@ -94,6 +94,7 @@ function DataTable(props) {
         </TableContainer>
       </Card>
 
+
       {/* SP用テーブル */}
       <TableContainer
         component={Paper}
