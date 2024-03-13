@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import LeaveRequestConfirmDialog from "../components/Dialog/LeaveRequestConfirmDialog";
+import { Card } from "@mui/material";
 
 export default function LeaveRequestForm() {
   const [leaveRequestRef, setLeaveRequestRef] = useState();
@@ -36,14 +37,13 @@ export default function LeaveRequestForm() {
       <Sidebar />
       {/* <LeaveRequestConfirmDialog /> */}
       <div className="leaveRequestForm">
-        <Box component="form" sx={{ p: 3 }}>
+        <Card sx={{ width: "80%", margin: "auto", padding: "30px" }}>
           <Typography variant="h5" gutterBottom>
             休暇申請フォーム
           </Typography>
           <TextField
             select
             required
-            fullWidth
             label="休暇種類"
             defaultValue="有休休暇"
             variant="outlined"
@@ -70,7 +70,6 @@ export default function LeaveRequestForm() {
           />
           <TextField
             required
-            fullWidth
             label="申請理由"
             variant="filled"
             helperText="申請理由を入力してください"
@@ -82,7 +81,7 @@ export default function LeaveRequestForm() {
             {/* {errorMessage} */}
           </Typography>
           <LeaveRequestConfirmDialog leaveRequestRef={leaveRequestRef} />
-        </Box>
+        </Card>
       </div>
     </div>
   );
