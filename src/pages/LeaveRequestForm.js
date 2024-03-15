@@ -6,7 +6,8 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import LeaveRequestConfirmDialog from "../components/Dialog/LeaveRequestConfirmDialog";
-import { Card } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
+import { Stack } from "@mui/system";
 
 export default function LeaveRequestForm() {
   const [leaveRequestRef, setLeaveRequestRef] = useState();
@@ -36,53 +37,97 @@ export default function LeaveRequestForm() {
     <div className="wrapper">
       <Sidebar />
       {/* <LeaveRequestConfirmDialog /> */}
-      <div className="leaveRequestForm">
-        <Card sx={{ width: "80%", margin: "auto", padding: "30px" }}>
-          <Typography variant="h5" gutterBottom>
-            休暇申請フォーム
+      <Card sx={{ width: "60%", margin: "auto", padding: "4px" }}>
+        <CardContent sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="h6" color="text.secondary" gutterBottom>
+            申請フォーム
           </Typography>
-          <TextField
-            select
-            required
-            label="休暇種類"
-            defaultValue="有休休暇"
-            variant="outlined"
-            margin="normal"
-            helperText="休暇の種類を選択してください"
-            inputRef={paidLeaveReasonRef}
-            onChange={handleChenge}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            gutterBottom
+            sx={{ marginLeft: "20px" }}
           >
-            {leaveRequestType.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            required
-            label="休暇取得日"
-            type="date"
-            variant="filled"
-            margin="normal"
-            helperText="休暇取得日を入力してください"
-            inputRef={acquisitionStartDateRef}
-            onChange={handleChenge}
-          />
-          <TextField
-            required
-            label="申請理由"
-            variant="filled"
-            helperText="申請理由を入力してください"
-            margin="normal"
-            inputRef={leaveReasonRef}
-            onChange={handleChenge}
-          />
+            *は必須入力
+          </Typography>
+        </CardContent>
+        <CardContent>
+          <Stack spacing={2} direction="row">
+            <TextField
+              required
+              label="申請者"
+              variant="outlined"
+              size="small"
+              margin="normal"
+              inputRef={paidLeaveReasonRef}
+              onChange={handleChenge}
+              fullWidth
+            />
+          </Stack>
+          <Stack direction="row">
+            <TextField
+              select
+              required
+              size="small"
+              label="休暇種類"
+              defaultValue="有休休暇"
+              variant="outlined"
+              margin="normal"
+              inputRef={paidLeaveReasonRef}
+              onChange={handleChenge}
+            >
+              {leaveRequestType.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Stack>
+          <Stack direction="row">
+            <TextField
+              required
+              label="休暇取得日"
+              type="date"
+              size="small"
+              margin="normal"
+              variant="outlined"
+              helperText="休暇取得日を入力してください"
+              inputRef={acquisitionStartDateRef}
+              onChange={handleChenge}
+            />
+          </Stack>
+          <Stack direction="row">
+            <TextField
+              required
+              label="申請理由"
+              size="small"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              inputRef={leaveReasonRef}
+              onChange={handleChenge}
+            />
+          </Stack>
+
+          <Stack direction="row">
+            <TextField
+              label="備考"
+              size="small"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              // helperText="申請理由を入力してください"
+              inputRef={leaveReasonRef}
+              onChange={handleChenge}
+            />
+          </Stack>
+
           <Typography variant="body2" sx={{ mb: 1 }}>
             {/* {errorMessage} */}
           </Typography>
           <LeaveRequestConfirmDialog leaveRequestRef={leaveRequestRef} />
-        </Card>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

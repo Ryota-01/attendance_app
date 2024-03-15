@@ -1,23 +1,19 @@
-import React, { useRef } from 'react'
-import ResponsiveAppBar from '../components/ResponsiveAppBar'
+import React, { useRef } from "react";
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from "../context/AuthContext";
 import { auth, db } from "../firebase";
-import {
-  doc,
-  getDoc,
-  collection,
-  setDoc,
-} from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar/Sidebar.js';
+import { doc, getDoc, collection, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar/Sidebar.js";
+import { Card, CardContent } from "@mui/material";
 
 export default function UserInfo() {
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const nameRef = useRef("");
   const joinDateRef = useRef("");
   const phoneNumberRef = useRef("");
@@ -37,7 +33,7 @@ export default function UserInfo() {
       value: "業務委託",
       label: "業務委託",
     },
-  ]
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,8 +54,8 @@ export default function UserInfo() {
           joinDate: joinDateRef.current.value,
           phoneNumber: phoneNumberRef.current.value,
           employmentType: employmentTypeRef.current.value,
-          admin: false
-        }
+          admin: false,
+        };
         await setDoc(userDocRef, data);
         navigate("/home");
         console.log("Success!");
@@ -67,41 +63,60 @@ export default function UserInfo() {
     } catch (e) {
       console.log("ユーザー情報の作成に失敗しました", e.message);
     }
-    
-  }
+  };
 
   return (
-    <div className='wrapper'>
+    <div className="wrapper">
       {/* <ResponsiveAppBar /> */}
       <Sidebar />
-      <div className='loginForm'>
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{ p: 3 }}
-        >
-          <Typography variant="h5" gutterBottom>
-            ユーザー情報作成
+
+      <Card sx={{ width: "60%", margin: "auto", padding: "4px" }}>
+        <CardContent>
+          <Typography variant="h6" color="text.secondary" gutterBottom>
+            社員情報作成
           </Typography>
-          <TextField
-            required
-            label="氏名"
-            variant="outlined"
-            inputRef={nameRef}
-            fullWidth
-            helperText="お名前を入力してください"
-            margin="normal"
-          />
-          <TextField
-            required
-            label="入社日"
-            type="date"
-            variant="outlined"
-            inputRef={joinDateRef}
-            fullWidth
-            helperText="入社日を入力してください"
-            margin="normal"
-          />
+          <Box>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              社員名
+            </Typography>
+            <TextField
+              required
+              label="性"
+              variant="outlined"
+              inputRef={nameRef}
+              helperText="苗字を入力してください"
+              size="small"
+            />
+            <TextField
+              required
+              label="名"
+              variant="outlined"
+              inputRef={nameRef}
+              helperText="名前を入力してください"
+              size="small"
+              sx={{ marginLeft: "18px" }}
+            />
+          </Box>
+
+
+          <Box>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              入社日
+            </Typography>
+            <TextField
+              required
+              type="date"
+              variant="outlined"
+              inputRef={joinDateRef}
+              fullWidth
+              helperText="入社日を選択してください"
+              size="small"
+            />
+          </Box>
+
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            電話番号
+          </Typography>
           <TextField
             required
             label="電話番号"
@@ -109,9 +124,12 @@ export default function UserInfo() {
             variant="outlined"
             inputRef={phoneNumberRef}
             fullWidth
-            helperText="電話番号を入力してください"
             margin="normal"
+            size="small"
           />
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            雇用形態
+          </Typography>
           <TextField
             required
             select
@@ -122,6 +140,7 @@ export default function UserInfo() {
             fullWidth
             helperText="雇用形態を選択してください"
             margin="normal"
+            size="small"
           >
             {employmentTypes.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -137,8 +156,8 @@ export default function UserInfo() {
           >
             保存
           </Button>
-        </Box>
-      </div>
-    </div >
-  )
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
