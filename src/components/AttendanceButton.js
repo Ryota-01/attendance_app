@@ -100,7 +100,8 @@ export default function AttendanceButton() {
         await getAttendanceCollection();
       const value = {
         userID: user.uid,
-        date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
+        // date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
+        date: serverTimestamp(),
         startTime: serverTimestamp(),
         isClockInDisabled: true,
       };

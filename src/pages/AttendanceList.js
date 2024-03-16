@@ -7,6 +7,8 @@ import DataTable from "../components/Table/DataTable.js";
 import UserCollectionStatus from "../components/Snackbar/UserCollectionStatus.js";
 import Sidebar from "../components/Sidebar/Sidebar.js";
 import "../css/AttendanceList.css";
+import { Card, CardContent, Divider } from "@mui/material";
+import { Box } from "@mui/system";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -71,26 +73,23 @@ export default function AttendanceList() {
     };
     fetchData();
   }, [user.uid, currentYearAndMonth]);
-  console.log(attendanceLists);
 
   return (
     <div className="attendanceListWrapper">
       <Sidebar />
-      <Typography
-        variant="h5"
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
-        勤怠一覧
-      </Typography>
-      <Typography
-        variant="h7"
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
-        {`${currentYear}年${currentMonth}月`}
-      </Typography>
-      <div className="dateTable">
-        <DataTable attendanceLists={attendanceLists} />
-      </div>
+      <Card sx={{ width: "72%", margin: "auto", padding: "24px" }}>
+        <CardContent>
+          <Box marginBottom={"12px"}>
+            <Typography variant="h5" color="text.secondary" gutterBottom>
+              勤怠実績
+            </Typography>
+            <Typography variant="body1" color="text.secondary" gutterBottom>
+              {`${currentYear}年${currentMonth}月`}
+            </Typography>
+          </Box>
+          <DataTable attendanceLists={attendanceLists} />
+        </CardContent>
+      </Card>
     </div>
   );
 }
