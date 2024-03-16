@@ -4,16 +4,22 @@ import "../css/LeaveRequestForm.css";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/material/Box";
 import LeaveRequestConfirmDialog from "../components/Dialog/LeaveRequestConfirmDialog";
-import { Card, CardContent } from "@mui/material";
-import { Stack } from "@mui/system";
+import { Box, Stack } from "@mui/system";
+import { Card, CardContent, Divider, Grid } from "@mui/material";
 
 export default function LeaveRequestForm() {
   const [leaveRequestRef, setLeaveRequestRef] = useState();
   const paidLeaveReasonRef = useRef(); //有給休暇かその他特別休暇か
   const acquisitionStartDateRef = useRef(); //取得日
   const leaveReasonRef = useRef(); //申請理由
+  const padding = {
+    padding: "18px",
+  };
+  const spacing = 4;
+  const xs = 6;
+  const varient = "filled";
+
   const leaveRequestType = [
     {
       value: "有休休暇",
@@ -34,98 +40,117 @@ export default function LeaveRequestForm() {
     setLeaveRequestRef(value);
   };
   return (
-    <div className="wrapper">
+    <div>
       <Sidebar />
       {/* <LeaveRequestConfirmDialog /> */}
-      <Card sx={{ width: "60%", margin: "auto", padding: "4px" }}>
-        <CardContent sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h6" color="text.secondary" gutterBottom>
-            申請フォーム
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            gutterBottom
-            sx={{ marginLeft: "20px" }}
-          >
-            *は必須入力
-          </Typography>
-        </CardContent>
+      {/* <ResponsiveAppBar /> */}
+      <Card sx={{ width: "72%", margin: "auto", padding: "24px"}}>
         <CardContent>
-          <Stack spacing={2} direction="row">
-            <TextField
-              required
-              label="申請者"
-              variant="outlined"
-              size="small"
-              margin="normal"
-              inputRef={paidLeaveReasonRef}
-              onChange={handleChenge}
-              fullWidth
-            />
-          </Stack>
-          <Stack direction="row">
-            <TextField
-              select
-              required
-              size="small"
-              label="休暇種類"
-              defaultValue="有休休暇"
-              variant="outlined"
-              margin="normal"
-              inputRef={paidLeaveReasonRef}
-              onChange={handleChenge}
-            >
-              {leaveRequestType.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Stack>
-          <Stack direction="row">
-            <TextField
-              required
-              label="休暇取得日"
-              type="date"
-              size="small"
-              margin="normal"
-              variant="outlined"
-              helperText="休暇取得日を入力してください"
-              inputRef={acquisitionStartDateRef}
-              onChange={handleChenge}
-            />
-          </Stack>
-          <Stack direction="row">
-            <TextField
-              required
-              label="申請理由"
-              size="small"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              inputRef={leaveReasonRef}
-              onChange={handleChenge}
-            />
-          </Stack>
-
-          <Stack direction="row">
-            <TextField
-              label="備考"
-              size="small"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              // helperText="申請理由を入力してください"
-              inputRef={leaveReasonRef}
-              onChange={handleChenge}
-            />
-          </Stack>
-
-          <Typography variant="body2" sx={{ mb: 1 }}>
-            {/* {errorMessage} */}
-          </Typography>
-          <LeaveRequestConfirmDialog leaveRequestRef={leaveRequestRef} />
+          <Box marginBottom={"12px"}>
+            <Typography variant="h5" color="text.secondary" gutterBottom>
+              休暇申請
+            </Typography>
+            <Typography variant="body1" color="text.secondary" gutterBottom>
+              *は必須入力
+            </Typography>
+            <Divider />
+          </Box>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="申請者"
+                helperText="名前を入力してください"
+                variant={varient}
+                size="small"
+                inputRef={paidLeaveReasonRef}
+                onChange={handleChenge}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                select
+                required
+                size="small"
+                label="休暇種類"
+                defaultValue="有休休暇"
+                helperText="休暇種別を選択してください"
+                variant={varient}
+                inputRef={paidLeaveReasonRef}
+                onChange={handleChenge}
+                fullWidth
+              >
+                {leaveRequestType.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="休暇開始日"
+                type="date"
+                size="small"
+                variant={varient}
+                helperText="開始日を入力してください"
+                inputRef={acquisitionStartDateRef}
+                onChange={handleChenge}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="休暇終了日"
+                type="date"
+                size="small"
+                variant={varient}
+                helperText="終了日を入力してください"
+                inputRef={acquisitionStartDateRef}
+                onChange={handleChenge}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="申請理由"
+                helperText="申請理由を入力してください"
+                size="small"
+                variant={varient}
+                fullWidth
+                inputRef={leaveReasonRef}
+                onChange={handleChenge}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                label="備考"
+                size="small"
+                helperText="備考を入力してください（任意）"
+                variant={varient}
+                fullWidth
+                inputRef={leaveReasonRef}
+                onChange={handleChenge}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <LeaveRequestConfirmDialog leaveRequestRef={leaveRequestRef} />
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     </div>

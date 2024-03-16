@@ -10,7 +10,7 @@ import { auth, db } from "../firebase";
 import { doc, getDoc, collection, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar.js";
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, Divider, Grid } from "@mui/material";
 
 export default function UserInfo() {
   const { user } = useAuthContext();
@@ -19,6 +19,13 @@ export default function UserInfo() {
   const phoneNumberRef = useRef("");
   const employmentTypeRef = useRef("");
   const navigate = useNavigate("");
+
+  const padding = {
+    padding: "18px",
+  };
+  const spacing = 4;
+  const xs = 6;
+  const varient = "filled";
 
   const employmentTypes = [
     {
@@ -66,96 +73,169 @@ export default function UserInfo() {
   };
 
   return (
-    <div className="wrapper">
+    <div>
       {/* <ResponsiveAppBar /> */}
       <Sidebar />
-
-      <Card sx={{ width: "60%", margin: "auto", padding: "4px" }}>
+      <Card sx={{ width: "72%", margin: "auto", padding: "24px" }}>
         <CardContent>
-          <Typography variant="h6" color="text.secondary" gutterBottom>
-            社員情報作成
-          </Typography>
-          <Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              社員名
+          <Box marginBottom={"12px"}>
+            <Typography variant="h5" color="text.secondary" gutterBottom>
+              社員情報作成
             </Typography>
-            <TextField
-              required
-              label="性"
-              variant="outlined"
-              inputRef={nameRef}
-              helperText="苗字を入力してください"
-              size="small"
-            />
-            <TextField
-              required
-              label="名"
-              variant="outlined"
-              inputRef={nameRef}
-              helperText="名前を入力してください"
-              size="small"
-              sx={{ marginLeft: "18px" }}
-            />
+            <Typography variant="body1" color="text.secondary" gutterBottom>
+              *は必須入力
+            </Typography>
+            <Divider />
           </Box>
 
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="姓"
+                helperText="姓を入力してください"
+                variant={varient}
+                inputRef={nameRef}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="名"
+                helperText="名を入力してください"
+                variant={varient}
+                inputRef={nameRef}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="セイ"
+                helperText="姓(フリガナ)を入力してください"
+                variant={varient}
+                inputRef={nameRef}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="メイ"
+                helperText="名(フリガナ)を入力してください"
+                variant={varient}
+                inputRef={nameRef}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={xs}>
+              <TextField
+                label="電話番号"
+                variant={varient}
+                helperText="ハイフン無し"
+                // inputRef={nameRef}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+          </Grid>
+          <Divider />
 
-          <Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              入社日
-            </Typography>
-            <TextField
-              required
-              type="date"
-              variant="outlined"
-              inputRef={joinDateRef}
-              fullWidth
-              helperText="入社日を選択してください"
-              size="small"
-            />
-          </Box>
-
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            電話番号
-          </Typography>
-          <TextField
-            required
-            label="電話番号"
-            type="tel"
-            variant="outlined"
-            inputRef={phoneNumberRef}
-            fullWidth
-            margin="normal"
-            size="small"
-          />
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            雇用形態
-          </Typography>
-          <TextField
-            required
-            select
-            label="雇用形態"
-            variant="outlined"
-            defaultValue="正社員"
-            inputRef={employmentTypeRef}
-            fullWidth
-            helperText="雇用形態を選択してください"
-            margin="normal"
-            size="small"
-          >
-            {employmentTypes.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            type="submit"
-            variant="contained"
-            onSubmit={handleSubmit}
-            fullWidth
-          >
-            保存
-          </Button>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                type="address"
+                label="郵便番号"
+                variant={varient}
+                inputRef={nameRef}
+                helperText="000-0000の形式でご入力ください"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={xs}></Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="都道府県"
+                variant={varient}
+                helperText="都道府県名を入力してください"
+                inputRef={nameRef}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={xs}></Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="住所1"
+                variant={varient}
+                inputRef={nameRef}
+                size="small"
+                fullWidth
+                helperText="市区町村、番地など"
+              />
+            </Grid>
+            <Grid item xs={xs}>
+              <TextField
+                label="住所2"
+                variant={varient}
+                inputRef={nameRef}
+                size="small"
+                fullWidth
+                helperText="建物名など"
+              />
+            </Grid>
+          </Grid>
+          <Divider />
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                label="入社日"
+                type="date"
+                variant={varient}
+                inputRef={joinDateRef}
+                helperText="入社日を選択してください"
+                fullWidth
+                size="small"
+              />
+            </Grid>
+            <Grid item xs={6}></Grid>
+            <Grid item xs={xs}>
+              <TextField
+                required
+                select
+                label="雇用形態"
+                variant={varient}
+                defaultValue="正社員"
+                inputRef={employmentTypeRef}
+                fullWidth
+                helperText="雇用形態を選択してください"
+                size="small"
+              >
+                {employmentTypes.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+          <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid item xs={2}>
+              <Button type="submit" fullWidth variant="contained" onSubmit={handleSubmit}>
+                保存
+              </Button>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     </div>
