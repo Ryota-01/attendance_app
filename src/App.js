@@ -14,6 +14,7 @@ import UserUpdata from "./pages/UserUpdata";
 import CreateUserInfo from "./pages/CreateUserInfo";
 import UserInfo from "./pages/UserInfo";
 import ApplicationList from "./pages/ApplicationList";
+import ConfirmUserCreateInfo from "./pages/ConfirmUserCreateInfo";
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
           <Route
             path="/createuserinfo"
             element={<PrivateRoute index element={<CreateUserInfo />} />}
+          />
+          <Route
+            path="/confirmusercreateinfo"
+            element={<PrivateRoute index element={<ConfirmUserCreateInfo />} />}
           />
           <Route
             path="/userinfo"
