@@ -1,61 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 // import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { useAuthContext } from "../context/AuthContext";
 import { auth, db } from "../firebase";
 import { doc, getDoc, collection, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar.js";
 import { Card, CardContent, Divider, Grid } from "@mui/material";
-import ConfirmUserCreateInfo from "./ConfirmUserCreateInfo.js";
-import { FormProvider, useForm } from "react-hook-form";
-import AddressInput from "../components/FormComponents/AddressInput.js";
-import EmailInput from "../components/FormComponents/EmailInput.js";
-import EmploymentTypeInput from "../components/FormComponents/EmploymentTypeInput.js";
-import FirstNameFuriganaInput from "../components/FormComponents/FirstNameFuriganaInput.js";
-import FirstNameInput from "../components/FormComponents/FirstNameInput.js";
-import LastNameFuriganaInput from "../components/FormComponents/LastNameFuriganaInput.js";
-import JoinDateInput from "../components/FormComponents/JoinDateInput.js";
-import LastNameInput from "../components/FormComponents/LastNameInput.js";
-import PhoneNumberInput from "../components/FormComponents/PhoneNumberInput.js";
-import PostCodeInput from "../components/FormComponents/PostCodeInput.js";
-import PrefecturesInput from "../components/FormComponents/PrefecturesInput.js";
+import CreateUserInfoForm from "../components/FormComponents/CreateUserInfoForm.js";
 
 export default function UserInfo() {
   const { user } = useAuthContext();
-  const [userData, setUserData] = useState();
-  const {
-    register,
-    handleSubmit,
-    methods,
-    formState: { errors },
-  } = useForm({ mode: "onChange", criteriaMode: "all" });
-
-  const padding = {
-    padding: "18px",
-  };
-  const spacing = 3;
-  const xs = (number) => {
-    if (number) {
-      return number;
-    } else {
-      return 6;
-    }
-  };
-  const props = {
-    varient: "filled",
-    register: register,
-    errors: errors,
-  };
-
-  console.log(props);
-  const onSubmit = (userData) => {
-    setUserData(userData);
-    console.log(userData);
-  };
+  const location = useLocation();
+  console.log(location);
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -96,82 +55,9 @@ export default function UserInfo() {
             <Typography variant="h5" color="text.secondary" gutterBottom>
               社員情報作成
             </Typography>
-            <Typography variant="body1" color="text.secondary" gutterBottom>
-              *は必須入力
-            </Typography>
             <Divider />
           </Box>
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={spacing} sx={{ padding: padding }}>
-                {/* 苗字入力フォーム */}
-                <Grid item xs={xs()}>
-                  <LastNameInput props={props} />
-                </Grid>
-
-                {/* 名前入力フォーム */}
-                <Grid item xs={xs()}>
-                  <FirstNameInput props={props} />
-                </Grid>
-
-                {/* 苗字フリガナ入力フォーム */}
-                <Grid item xs={xs()}>
-                  <LastNameFuriganaInput props={props} />
-                </Grid>
-
-                {/* 名前フリガナ入力フォーム */}
-                <Grid item xs={xs()}>
-                  <FirstNameFuriganaInput props={props} />
-                </Grid>
-                {/* email入力フォーム */}
-                <Grid item xs={xs()}>
-                  <EmailInput props={props} />
-                </Grid>
-                <Grid item xs={xs()}></Grid>
-
-                {/* 電話番号入力フォーム */}
-                <Grid item xs={xs()}>
-                  <PhoneNumberInput props={props} />
-                </Grid>
-              </Grid>
-              <Divider />
-
-              <Grid container spacing={spacing} sx={{ padding: padding }}>
-                {/* 郵便番号入力フォーム */}
-                <Grid item xs={xs()}>
-                  <PostCodeInput props={props} />
-                </Grid>
-                <Grid item xs={xs()}></Grid>
-                {/* 都道府県入力フォーム */}
-                <Grid item xs={xs()}>
-                  <PrefecturesInput props={props} />
-                </Grid>
-                {/* 住所入力フォーム */}
-                <Grid item xs={xs(12)}>
-                  <AddressInput props={props} />
-                </Grid>
-              </Grid>
-              <Divider />
-              <Grid container spacing={spacing} sx={{ padding: padding }}>
-                {/* 入社日フォーム */}
-                <Grid item xs={xs()}>
-                  <JoinDateInput props={props} />
-                </Grid>
-                <Grid item xs={6}></Grid>
-                {/* 雇用形態フォーム */}
-                <Grid item xs={xs()}>
-                  <EmploymentTypeInput props={props} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={spacing} sx={{ padding: padding }}>
-                <Grid item xs={2}>
-                  <Button type="submit" fullWidth variant="contained">
-                    確認
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </FormProvider>
+          <CreateUserInfoForm />
         </CardContent>
       </Card>
     </div>
