@@ -40,18 +40,11 @@ function DataTable(props) {
           new Date(currentYear, currentMonth, day, 0, 0, 0, 0);
           monthDates.push(new Date(currentYear, currentMonth, day, 0, 0, 0));
         }
-        console.log(monthDates);
         setDates(monthDates);
       } catch (e) {
         console.log(e.message);
       }
     };
-    // const monthDate = () => {
-    //   monthDates.forEach((date) => {
-    //     console.log(date.toLocaleString())
-    //   })
-    // }
-    // monthDate();
     fetchData();
   }, []);
 
@@ -71,7 +64,6 @@ function DataTable(props) {
     const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
     const getDay = date.getDay();
     const dayOfWeek = dayNames[getDay];
-    console.log(dayOfWeek);
     return dayOfWeek;
     // const getMonth = date.getMonth() + 1;
     // const getDate = date.getDate();
@@ -155,19 +147,54 @@ function DataTable(props) {
                   )}
                 </TableCell>
                 {attendanceLists.map((attendance) => {
-                  return (
-                    <TableCell align="center">
-                      {date === attendance.date ? (
-                        <></>
-                      ) : (
-                        <>{formatTimestamp(attendance.startTime)}</>
-                      )}
-                    </TableCell>
-                  );
+                  if (date.getDate() === attendance.date.toDate().getDate()) {
+                    return (
+                      <>
+                        {attendance.startTime ? (
+                          <TableCell
+                            align="center"
+                            key={`startTime-${attendance.id}`}
+                          >
+                            {formatTimestamp(attendance.startTime)}
+                          </TableCell>
+                        ) : (
+                          <TableCell align="center">-</TableCell>
+                        )}
+                        {attendance.endTime ? (
+                          <TableCell
+                            align="center"
+                            key={`endTime-${attendance.id}`}
+                          >
+                            {formatTimestamp(attendance.endTime)}
+                          </TableCell>
+                        ) : (
+                          <TableCell align="center">-</TableCell>
+                        )}
+                        <TableCell align="center">
+                          {workingHours(
+                            attendance.startTime,
+                            attendance.endTime
+                          )}
+                        </TableCell>
+                        <TableCell align="center"></TableCell>
+                      </>
+                    );
+                  }
+                  return null;
                 })}
+                {attendanceLists.every(
+                  (attendance) =>
+                    date.getDate() !== attendance.date.toDate().getDate()
+                ) && (
+                  <>
+                    <TableCell align="center">-</TableCell>
+                    <TableCell align="center">-</TableCell>
+                    <TableCell align="center">-</TableCell>
+                    <TableCell align="center">-</TableCell>
+                  </>
+                )}
               </TableRow>
             ))}
-
             {/* {attendanceLists.map((attendance, index) => (
               <TableRow key={index}>
                 <TableCell align="center">

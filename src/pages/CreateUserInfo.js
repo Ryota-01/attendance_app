@@ -23,7 +23,7 @@ export default function UserInfo() {
   const padding = {
     padding: "18px",
   };
-  const spacing = 4;
+  const spacing = 3;
   const xs = 6;
   const varient = "filled";
 
@@ -154,7 +154,7 @@ export default function UserInfo() {
                 label="郵便番号"
                 variant={varient}
                 inputRef={nameRef}
-                helperText="000-0000の形式でご入力ください"
+                helperText="000-0000の形式で入力してください"
                 fullWidth
                 size="small"
               />
