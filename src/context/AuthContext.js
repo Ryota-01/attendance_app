@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 
-//Contextとは、user情報を保管しておく箱のようなもの？
+//Contextとは、情報を保管しておく箱のようなもの？
 //contextを使うと、propsで橋渡しする必要がなく、どのコンポーネントからも呼び出せる。
 
 const AuthContext = createContext();
