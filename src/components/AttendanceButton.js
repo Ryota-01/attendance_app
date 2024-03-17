@@ -104,6 +104,7 @@ export default function AttendanceButton() {
         date: serverTimestamp(),
         startTime: serverTimestamp(),
         isClockInDisabled: true,
+        remarks: ""
       };
       //ドキュメントを作成または更新
       const userDoc = doc(subCollectionRef, currentMonthAndDate);

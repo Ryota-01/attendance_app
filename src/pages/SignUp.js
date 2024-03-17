@@ -1,21 +1,17 @@
 import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import Header from "../components/Header";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import { CardContent } from "@mui/material";
 
 export default function Signup() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();

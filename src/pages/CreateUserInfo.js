@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+// import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { useAuthContext } from "../context/AuthContext";
 import { auth, db } from "../firebase";
@@ -11,70 +10,85 @@ import { doc, getDoc, collection, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar.js";
 import { Card, CardContent, Divider, Grid } from "@mui/material";
+import ConfirmUserCreateInfo from "./ConfirmUserCreateInfo.js";
+import { FormProvider, useForm } from "react-hook-form";
+import AddressInput from "../components/FormComponents/AddressInput.js";
+import EmailInput from "../components/FormComponents/EmailInput.js";
+import EmploymentTypeInput from "../components/FormComponents/EmploymentTypeInput.js";
+import FirstNameFuriganaInput from "../components/FormComponents/FirstNameFuriganaInput.js";
+import FirstNameInput from "../components/FormComponents/FirstNameInput.js";
+import LastNameFuriganaInput from "../components/FormComponents/LastNameFuriganaInput.js";
+import JoinDateInput from "../components/FormComponents/JoinDateInput.js";
+import LastNameInput from "../components/FormComponents/LastNameInput.js";
+import PhoneNumberInput from "../components/FormComponents/PhoneNumberInput.js";
+import PostCodeInput from "../components/FormComponents/PostCodeInput.js";
+import PrefecturesInput from "../components/FormComponents/PrefecturesInput.js";
 
 export default function UserInfo() {
   const { user } = useAuthContext();
-  const nameRef = useRef("");
-  const joinDateRef = useRef("");
-  const phoneNumberRef = useRef("");
-  const employmentTypeRef = useRef("");
-  const navigate = useNavigate("");
+  const [userData, setUserData] = useState();
+  const {
+    register,
+    handleSubmit,
+    methods,
+    formState: { errors },
+  } = useForm({ mode: "onChange", criteriaMode: "all" });
 
   const padding = {
     padding: "18px",
   };
   const spacing = 3;
-  const xs = 6;
-  const varient = "filled";
-
-  const employmentTypes = [
-    {
-      value: "正社員",
-      label: "正社員",
-    },
-    {
-      value: "アルバイト",
-      label: "アルバイト",
-    },
-    {
-      value: "業務委託",
-      label: "業務委託",
-    },
-  ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Userコレクションを参照
-      const userCollectionRef = collection(db, "users");
-      // userコレクション内のuserドキュメントを参照
-      const userDocRef = doc(userCollectionRef, user.uid);
-      // userドキュメントが存在するか確認
-      const userDocSnap = await getDoc(userDocRef);
-      if (!userDocSnap.empty) {
-        //userドキュメントが存在しない場合は新規作成
-        const data = {
-          date: new Date(),
-          userName: nameRef.current.value,
-          userId: user.uid,
-          email: user.email,
-          joinDate: joinDateRef.current.value,
-          phoneNumber: phoneNumberRef.current.value,
-          employmentType: employmentTypeRef.current.value,
-          admin: false,
-        };
-        await setDoc(userDocRef, data);
-        navigate("/home");
-        console.log("Success!");
-      }
-    } catch (e) {
-      console.log("ユーザー情報の作成に失敗しました", e.message);
+  const xs = (number) => {
+    if (number) {
+      return number;
+    } else {
+      return 6;
     }
   };
+  const props = {
+    varient: "filled",
+    register: register,
+    errors: errors,
+  };
+
+  console.log(props);
+  const onSubmit = (userData) => {
+    setUserData(userData);
+    console.log(userData);
+  };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     // Userコレクションを参照
+  //     const userCollectionRef = collection(db, "users");
+  //     // userコレクション内のuserドキュメントを参照
+  //     const userDocRef = doc(userCollectionRef, user.uid);
+  //     // userドキュメントが存在するか確認
+  //     const userDocSnap = await getDoc(userDocRef);
+  //     if (!userDocSnap.empty) {
+  //       //userドキュメントが存在しない場合は新規作成
+  //       const data = {
+  //         date: new Date(),
+  //         // userName: nameRef.current.value,
+  //         userId: user.uid,
+  //         email: user.email,
+  //         joinDate: joinDateRef.current.value,
+  //         phoneNumber: phoneNumberRef.current.value,
+  //         employmentType: employmentTypeRef.current.value,
+  //         admin: false,
+  //       };
+  //       await setDoc(userDocRef, data);
+  //       navigate("/home");
+  //       console.log("Success!");
+  //     }
+  //   } catch (e) {
+  //     console.log("ユーザー情報の作成に失敗しました", e.message);
+  //   }
+  // };
 
   return (
     <div>
-      {/* <ResponsiveAppBar /> */}
       <Sidebar />
       <Card sx={{ width: "72%", margin: "auto", padding: "24px" }}>
         <CardContent>
@@ -87,155 +101,77 @@ export default function UserInfo() {
             </Typography>
             <Divider />
           </Box>
+          <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                {/* 苗字入力フォーム */}
+                <Grid item xs={xs()}>
+                  <LastNameInput props={props} />
+                </Grid>
 
-          <Grid container spacing={spacing} sx={{ padding: padding }}>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="姓"
-                helperText="姓を入力してください"
-                variant={varient}
-                inputRef={nameRef}
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="名"
-                helperText="名を入力してください"
-                variant={varient}
-                inputRef={nameRef}
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="セイ"
-                helperText="姓(フリガナ)を入力してください"
-                variant={varient}
-                inputRef={nameRef}
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="メイ"
-                helperText="名(フリガナ)を入力してください"
-                variant={varient}
-                inputRef={nameRef}
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={xs}>
-              <TextField
-                label="電話番号"
-                variant={varient}
-                helperText="ハイフン無し"
-                // inputRef={nameRef}
-                fullWidth
-                size="small"
-              />
-            </Grid>
-          </Grid>
-          <Divider />
+                {/* 名前入力フォーム */}
+                <Grid item xs={xs()}>
+                  <FirstNameInput props={props} />
+                </Grid>
 
-          <Grid container spacing={spacing} sx={{ padding: padding }}>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                type="address"
-                label="郵便番号"
-                variant={varient}
-                inputRef={nameRef}
-                helperText="000-0000の形式で入力してください"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={xs}></Grid>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="都道府県"
-                variant={varient}
-                helperText="都道府県名を入力してください"
-                inputRef={nameRef}
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={xs}></Grid>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="住所1"
-                variant={varient}
-                inputRef={nameRef}
-                size="small"
-                fullWidth
-                helperText="市区町村、番地など"
-              />
-            </Grid>
-            <Grid item xs={xs}>
-              <TextField
-                label="住所2"
-                variant={varient}
-                inputRef={nameRef}
-                size="small"
-                fullWidth
-                helperText="建物名など"
-              />
-            </Grid>
-          </Grid>
-          <Divider />
-          <Grid container spacing={spacing} sx={{ padding: padding }}>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                label="入社日"
-                type="date"
-                variant={varient}
-                inputRef={joinDateRef}
-                helperText="入社日を選択してください"
-                fullWidth
-                size="small"
-              />
-            </Grid>
-            <Grid item xs={6}></Grid>
-            <Grid item xs={xs}>
-              <TextField
-                required
-                select
-                label="雇用形態"
-                variant={varient}
-                defaultValue="正社員"
-                inputRef={employmentTypeRef}
-                fullWidth
-                helperText="雇用形態を選択してください"
-                size="small"
-              >
-                {employmentTypes.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-          </Grid>
-          <Grid container spacing={spacing} sx={{ padding: padding }}>
-            <Grid item xs={2}>
-              <Button type="submit" fullWidth variant="contained" onSubmit={handleSubmit}>
-                保存
-              </Button>
-            </Grid>
-          </Grid>
+                {/* 苗字フリガナ入力フォーム */}
+                <Grid item xs={xs()}>
+                  <LastNameFuriganaInput props={props} />
+                </Grid>
+
+                {/* 名前フリガナ入力フォーム */}
+                <Grid item xs={xs()}>
+                  <FirstNameFuriganaInput props={props} />
+                </Grid>
+                {/* email入力フォーム */}
+                <Grid item xs={xs()}>
+                  <EmailInput props={props} />
+                </Grid>
+                <Grid item xs={xs()}></Grid>
+
+                {/* 電話番号入力フォーム */}
+                <Grid item xs={xs()}>
+                  <PhoneNumberInput props={props} />
+                </Grid>
+              </Grid>
+              <Divider />
+
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                {/* 郵便番号入力フォーム */}
+                <Grid item xs={xs()}>
+                  <PostCodeInput props={props} />
+                </Grid>
+                <Grid item xs={xs()}></Grid>
+                {/* 都道府県入力フォーム */}
+                <Grid item xs={xs()}>
+                  <PrefecturesInput props={props} />
+                </Grid>
+                {/* 住所入力フォーム */}
+                <Grid item xs={xs(12)}>
+                  <AddressInput props={props} />
+                </Grid>
+              </Grid>
+              <Divider />
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                {/* 入社日フォーム */}
+                <Grid item xs={xs()}>
+                  <JoinDateInput props={props} />
+                </Grid>
+                <Grid item xs={6}></Grid>
+                {/* 雇用形態フォーム */}
+                <Grid item xs={xs()}>
+                  <EmploymentTypeInput props={props} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={2}>
+                  <Button type="submit" fullWidth variant="contained">
+                    確認
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </FormProvider>
         </CardContent>
       </Card>
     </div>
