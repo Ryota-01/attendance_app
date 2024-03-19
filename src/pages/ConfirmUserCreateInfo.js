@@ -124,6 +124,16 @@ export default function ConfirmUserCreateInfo(props) {
               閉じる
             </Button>
           </Grid>
+          <Grid item xs={2}>
+            <Button
+              type="submit"
+              onClick={hideConfirmation}
+              fullWidth
+              variant="contained"
+            >
+              あああ
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </div>
