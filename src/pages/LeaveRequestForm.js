@@ -1,16 +1,15 @@
-import React, { useRef, useState } from "react";
-import Sidebar from "../components/Sidebar/Sidebar.js";
+import React, { useState } from "react";
 import "../css/LeaveRequestForm.css";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import LeaveRequestConfirmDialog from "../components/Dialog/LeaveRequestConfirmDialog";
-import { Box } from "@mui/system";
-import { Button, Card, CardContent, Divider, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import CardComponent from "../components/CardComponent.js";
+import { useAuthContext } from "../context/AuthContext.js";
 
 export default function LeaveRequestForm() {
+  const {user} = useAuthContext()
   // モーダルの表示・非表示を切り替えるstate
   const [isLeaveRequestConfirmation, setIsLeaveRequestConfirmation] =
     useState(false);
@@ -51,10 +50,13 @@ export default function LeaveRequestForm() {
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Grid container spacing={spacing} sx={{ padding: padding }}>
             <Grid item xs={4}>
-              {!errors.applicant ? (
+              <Typography>
+
+              </Typography>
+              {!errors.applicantName ? (
                 <TextField
-                  id="applicant"
-                  {...register("applicant", {
+                  id="applicantName"
+                  {...register("applicantName", {
                     required: {
                       value: true,
                       message: "必須入力です",
@@ -68,16 +70,16 @@ export default function LeaveRequestForm() {
                 />
               ) : (
                 <TextField
-                  id="applicant"
+                  id="applicantName"
                   error
-                  {...register("applicant", {
+                  {...register("applicantName", {
                     required: {
                       value: true,
                       message: "必須入力です",
                     },
                   })}
                   label="申請者*"
-                  helperText={errors.applicant.types.required}
+                  helperText={errors.applicantName.types.required}
                   variant={varient}
                   size="small"
                   fullWidth
@@ -214,10 +216,16 @@ export default function LeaveRequestForm() {
           <Grid container spacing={spacing} sx={{ padding: padding }}>
             <Grid item xs={xs}>
               <TextField
+                id="remarks"
                 label="備考"
                 size="small"
                 helperText="備考を入力してください（任意）"
                 variant={varient}
+                {...register("remarks", {
+                  required: {
+                    value: false,
+                  },
+                })}
                 fullWidth
               />
             </Grid>
@@ -227,10 +235,6 @@ export default function LeaveRequestForm() {
               <Button type="submit" variant="contained">
                 確認
               </Button>
-              {/* <LeaveRequestConfirmDialog
-                  isLeaveRequestConfirmation={isLeaveRequestConfirmation}
-                  hideConfirmation={hideConfirmation}
-                /> */}
             </Grid>
           </Grid>
         </form>
