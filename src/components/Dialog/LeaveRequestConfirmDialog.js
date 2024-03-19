@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
-import { doc, collection, addDoc } from "firebase/firestore";
+import { doc, collection, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { useAuthContext } from "../../context/AuthContext.js";
 import { Grid, Typography } from "@mui/material";
@@ -15,7 +15,6 @@ function LeaveRequestConfirmDialog(props) {
   const isLeaveRequestConfirmation = props.isLeaveRequestConfirmation;
   const hideConfirmation = props.hideConfirmation;
   const values = props.values;
-  console.log(props);
 
   const { user } = useAuthContext();
   const { leaveRequestRef } = props;
@@ -48,31 +47,22 @@ function LeaveRequestConfirmDialog(props) {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      const selectedDate = leaveRequestRef.acquisitionStartDate; // 休暇の取得日
-      const dateObject = new Date(selectedDate);
-      const year = dateObject.getFullYear();
-      const month = dateObject.getMonth() + 1;
-      const day = dateObject.getDate();
-      const dayOfWeek = dateObject.getDay();
+      // const selectedDate = leaveRequestRef.acquisitionStartDate; // 休暇の取得日
+      // const dateObject = new Date(selectedDate);
+      // const year = dateObject.getFullYear();
+      // const month = dateObject.getMonth() + 1;
+      // const day = dateObject.getDate();
+      // const dayOfWeek = dateObject.getDay();
       const currentYear = new Date().getFullYear(); // サブコレクション名を現在の年に
-      const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
-      const formattedDate = `${month}/${day}(${dayNames[dayOfWeek]})`;
-      // 休暇申請コレクションを参照
+      // const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+      // const formattedDate = `${month}/${day}(${dayNames[dayOfWeek]})`;
+      console.log(currentYear)
+ 
       const leaveRequestCollectionRef = collection(db, "leaveRequest");
-      // 休暇申請コレクション内のuserドキュメントを参照
       const leaveRequestDocRef = doc(leaveRequestCollectionRef, user.uid);
-      const leaveRequestSubCollectionRef = collection(
-        leaveRequestDocRef,
-        `${currentYear}`
-      );
-      const value = {
-        userId: user.uid,
-        startDate: formattedDate,
-        type: leaveRequestRef.paidLeaveReason,
-        reason: leaveRequestRef.leaveReason,
-        status: "承認待ち",
-      };
-      await addDoc(leaveRequestSubCollectionRef, value);
+      const leaveRequestSubCollectionRef = collection(leaveRequestDocRef, `${currentYear}_applicationDatas`);
+      await setDoc(doc(leaveRequestSubCollectionRef, `leaveDate_${values.leaveDate}`), values)
+      console.log("Success!")
       navigate("/home");
     } catch (e) {
       console.log("申請できませんでした", e.message);
@@ -98,11 +88,43 @@ function LeaveRequestConfirmDialog(props) {
               sx={{ padding: padding, margin: "auto" }}
             >
               <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>社員名：</Typography>
+                <Typography variant={variant()}>申請者：</Typography>
               </Grid>
               <Grid item xs={xs()}>
                 <Typography variant={variant()}>
-                  {values.lastName} {values.firstName}
+                  {values.applicantName}
+                </Typography>
+              </Grid>
+              <Grid item xs={xs(4)}>
+                <Typography variant={variant()}>休暇取得日：</Typography>
+              </Grid>
+              <Grid item xs={xs()}>
+                <Typography variant={variant()}>
+                  {values.leaveDate}
+                </Typography>
+              </Grid>
+              <Grid item xs={xs(4)}>
+                <Typography variant={variant()}>休暇種別：</Typography>
+              </Grid>
+              <Grid item xs={xs()}>
+                <Typography variant={variant()}>
+                  {values.leaveType}
+                </Typography>
+              </Grid>
+              <Grid item xs={xs(4)}>
+                <Typography variant={variant()}>申請理由：</Typography>
+              </Grid>
+              <Grid item xs={xs()}>
+                <Typography variant={variant()}>
+                  {values.leaveReason}
+                </Typography>
+              </Grid>
+              <Grid item xs={xs(4)}>
+                <Typography variant={variant()}>備考：</Typography>
+              </Grid>
+              <Grid item xs={xs()}>
+                <Typography variant={variant()}>
+                  {values.remarks}
                 </Typography>
               </Grid>
             </Grid>

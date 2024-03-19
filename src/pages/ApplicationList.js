@@ -6,6 +6,7 @@ import { collection, doc, getDocs } from "firebase/firestore";
 import { useAuthContext } from "../context/AuthContext";
 import { db } from "../firebase";
 import "../css/ApplicationList.css";
+import CardComponent from "../components/CardComponent";
 
 export default function ApplicationList() {
   const { user } = useAuthContext("");
@@ -39,19 +40,12 @@ export default function ApplicationList() {
 
   return (
     <div>
-      <Sidebar />
-      <Typography
-        variant="h5"
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
-        申請一覧
-      </Typography>
-      <div className="applicationLists">
-        <ApplicationListDataTable
-          leaveRequests={leaveRequests}
-          requestIds={requestIds}
-        />
-      </div>
+      <CardComponent title={"申請一覧"}>
+          <ApplicationListDataTable
+            leaveRequests={leaveRequests}
+            requestIds={requestIds}
+          />
+      </CardComponent>
     </div>
   );
 }

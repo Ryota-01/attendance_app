@@ -112,7 +112,7 @@ function DataTable(props) {
           display: { xs: "none", sm: "flex" },
         }}
       >
-        <Table size="normal">
+        <Table size="small">
           <TableHead sx={{ background: "#383636" }}>
             <TableRow>
               {columns.map((column) => (
@@ -127,7 +127,7 @@ function DataTable(props) {
           </TableHead>
           <TableBody>
             {dates.map((date) => (
-              <TableRow>
+              <TableRow autoHeight>
                 <TableCell align="center">
                   <EditIcon sx={{ fontSize: "medium" }} />
                 </TableCell>

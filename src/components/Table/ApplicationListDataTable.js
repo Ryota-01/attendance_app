@@ -5,12 +5,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Card from "@mui/material/Card";
 
 function ApplicationListDataTable(props) {
   const { leaveRequests } = props;
   const { requestIds } = props;
-  console.log(requestIds);
   const columns = [
     // { field: "requestId", headerName: "申請ID" },
     { field: "date", headerName: "取得日" },
@@ -20,14 +18,13 @@ function ApplicationListDataTable(props) {
   ];
   return (
     <div>
-      <Card sx={{ width: "80%", margin: "auto" }}>
         {/* PC用テーブル */}
         <TableContainer
           sx={{
             display: { xs: "none", sm: "flex" },
           }}
         >
-          <Table>
+          <Table size="small">
             <TableHead sx={{ background: "#24292E" }}>
               <TableRow>
                 {columns.map((column) => (
@@ -50,9 +47,7 @@ function ApplicationListDataTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-      </Card>
 
-      <Card>
         {/* SP用テーブル */}
         <TableContainer
           // component={Paper}
@@ -81,7 +76,6 @@ function ApplicationListDataTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-      </Card>
     </div>
   );
 }

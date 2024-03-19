@@ -4,15 +4,16 @@ import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Typography from "@mui/material/Typography";
 import DataTable from "../components/Table/DataTable.js";
-import UserCollectionStatus from "../components/Snackbar/UserCollectionStatus.js";
-import Sidebar from "../components/Sidebar/Sidebar.js";
 import "../css/AttendanceList.css";
-import { Card, CardContent, Divider } from "@mui/material";
-import { Box } from "@mui/system";
+import CardComponent from "../components/CardComponent.js";
+import { useLocation } from "react-router-dom";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const { user } = useAuthContext();
+  const location = useLocation();
 
   const convertTimestampToJapanTime = (timestamp) => {
     if (timestamp && timestamp.toDate()) {
@@ -35,8 +36,8 @@ export default function AttendanceList() {
 
   const d = new Date();
   // 現在の年と月を取得
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
+  // const currentYear = new Date().getFullYear();
+  // const currentMonth = new Date().getMonth() + 1;
   const today = new Date().getDate();
   const dayOfWeek = d.getDay();
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
@@ -74,22 +75,18 @@ export default function AttendanceList() {
     fetchData();
   }, [user.uid, currentYearAndMonth]);
 
+  useEffect(() => {});
+
   return (
     <div className="attendanceListWrapper">
-      <Sidebar />
-      <Card sx={{ width: "72%", margin: "auto", padding: "24px" }}>
-        <CardContent>
-          <Box marginBottom={"12px"}>
-            <Typography variant="h5" color="text.secondary" gutterBottom>
-              勤怠実績
-            </Typography>
-            <Typography variant="body1" color="text.secondary" gutterBottom>
-              {`${currentYear}年${currentMonth}月`}
-            </Typography>
-          </Box>
-          <DataTable attendanceLists={attendanceLists} />
-        </CardContent>
-      </Card>
+      <CardComponent
+        title={"勤怠実績"}
+        location={location}
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+      >
+        <DataTable attendanceLists={attendanceLists} />
+      </CardComponent>
     </div>
   );
 }

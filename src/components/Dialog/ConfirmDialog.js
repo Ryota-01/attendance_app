@@ -7,14 +7,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase.js";
-import { useAuthContext } from "../../context/AuthContext.js";
-import { Box, DialogActions, Divider, Grid, Typography } from "@mui/material";
+import { DialogActions, Divider, Grid, Typography } from "@mui/material";
 
 function LeaveRequestConfirmDialog(props) {
   const values = props.values;
   const hideConfirmation = props.hideConfirmation;
   const isConfirmationVisible = props.isConfirmationVisible;
-  const { user } = useAuthContext();
   const [open, setOpen] = useState(isConfirmationVisible); //true
   const navigate = useNavigate();
   const padding = {
