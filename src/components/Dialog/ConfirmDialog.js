@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
-import { doc, collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { useAuthContext } from "../../context/AuthContext.js";
-import { Card, CardContent, Divider, Grid, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, DialogActions, Divider, Grid, Typography } from "@mui/material";
 
 function LeaveRequestConfirmDialog(props) {
   const values = props.values;
   const hideConfirmation = props.hideConfirmation;
   const isConfirmationVisible = props.isConfirmationVisible;
   const { user } = useAuthContext();
-  const { leaveRequestRef } = props;
   const [open, setOpen] = useState(isConfirmationVisible); //true
   const navigate = useNavigate();
   const padding = {
@@ -43,7 +40,20 @@ function LeaveRequestConfirmDialog(props) {
     setOpen(hideConfirmation);
   };
 
-  //申請ボタンが押された時の処理
+  //登録ボタンが押された時の処理
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // usersコレクションを参照
+      const userCollectionRef = doc(db, "users", values.email);
+      // usersコレクションにドキュメントを追加
+      await setDoc(userCollectionRef, values);
+      console.log("Success!");
+      navigate("/home");
+    } catch (e) {
+      console.log("ユーザー情報の作成に失敗しました", e.message);
+    }
+  };
 
   return (
     <div>
@@ -93,7 +103,7 @@ function LeaveRequestConfirmDialog(props) {
               </Grid>
               <Grid item xs={xs()}>
                 <Typography variant={variant()}>
-                  {values.phonenumber}
+                  {values.phoneNumber}
                 </Typography>
               </Grid>
 
@@ -138,14 +148,19 @@ function LeaveRequestConfirmDialog(props) {
                   {values.employmentType}
                 </Typography>
               </Grid>
-              <Grid item xs={xs()}>
-                <Button
-                  type="submit"
-                  onClick={hideConfirmation}
-                  variant="contained"
-                >
-                  閉じる
-                </Button>
+              <Grid item xs={xs(12)}>
+                <DialogActions>
+                  <Button onClick={hideConfirmation} variant="contained">
+                    閉じる
+                  </Button>
+                  <Button
+                    onClick={handleOnSubmit}
+                    variant="contained"
+                    autoFocus
+                  >
+                    申請
+                  </Button>
+                </DialogActions>
               </Grid>
             </Grid>
           </DialogContentText>

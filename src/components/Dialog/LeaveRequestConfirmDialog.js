@@ -9,18 +9,39 @@ import { useNavigate } from "react-router-dom";
 import { doc, collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { useAuthContext } from "../../context/AuthContext.js";
+import { Grid, Typography } from "@mui/material";
 
 function LeaveRequestConfirmDialog(props) {
+  const isLeaveRequestConfirmation = props.isLeaveRequestConfirmation;
+  const hideConfirmation = props.hideConfirmation;
+  const values = props.values;
+  console.log(props);
+
   const { user } = useAuthContext();
   const { leaveRequestRef } = props;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(isLeaveRequestConfirmation);
   const navigate = useNavigate();
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const padding = {
+    padding: "18px",
   };
+  const spacing = 3;
+  const xs = (xsNumber) => {
+    if (xsNumber) {
+      return xsNumber;
+    } else {
+      return 8;
+    }
+  };
+  const variant = (variant) => {
+    if (variant) {
+      return variant;
+    } else {
+      return "body2";
+    }
+  };
+
   const handleClose = () => {
-    setOpen(false);
+    setOpen(hideConfirmation);
   };
 
   //申請ボタンが押された時の処理
@@ -60,38 +81,43 @@ function LeaveRequestConfirmDialog(props) {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
-        確認
-      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"以下の内容で申請しますか？"}
-        </DialogTitle>
         <DialogContent sx={{ width: "600px" }}>
+          <DialogTitle id="alert-dialog-title" textAlign={"center"}>
+            {"以下の内容で申請しますか？"}
+          </DialogTitle>
           <DialogContentText id="alert-dialog-description">
-            {leaveRequestRef && (
-              <ul>
-                <li>■取得日</li>
-                <li>{props.leaveRequestRef.acquisitionStartDate}</li>
-                <li>■休暇種別</li>
-                <li>{props.leaveRequestRef.paidLeaveReason}</li>
-                <li>■申請理由</li>
-                <li>{props.leaveRequestRef.leaveReason}</li>
-              </ul>
-            )}
+            <Grid
+              container
+              spacing={spacing}
+              sx={{ padding: padding, margin: "auto" }}
+            >
+              <Grid item xs={xs(4)}>
+                <Typography variant={variant()}>社員名：</Typography>
+              </Grid>
+              <Grid item xs={xs()}>
+                <Typography variant={variant()}>
+                  {values.lastName} {values.firstName}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid item xs={xs(12)}>
+              <DialogActions>
+                <Button onClick={handleClose} variant="contained">
+                  戻る
+                </Button>
+                <Button onClick={handleClick} variant="contained" autoFocus>
+                  申請
+                </Button>
+              </DialogActions>
+            </Grid>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>戻る</Button>
-          <Button onClick={handleClick} autoFocus>
-            申請
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
