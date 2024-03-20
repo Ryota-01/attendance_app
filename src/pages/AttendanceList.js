@@ -7,6 +7,8 @@ import DataTable from "../components/Table/DataTable.js";
 import "../css/AttendanceList.css";
 import CardComponent from "../components/CardComponent.js";
 import { useLocation } from "react-router-dom";
+import NewSideBar from "../components/Sidebar/NewSideBar.js";
+import { Box } from "@mui/material";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -79,14 +81,17 @@ export default function AttendanceList() {
 
   return (
     <div className="attendanceListWrapper">
-      <CardComponent
-        title={"勤怠実績"}
-        location={location}
-        currentYear={currentYear}
-        currentMonth={currentMonth}
-      >
-        <DataTable attendanceLists={attendanceLists} />
-      </CardComponent>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <NewSideBar />
+        <CardComponent
+          title={"勤怠実績"}
+          location={location}
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+        >
+          <DataTable attendanceLists={attendanceLists} />
+        </CardComponent>
+      </Box>
     </div>
   );
 }

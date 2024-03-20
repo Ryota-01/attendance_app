@@ -40,7 +40,6 @@ export default function AttendanceButton() {
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
   const getHours = d.getHours();
   const getMinutes = d.getMinutes();
-  console.log(dayOfWeek)
 
   //時計
   useEffect(() => {
