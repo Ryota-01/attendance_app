@@ -56,13 +56,19 @@ function LeaveRequestConfirmDialog(props) {
       const currentYear = new Date().getFullYear(); // サブコレクション名を現在の年に
       // const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
       // const formattedDate = `${month}/${day}(${dayNames[dayOfWeek]})`;
-      console.log(currentYear)
- 
+      console.log(currentYear);
+
       const leaveRequestCollectionRef = collection(db, "leaveRequest");
       const leaveRequestDocRef = doc(leaveRequestCollectionRef, user.uid);
-      const leaveRequestSubCollectionRef = collection(leaveRequestDocRef, `${currentYear}_applicationDatas`);
-      await setDoc(doc(leaveRequestSubCollectionRef, `leaveDate_${values.leaveDate}`), values)
-      console.log("Success!")
+      const leaveRequestSubCollectionRef = collection(
+        leaveRequestDocRef,
+        `${currentYear}_applicationDatas`
+      );
+      await setDoc(
+        doc(leaveRequestSubCollectionRef, `leaveDate_${values.leaveDate}`),
+        values
+      );
+      console.log("Success!");
       navigate("/home");
     } catch (e) {
       console.log("申請できませんでした", e.message);
@@ -99,17 +105,13 @@ function LeaveRequestConfirmDialog(props) {
                 <Typography variant={variant()}>休暇取得日：</Typography>
               </Grid>
               <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.leaveDate}
-                </Typography>
+                <Typography variant={variant()}>{values.leaveDate}</Typography>
               </Grid>
               <Grid item xs={xs(4)}>
                 <Typography variant={variant()}>休暇種別：</Typography>
               </Grid>
               <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.leaveType}
-                </Typography>
+                <Typography variant={variant()}>{values.leaveType}</Typography>
               </Grid>
               <Grid item xs={xs(4)}>
                 <Typography variant={variant()}>申請理由：</Typography>
@@ -123,9 +125,7 @@ function LeaveRequestConfirmDialog(props) {
                 <Typography variant={variant()}>備考：</Typography>
               </Grid>
               <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.remarks}
-                </Typography>
+                <Typography variant={variant()}>{values.remarks}</Typography>
               </Grid>
             </Grid>
             <Grid item xs={xs(12)}>

@@ -9,9 +9,9 @@ function CardComponent(props) {
   const currentMonth = props.currentMonth;
 
   return (
-    <div>
-      <Sidebar />
-      <Card sx={{ width: "88%", margin: "auto", padding: "24px" }}>
+    <>
+      {/* <Sidebar /> */}
+      <Card sx={{ width: "88%", padding: "24px", margin:"32px auto"}}>
         <CardContent>
           <Box marginBottom={"12px"}>
             <Typography variant="h5" color="text.secondary" gutterBottom>
@@ -27,7 +27,7 @@ function CardComponent(props) {
           {children}
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }
 
