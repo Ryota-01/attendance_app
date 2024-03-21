@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
-import { doc, collection, addDoc, setDoc } from "firebase/firestore";
+import { doc, collection, addDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { useAuthContext } from "../../context/AuthContext.js";
 import { Grid, Typography } from "@mui/material";
@@ -15,6 +15,8 @@ function LeaveRequestConfirmDialog(props) {
   const isLeaveRequestConfirmation = props.isLeaveRequestConfirmation;
   const hideConfirmation = props.hideConfirmation;
   const values = props.values;
+  const applicantName  = props.userName;
+  console.log({...values, applicantName})
 
   const { user } = useAuthContext();
   const { leaveRequestRef } = props;
@@ -43,30 +45,34 @@ function LeaveRequestConfirmDialog(props) {
     setOpen(hideConfirmation);
   };
 
+
   //申請ボタンが押された時の処理
   const handleClick = async (e) => {
     e.preventDefault();
     try {
       // const selectedDate = leaveRequestRef.acquisitionStartDate; // 休暇の取得日
-      // const dateObject = new Date(selectedDate);
-      // const year = dateObject.getFullYear();
-      // const month = dateObject.getMonth() + 1;
-      // const day = dateObject.getDate();
-      // const dayOfWeek = dateObject.getDay();
-      const currentYear = new Date().getFullYear(); // サブコレクション名を現在の年に
-      // const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
-      // const formattedDate = `${month}/${day}(${dayNames[dayOfWeek]})`;
-      console.log(currentYear);
 
+      // サブコレクション名を現在の年煮、ドキュメント名を今日の年月日に
+      const currentDate = new Date();
+      const currentYear = new Date().getFullYear(); 
+      const currentMonth = currentDate.getMonth() + 1;
+      const today = currentDate.getDate();
+
+      // leaveRequestコレクションからログイン中のuserIdと一致するドキュメントを参照。
       const leaveRequestCollectionRef = collection(db, "leaveRequest");
       const leaveRequestDocRef = doc(leaveRequestCollectionRef, user.uid);
       const leaveRequestSubCollectionRef = collection(
         leaveRequestDocRef,
         `${currentYear}_applicationDatas`
       );
+      const leaveRequestData = {
+        ...values,
+        applicantName,
+        status: "申請中"
+      }
       await setDoc(
-        doc(leaveRequestSubCollectionRef, `leaveDate_${values.leaveDate}`),
-        values
+        doc(leaveRequestSubCollectionRef, `${currentYear}-${currentMonth}-${today}_${values.leaveDate}`),
+        leaveRequestData,
       );
       console.log("Success!");
       navigate("/home");
@@ -98,7 +104,7 @@ function LeaveRequestConfirmDialog(props) {
               </Grid>
               <Grid item xs={xs()}>
                 <Typography variant={variant()}>
-                  {values.applicantName}
+                  {applicantName}
                 </Typography>
               </Grid>
               <Grid item xs={xs(4)}>

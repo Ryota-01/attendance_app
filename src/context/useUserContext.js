@@ -34,6 +34,9 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const FetchUserData = async () => {
       try {
+        if(user.uid === null) {
+          return 
+        }
         const usersCollectionRef = collection(db, "users");
         const userDocRef = doc(usersCollectionRef, user.uid);
         const snapShot = await getDoc(userDocRef);
@@ -45,5 +48,6 @@ export function UserProvider({ children }) {
     };
     FetchUserData();
   }, [user]);
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

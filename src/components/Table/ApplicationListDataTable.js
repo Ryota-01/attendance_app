@@ -10,6 +10,7 @@ import { minWidth } from "@mui/system";
 
 function ApplicationListDataTable(props) {
   const leaveRequestsData = props.leaveRequestsData;
+  console.log(props)
   const { requestIds } = props;
   const columns = [
     // { field: "requestId", headerName: "申請ID" },
@@ -57,7 +58,7 @@ function ApplicationListDataTable(props) {
                     {leaveRequest.applicantName}
                   </TableCell>
                   <TableCell align="center" sx={tableCellStyles}>
-                    {/* {leaveRequest.leaveDate} */}
+                    {leaveRequest.status}
                   </TableCell>
                   <TableCell align="center" sx={tableCellStyles}>
                     {leaveRequest.leaveType}
