@@ -12,8 +12,8 @@ import { useUserContext } from "../context/useUserContext.js";
 
 export default function LeaveRequestForm() {
   const { user } = useAuthContext();
-  const { userData } = useUserContext()
-  console.log(userData.userName)
+  const { userData } = useUserContext();
+  // console.log(userData.userName);
   // モーダルの表示・非表示を切り替えるstate
   const [isLeaveRequestConfirmation, setIsLeaveRequestConfirmation] =
     useState(false);
@@ -26,7 +26,6 @@ export default function LeaveRequestForm() {
     methods,
     formState: { errors },
   } = useForm({ mode: "onChange", criteriaMode: "all" });
-  console.log(errors.applicant);
 
   const padding = {
     padding: "18px",
@@ -56,38 +55,13 @@ export default function LeaveRequestForm() {
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid container spacing={spacing} sx={{ padding: padding }}>
               <Grid item xs={4}>
-                <Typography>{userData.userName}</Typography>
-                {!errors.applicantName ? (
-                  <TextField
-                    id="applicantName"
-                    {...register("applicantName", {
-                      required: {
-                        value: true,
-                        message: "必須入力です",
-                      },
-                    })}
-                    label="申請者*"
-                    helperText="名前を入力してください"
-                    variant={varient}
-                    size="small"
-                    fullWidth
-                  />
+                {userData !== null ? (
+                  <>
+                    <Typography variant="body2">申請者名</Typography>
+                    <Typography variant="h7">{userData.userName}</Typography>
+                  </>
                 ) : (
-                  <TextField
-                    id="applicantName"
-                    error
-                    {...register("applicantName", {
-                      required: {
-                        value: true,
-                        message: "必須入力です",
-                      },
-                    })}
-                    label="申請者*"
-                    helperText={errors.applicantName.types.required}
-                    variant={varient}
-                    size="small"
-                    fullWidth
-                  />
+                  <></>
                 )}
               </Grid>
             </Grid>
@@ -245,6 +219,7 @@ export default function LeaveRequestForm() {
           {isLeaveRequestConfirmation && (
             <LeaveRequestConfirmDialog
               values={getValues()}
+              userName={userData.userName}
               isLeaveRequestConfirmation={isLeaveRequestConfirmation}
               hideConfirmation={hideConfirmation}
             />
