@@ -13,7 +13,7 @@ import { useUserContext } from "../context/useUserContext.js";
 export default function LeaveRequestForm() {
   const { user } = useAuthContext();
   const { userData } = useUserContext()
-  console.log(userData)
+  console.log(userData.userName)
   // モーダルの表示・非表示を切り替えるstate
   const [isLeaveRequestConfirmation, setIsLeaveRequestConfirmation] =
     useState(false);
@@ -56,7 +56,7 @@ export default function LeaveRequestForm() {
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid container spacing={spacing} sx={{ padding: padding }}>
               <Grid item xs={4}>
-                <Typography></Typography>
+                <Typography>{userData.userName}</Typography>
                 {!errors.applicantName ? (
                   <TextField
                     id="applicantName"
