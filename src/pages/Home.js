@@ -23,9 +23,9 @@ export default function Home() {
 
   if (userData !== null) {
     const joinDate = userData.joinDate;
-    console.log(joinDate.toLocalString())
+    console.log(joinDate)
   } else {
-    console.log("ぬるぬる");
+    console.log("Null");
   }
 
   if (!user) {
