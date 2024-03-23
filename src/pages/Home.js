@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Divider,
+  Grid,
   Skeleton,
   Typography,
 } from "@mui/material";
@@ -15,49 +16,67 @@ import AttendanceButton from "../components/AttendanceButton";
 import Sidebar from "../components/Sidebar/Sidebar.js";
 import NewSideBar from "../components/Sidebar/NewSideBar.js";
 import CardComponent from "../components/CardComponent.js";
+import AttendanceFormComponent from "../components/AttendanceFormComponent.js";
+import UserInfoCompornent from "../components/UserInfoCompornent.js";
+import ApplicationListDataTable from "../components/Table/ApplicationListDataTable.js";
+import { useApplicationDataContext } from "../context/useApplicationDataContext.js";
+import LeaveConutComponent from "../components/LeaveConutComponent.js";
 
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
   const { userData } = useUserContext();
+  const { applicationsData } = useApplicationDataContext();
 
-  if (userData !== null) {
-    const joinDate = userData.joinDate;
-    console.log(joinDate)
-  } else {
-    console.log("Null");
-  }
+  // PCのGrid
+  const pcGridItemSpacing = (spacingNumber) => {
+    if (spacingNumber) {
+      return spacingNumber;
+    } else {
+      return 12;
+    }
+  };
+  const spGridItemSpacing = (spacingNumber) => {
+    if (spacingNumber) {
+      return spacingNumber;
+    } else {
+      return 12;
+    }
+  };
 
   if (!user) {
     return navigation("/login");
   } else {
     return (
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        {/* <Sidebar /> */}
-        <NewSideBar />
-        <CardComponent title={"打刻"}>
-          <DigitalClock />
-          <AttendanceButton />
-          <CardContent sx={{ marginTop: "24px" }}>
-            <Card sx={{ padding: "24px", marginBottom: "24px" }}>
-              <Typography variant="body1">有休残日数（Comingsoon)</Typography>
-              <Divider />
-              <Skeleton
-                variant="text"
-                sx={{ fontSize: "1rem", width: "100%", height: "100px" }}
-              />
-            </Card>
-            <Card sx={{ padding: "24px" }}>
-              <Typography variant="body1">代休残日数（Comingsoon)</Typography>
-              <Divider />
-              <Skeleton
-                variant="text"
-                sx={{ fontSize: "1rem", width: "100%", height: "100px" }}
-              />
-            </Card>
-          </CardContent>
-        </CardComponent>
-      </Box>
+      <>
+        <NewSideBar>
+          <Box
+            sx={{
+              display: { xs: "block", sm: "flex", md: "flex" },
+              flexDirection: "row",
+            }}
+          >
+            <Grid container spacing={4}>
+              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(7)}>
+                <AttendanceFormComponent />
+              </Grid>
+              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(5)}>
+                <UserInfoCompornent userData={userData} />
+              </Grid>
+              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing()}>
+                <LeaveConutComponent userData={userData} />
+              </Grid>
+              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing()}>
+                <ApplicationListDataTable
+                  userData={userData}
+                  applicationsData={applicationsData}
+                />
+              </Grid>
+              <useApplicationDataContext />
+            </Grid>
+          </Box>
+        </NewSideBar>
+      </>
     );
   }
 }

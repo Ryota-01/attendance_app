@@ -1,6 +1,13 @@
 import React from "react";
 import Sidebar from "./Sidebar/Sidebar";
-import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 function CardComponent(props) {
   const children = props.children;
@@ -10,8 +17,7 @@ function CardComponent(props) {
 
   return (
     <>
-      {/* <Sidebar /> */}
-      <Card sx={{ width: "88%", padding: "24px", margin:"32px auto"}}>
+      <Card sx={{ width: "100%", padding: { md: "24px"} }}>
         <CardContent>
           <Box marginBottom={"12px"}>
             <Typography variant="h5" color="text.secondary" gutterBottom>

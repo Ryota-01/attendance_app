@@ -3,12 +3,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Typography from "@mui/material/Typography";
-import DataTable from "../components/Table/DataTable.js";
+import AttendanceDataTable from "../components/Table/AttendanceDataTable.js";
 import "../css/AttendanceList.css";
 import CardComponent from "../components/CardComponent.js";
 import { useLocation } from "react-router-dom";
 import NewSideBar from "../components/Sidebar/NewSideBar.js";
-import { Box } from "@mui/material";
+import { Box, Card, Divider, Grid } from "@mui/material";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -80,18 +80,36 @@ export default function AttendanceList() {
   useEffect(() => {});
 
   return (
-    <div className="attendanceListWrapper">
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <NewSideBar />
-        <CardComponent
-          title={"勤怠実績"}
-          location={location}
-          currentYear={currentYear}
-          currentMonth={currentMonth}
-        >
-          <DataTable attendanceLists={attendanceLists} />
-        </CardComponent>
-      </Box>
-    </div>
+    <>
+        <NewSideBar>
+          <Grid
+            container
+            spacing={4}
+          >
+            <Grid item xs={12}>
+              <Card
+                sx={{
+                  padding: "24px",
+                  height: "100%",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  color="text.secondary"
+                  gutterBottom
+                  fontWeight={"bold"}
+                >
+                  勤怠実績
+                </Typography>
+                <Divider />
+                <AttendanceDataTable
+                  attendanceLists={attendanceLists}
+                  sx={{ marginTop: "24px" }}
+                />
+              </Card>
+            </Grid>
+          </Grid>
+        </NewSideBar>
+    </>
   );
 }

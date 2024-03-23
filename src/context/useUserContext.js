@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import FetchUserData from "../components/service/FetchUserData";
 import { useAuthContext } from "./AuthContext";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -43,7 +42,7 @@ export function UserProvider({ children }) {
         const userData = snapShot.data();
         setUserData(userData);
       } catch (e) {
-        console.log(e.message);
+        console.log("ユーザー情報が取得できませんでした", e.message);
       }
     };
     FetchUserData();

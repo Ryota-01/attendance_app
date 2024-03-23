@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { SidebarData } from "./SidebarData";
 import { useState } from "react";
-import SidebarIcon from "./SidebarIcon";
 import "../../css/Sidebar.css";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { ListItemButton } from "@mui/material";
+import { Divider, Grid, ListItemButton, Typography } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -50,41 +49,27 @@ export default function Sidebar(roles) {
   }, [user]);
 
   return (
-    <div className="sidebar">
+    <Box sx={{ display: { xs: "block", sm: "none", md: "none" } }}>
       <Button onClick={toggleDrawer(true)} sx={{ color: "black" }}>
         <MenuIcon sx={{ fontSize: "2.5rem" }} />
       </Button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         <Box
-          sx={{ width: "250px", height: "100%", background: "#24292E" }}
-          role="presentation"
+          sx={{ width: "270px", height: "100%", background: "#3F4D67" }}
+          // role="presentation"
           onClick={toggleDrawer(false)}
         >
-          <SidebarIcon />
-          <List sx={{ marginTop: "10px" }}>
+          <List>
             {SidebarData.map((value, key) => (
-              <ListItem disablePadding key={key}>
-                {value.roles &&
-                value.roles.includes("admin") &&
-                !admin ? null : (
-                  <>
-                    <ListItemButton component={Link} to={value.link}>
-                      {/* <ListItemIcon sx={{ color: "white" }}>
-                        {value.icon}
-                      </ListItemIcon> */}
-                      <ListItemText
-                        primary={value.title}
-                        primaryTypographyProps={{
-                          color: "white",
-                          fontWeight: "medium",
-                          variant: "body2",
-                        }}
-                      />
-                    </ListItemButton>
-                  </>
-                )}
+              <ListItem>
+                <ListItemButton>
+                  <ListItemIcon>{value.icon}</ListItemIcon>
+                  <ListItemText primary={value.title} color="white"/>
+                </ListItemButton>
               </ListItem>
             ))}
+          </List>
+          <List>
             <ListItem disablePadding>
               <ListItemButton>
                 {/* <ListItemIcon sx={{ color: "white" }}>
@@ -95,7 +80,7 @@ export default function Sidebar(roles) {
                   onClick={handleLogout}
                   primaryTypographyProps={{
                     color: "white",
-                    fontWeight: "medium",
+                    fontWeight: "bold",
                     variant: "body2",
                   }}
                 />
@@ -104,6 +89,6 @@ export default function Sidebar(roles) {
           </List>
         </Box>
       </Drawer>
-    </div>
+    </Box>
   );
 }

@@ -11,35 +11,20 @@ export const SidebarData = [
     link: "/home",
     icon: <HomeOutlinedIcon />,
   },
-  // {
-  //   title: "打刻",
-  //   link: "/attendance",
-  //   icon: <AccessTimeIcon />,
-  // },
   {
     title: "勤怠一覧",
     link: "/attendancelist",
     icon: <SummarizeIcon />,
   },
   {
-    title: "申請一覧",
-    link: "/applicationList",
-    icon: <SummarizeIcon />,
-  },
-
-  {
     title: "休暇申請",
     link: "/leaverequest",
     icon: <SendIcon />,
   },
   {
-    title: "プロフィール",
-    link: "/userinfo",
-    icon: <PermIdentityIcon />,
-  },
-  {
     title: "社員情報作成",
     link: "/createuserinfo",
+    icon: <PermIdentityIcon />,
     roles: ["admin"],
   },
 ];
