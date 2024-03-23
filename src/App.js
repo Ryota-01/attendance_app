@@ -9,71 +9,52 @@ import PublicRoute from "./components/PublicRoute";
 import { AuthProvider } from "./context/AuthContext";
 import AttendanceList from "./pages/AttendanceList";
 import LeaveRequestForm from "./pages/LeaveRequestForm";
-import UserUpdata from "./pages/UserUpdata";
 import CreateUserInfo from "./pages/CreateUserInfo";
-import UserInfo from "./pages/UserInfo";
-import ApplicationList from "./pages/ApplicationList";
-import ConfirmUserCreateInfo from "./pages/ConfirmUserCreateInfo";
 import { UserProvider } from "./context/useUserContext";
+import { ApplicationDataProvider } from "./context/useApplicationDataContext";
 
 function App() {
   return (
     <AuthProvider>
       <UserProvider>
-        <div className="App">
-          <Routes>
-            <Route
-              path="/signup"
-              element={<PublicRoute index element={<SignUp />} />}
-            />
-            <Route
-              path="/login"
-              element={<PublicRoute index element={<Login />} />}
-            />
-            <Route
-              path="/"
-              element={<PrivateRoute index element={<Home />} />}
-            />
-            <Route
-              path="/home"
-              element={<PrivateRoute index element={<Home />} />}
-            />
-            <Route
-              path="/createuserinfo"
-              element={<PrivateRoute index element={<CreateUserInfo />} />}
-            />
-            <Route
-              path="/confirmusercreateinfo"
-              element={
-                <PrivateRoute index element={<ConfirmUserCreateInfo />} />
-              }
-            />
-            <Route
-              path="/userinfo"
-              element={<PrivateRoute index element={<UserInfo />} />}
-            />
-            <Route
-              path="/attendance"
-              element={<PrivateRoute index element={<Home />} />}
-            />
-            <Route
-              path="/attendancelist"
-              element={<PrivateRoute index element={<AttendanceList />} />}
-            />
-            <Route
-              path="/leaverequest"
-              element={<PrivateRoute index element={<LeaveRequestForm />} />}
-            />
-            <Route
-              path="/applicationList"
-              element={<PrivateRoute index element={<ApplicationList />} />}
-            />
-            <Route
-              path="/userinfo"
-              element={<PrivateRoute index element={<UserUpdata />} />}
-            />
-          </Routes>
-        </div>
+        <ApplicationDataProvider>
+          <div className="App">
+            <Routes>
+              <Route
+                path="/signup"
+                element={<PublicRoute index element={<SignUp />} />}
+              />
+              <Route
+                path="/login"
+                element={<PublicRoute index element={<Login />} />}
+              />
+              <Route
+                path="/"
+                element={<PrivateRoute index element={<Home />} />}
+              />
+              <Route
+                path="/home"
+                element={<PrivateRoute index element={<Home />} />}
+              />
+              <Route
+                path="/createuserinfo"
+                element={<PrivateRoute index element={<CreateUserInfo />} />}
+              />
+              <Route
+                path="/attendance"
+                element={<PrivateRoute index element={<Home />} />}
+              />
+              <Route
+                path="/attendancelist"
+                element={<PrivateRoute index element={<AttendanceList />} />}
+              />
+              <Route
+                path="/leaverequest"
+                element={<PrivateRoute index element={<LeaveRequestForm />} />}
+              />
+            </Routes>
+          </div>
+        </ApplicationDataProvider>
       </UserProvider>
     </AuthProvider>
   );

@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 
-function DataTable(props) {
+function AttendanceDataTable(props) {
   const { attendanceLists } = props;
   const [dates, setDates] = useState([]);
   const columns = [
@@ -105,11 +105,12 @@ function DataTable(props) {
     return formattedTime;
   }
   return (
-    <div>
+    <>
       {/* PC用テーブル */}
       <TableContainer
         sx={{
           display: { xs: "none", sm: "flex" },
+          marginTop: "24px"
         }}
       >
         <Table size="small">
@@ -261,8 +262,8 @@ function DataTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </>
   );
 }
 
-export default DataTable;
+export default AttendanceDataTable;

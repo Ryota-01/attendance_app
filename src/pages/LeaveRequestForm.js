@@ -31,7 +31,13 @@ export default function LeaveRequestForm() {
     padding: "18px",
   };
   const spacing = 4;
-  const xs = 8;
+  const spItemSpacing = (spacingNumber) => {
+    if(spacingNumber) {
+      return;
+    } else {
+      return 12;
+    }
+  }
   const varient = "filled";
 
   const leaveRequestType = [
@@ -48,184 +54,185 @@ export default function LeaveRequestForm() {
   const handleFormSubmit = () => setIsLeaveRequestConfirmation(true);
 
   return (
-    <div>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <NewSideBar />
-        <CardComponent title={"休暇申請"}>
-          <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={4}>
-                {userData !== null ? (
-                  <>
-                    <Typography variant="body2">申請者名</Typography>
-                    <Typography variant="h7">{userData.userName}</Typography>
-                  </>
-                ) : (
-                  <></>
-                )}
+    <>
+      <NewSideBar>
+          <CardComponent title={"休暇申請"}>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={4}>
+                  {userData !== null ? (
+                    <>
+                      <Typography variant="body2">申請者名</Typography>
+                      <Typography variant="h7">{userData.userName}</Typography>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={4}>
-                {!errors.leaveType ? (
-                  <TextField
-                    select
-                    id="leaveType"
-                    label="休暇種類*"
-                    size="small"
-                    defaultValue="有休休暇"
-                    helperText="休暇種別を選択してください"
-                    variant={varient}
-                    {...register("leaveType", {
-                      required: {
-                        value: true,
-                        message: "必須入力です。休暇の種類を選択してください",
-                      },
-                    })}
-                    fullWidth
-                  >
-                    {leaveRequestType.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                ) : (
-                  <TextField
-                    select
-                    error
-                    id="leaveType"
-                    label="休暇種類*"
-                    size="small"
-                    defaultValue="有休休暇"
-                    helperText={errors.leaveType.types.required}
-                    variant={varient}
-                    {...register("leaveType", {
-                      required: {
-                        value: true,
-                        message: "必須入力です。休暇の種類を選択してください",
-                      },
-                    })}
-                    fullWidth
-                  >
-                    {leaveRequestType.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={spItemSpacing()} md={6}>
+                  {!errors.leaveType ? (
+                    <TextField
+                      select
+                      id="leaveType"
+                      label="休暇種類*"
+                      size="small"
+                      defaultValue="有休休暇"
+                      helperText="休暇種別を選択してください"
+                      variant={varient}
+                      {...register("leaveType", {
+                        required: {
+                          value: true,
+                          message: "必須入力です。休暇の種類を選択してください",
+                        },
+                      })}
+                      fullWidth
+                    >
+                      {leaveRequestType.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : (
+                    <TextField
+                      select
+                      error
+                      id="leaveType"
+                      label="休暇種類*"
+                      size="small"
+                      defaultValue="有休休暇"
+                      helperText={errors.leaveType.types.required}
+                      variant={varient}
+                      {...register("leaveType", {
+                        required: {
+                          value: true,
+                          message: "必須入力です。休暇の種類を選択してください",
+                        },
+                      })}
+                      fullWidth
+                    >
+                      {leaveRequestType.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={xs}>
-                {!errors.leaveDate ? (
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={spItemSpacing()}>
+                  {!errors.leaveDate ? (
+                    <TextField
+                      label="休暇取得日*"
+                      id="leaveDate"
+                      type="date"
+                      size="small"
+                      helperText="開始日を入力してください"
+                      variant={varient}
+                      {...register("leaveDate", {
+                        required: {
+                          value: true,
+                          message:
+                            "必須入力です。休暇取得日を選択してください。",
+                        },
+                      })}
+                      fullWidth
+                    />
+                  ) : (
+                    <TextField
+                      label="休暇取得日*"
+                      id="leaveDate"
+                      type="date"
+                      size="small"
+                      helperText={errors.leaveDate.types.required}
+                      variant={varient}
+                      {...register("leaveDate", {
+                        required: {
+                          value: true,
+                          message:
+                            "必須入力です。休暇取得日を選択してください。",
+                        },
+                      })}
+                      error
+                      fullWidth
+                    />
+                  )}
+                </Grid>
+              </Grid>
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={spItemSpacing()}>
+                  {!errors.leaveReason ? (
+                    <TextField
+                      id="leaveReason"
+                      label="申請理由*"
+                      helperText="申請理由を入力してください"
+                      size="small"
+                      variant={varient}
+                      {...register("leaveReason", {
+                        required: {
+                          value: true,
+                          message: "必須入力。申請理由を入力してください。",
+                        },
+                      })}
+                      fullWidth
+                    />
+                  ) : (
+                    <TextField
+                      id="leaveReason"
+                      label="申請理由*"
+                      size="small"
+                      helperText={errors.leaveReason.types.required}
+                      variant={varient}
+                      {...register("leaveReason", {
+                        required: {
+                          value: true,
+                          message: "必須入力。申請理由を入力してください。",
+                        },
+                      })}
+                      error
+                      fullWidth
+                    />
+                  )}
+                </Grid>
+              </Grid>
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={spItemSpacing()}>
                   <TextField
-                    label="休暇取得日*"
-                    id="leaveDate"
-                    type="date"
+                    id="remarks"
+                    label="備考"
                     size="small"
-                    helperText="開始日を入力してください"
+                    helperText="備考を入力してください（任意）"
                     variant={varient}
-                    {...register("leaveDate", {
+                    {...register("remarks", {
                       required: {
-                        value: true,
-                        message: "必須入力です。休暇取得日を選択してください。",
+                        value: false,
                       },
                     })}
                     fullWidth
                   />
-                ) : (
-                  <TextField
-                    label="休暇取得日*"
-                    id="leaveDate"
-                    type="date"
-                    size="small"
-                    helperText={errors.leaveDate.types.required}
-                    variant={varient}
-                    {...register("leaveDate", {
-                      required: {
-                        value: true,
-                        message: "必須入力です。休暇取得日を選択してください。",
-                      },
-                    })}
-                    error
-                    fullWidth
-                  />
-                )}
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={xs}>
-                {!errors.leaveReason ? (
-                  <TextField
-                    id="leaveReason"
-                    label="申請理由*"
-                    helperText="申請理由を入力してください"
-                    size="small"
-                    variant={varient}
-                    {...register("leaveReason", {
-                      required: {
-                        value: true,
-                        message: "必須入力。申請理由を入力してください。",
-                      },
-                    })}
-                    fullWidth
-                  />
-                ) : (
-                  <TextField
-                    id="leaveReason"
-                    label="申請理由*"
-                    size="small"
-                    helperText={errors.leaveReason.types.required}
-                    variant={varient}
-                    {...register("leaveReason", {
-                      required: {
-                        value: true,
-                        message: "必須入力。申請理由を入力してください。",
-                      },
-                    })}
-                    error
-                    fullWidth
-                  />
-                )}
+              <Grid container spacing={spacing} sx={{ padding: padding }}>
+                <Grid item xs={spItemSpacing()}>
+                  <Button type="submit" variant="contained">
+                    確認
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={xs}>
-                <TextField
-                  id="remarks"
-                  label="備考"
-                  size="small"
-                  helperText="備考を入力してください（任意）"
-                  variant={varient}
-                  {...register("remarks", {
-                    required: {
-                      value: false,
-                    },
-                  })}
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={xs}>
-                <Button type="submit" variant="contained">
-                  確認
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-          {isLeaveRequestConfirmation && (
-            <LeaveRequestConfirmDialog
-              values={getValues()}
-              userName={userData.userName}
-              isLeaveRequestConfirmation={isLeaveRequestConfirmation}
-              hideConfirmation={hideConfirmation}
-            />
-          )}
-        </CardComponent>
-      </Box>
-    </div>
+            </form>
+            {isLeaveRequestConfirmation && (
+              <LeaveRequestConfirmDialog
+                values={getValues()}
+                userName={userData.userName}
+                isLeaveRequestConfirmation={isLeaveRequestConfirmation}
+                hideConfirmation={hideConfirmation}
+              />
+            )}
+          </CardComponent>
+      </NewSideBar>
+    </>
   );
 }
