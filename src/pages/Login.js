@@ -3,7 +3,6 @@ import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
-import "../css/LeaveRequestForm.css";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";

@@ -1,14 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap');
-
 .App {
   /* width: 100%; */
   background: #F4F7FA;
-}
-
-.zen-maru gothic-regular {
-  font-family: "Zen Maru Gothic", serif;
-  font-weight: 400;
-  font-style: normal;
 }
 
 * {

@@ -31,7 +31,8 @@ export function ApplicationDataProvider({ children }) {
   };
 
   useEffect(() => {
-    if (user.uid === undefined) {
+    console.log(user)
+    if (!user || user === null || user === undefined ) {
       return;
     }
     const fetchData = async () => {
@@ -56,7 +57,7 @@ export function ApplicationDataProvider({ children }) {
       }
     };
     fetchData();
-  }, [user.uid]);
+  }, [user]);
 
   return (
     <ApplicationDataContext.Provider value={value}>

@@ -1,13 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./css/App.css";
-import "./css/Common.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 import { AuthProvider } from "./context/AuthContext";
-import AttendanceList from "./pages/AttendanceList";
+import AttendanceListPage from "./pages/AttendanceListPage";
 import LeaveRequestForm from "./pages/LeaveRequestForm";
 import CreateUserInfo from "./pages/CreateUserInfo";
 import { UserProvider } from "./context/useUserContext";
@@ -46,7 +45,7 @@ function App() {
               />
               <Route
                 path="/attendancelist"
-                element={<PrivateRoute index element={<AttendanceList />} />}
+                element={<PrivateRoute index element={<AttendanceListPage />} />}
               />
               <Route
                 path="/leaverequest"
