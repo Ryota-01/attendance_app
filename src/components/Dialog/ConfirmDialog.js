@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { DialogActions, Divider, Grid, Typography } from "@mui/material";
 import { useAuthContext } from "../../context/AuthContext.js";
@@ -17,17 +17,23 @@ function LeaveRequestConfirmDialog(props) {
   const isConfirmationVisible = props.isConfirmationVisible;
   const [open, setOpen] = useState(isConfirmationVisible); //true
   const navigate = useNavigate();
+
   const padding = {
     padding: "18px",
   };
-  const spacing = 3;
-  const xs = (xsNumber) => {
-    if (xsNumber) {
-      return xsNumber;
+  // GridContainerのspacing
+  const gridContainerSpacing = 2;
+
+  // GridItemのspacing
+  const spSpacingNumber = (number) => {
+    if (number) {
+      return number;
     } else {
-      return 8;
+      return 6;
     }
   };
+
+  // Typographのフォントサイズ
   const variant = (variant) => {
     if (variant) {
       return variant;
@@ -35,6 +41,21 @@ function LeaveRequestConfirmDialog(props) {
       return "body2";
     }
   };
+  // タイトル一式
+  const confirmValues = [
+    { valueTitle: "社員名：", value: `${values.lastName} ${values.firstName}` },
+    {
+      valueTitle: "カナ：",
+      value: `${values.lastNameFurigana} ${values.firstNameFurigana}`,
+    },
+    { valueTitle: "メールアドレス：", value: values.email },
+    { valueTitle: "電話番号：", value: values.phoneNumber },
+    { valueTitle: "郵便番号：", value: values.postCode },
+    { valueTitle: "都道府県：", value: values.prefectures },
+    { valueTitle: "住所：", value: `${values.address1} ${values.address2}` },
+    { valueTitle: "入社日：", value: values.joinDate },
+    { valueTitle: "雇用形態：", value: values.employmentType },
+  ];
 
   const handleClose = () => {
     setOpen(hideConfirmation);
@@ -45,9 +66,11 @@ function LeaveRequestConfirmDialog(props) {
     e.preventDefault();
     try {
       // usersコレクションを参照
-      const userCollectionRef = doc(db, "users", user.uid);
+      const userCollectionRef = collection(db, user.uid);
+      // ユーザー情報のドキュメント
+      const userInfoDocRef = doc(userCollectionRef, "userInfo");
       // usersコレクションにドキュメントを追加
-      await setDoc(userCollectionRef, values);
+      await setDoc(userInfoDocRef, values);
       console.log("Success!");
       navigate("/home");
     } catch (e) {
@@ -71,84 +94,22 @@ function LeaveRequestConfirmDialog(props) {
           <DialogContentText id="alert-dialog-description">
             <Grid
               container
-              spacing={spacing}
+              spacing={gridContainerSpacing}
               sx={{ padding: padding, margin: "auto" }}
             >
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>社員名：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.lastName} {values.firstName}
-                </Typography>
-              </Grid>
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>カナ：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.lastNameFurigana} {values.firstNameFurigana}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>メールアドレス：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{values.email}</Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>電話番号：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.phoneNumber}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>郵便番号：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{values.postCode}</Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>都道府県：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.prefectures}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>住所：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.address1}
-                  {values.address2}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>入社日：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{values.joinDate}</Typography>
-              </Grid>
-
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>雇用形態：</Typography>
-              </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
-                  {values.employmentType}
-                </Typography>
-              </Grid>
-              <Grid item xs={xs(12)}>
+              {confirmValues.map((data) => (
+                <>
+                  <Grid item xs={spSpacingNumber()}>
+                    <Typography variant={variant()}>
+                      {data.valueTitle}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={spSpacingNumber()}>
+                    <Typography variant={variant()}>{data.value}</Typography>
+                  </Grid>
+                </>
+              ))}
+              <Grid item xs={spSpacingNumber(12)}>
                 <DialogActions>
                   <Button onClick={hideConfirmation} variant="contained">
                     閉じる

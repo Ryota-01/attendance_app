@@ -25,9 +25,9 @@ export default function DigitalClock() {
 
   return (
     <div className="databoxWrapper">
-      <Grid cantainer sx={{ marginTop: "20px" }}>
+      <Grid cantainer sx={{ marginTop: "40px" }}>
         <Grid item md={12}>
-          <Typography variant="h6">{date}</Typography>
+          <Typography variant="h5">{date}</Typography>
         </Grid>
         <Grid item md={12}>
           <Typography variant="h2">{formattedTime}</Typography>

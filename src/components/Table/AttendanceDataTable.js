@@ -10,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 function AttendanceDataTable(props) {
   const { attendanceLists } = props;
+  console.log(attendanceLists)
   const [dates, setDates] = useState([]);
   const columns = [
     { field: "edit", headerName: "", width: "16px" },
@@ -64,10 +65,6 @@ function AttendanceDataTable(props) {
     const getDay = date.getDay();
     const dayOfWeek = dayNames[getDay];
     return dayOfWeek;
-    // const getMonth = date.getMonth() + 1;
-    // const getDate = date.getDate();
-    // const formattedDate = getMonth + "月" + getDate + "日";
-    // return formattedDate;
   }
   // 日付のフォーマット
   function formattedDate(date) {
@@ -77,12 +74,6 @@ function AttendanceDataTable(props) {
     return formattedDate;
   }
 
-  // function formatDate(timestamp) {
-  //   const dateObject = timestamp.toDate();
-  //   const getMonth = dateObject.getMonth() + 1;
-  //   const getDate = dateObject.getDate();
-  //   console.log(getMonth , getDate)
-  // }
   //稼働時間を計算
   function workingHours(startTime, endTime) {
     if (!endTime) {

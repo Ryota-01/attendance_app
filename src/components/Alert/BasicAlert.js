@@ -12,8 +12,13 @@ export function InfoBasicAlert({ message }) {
 }
 
 // 注意喚起したい時のアラート
-export function WarningBasicAlert({ message }) {
-  return <Alert severity="warning">{message}</Alert>;
+export function WarningBasicAlert(props) {
+  console.log(props);
+  return (
+    <Alert severity="warning" sx={{ }}>
+      {props.message}
+    </Alert>
+  );
 }
 
 // エラーの時のアラート

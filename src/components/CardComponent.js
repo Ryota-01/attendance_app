@@ -18,6 +18,8 @@ function CardComponent(props) {
         sx={{
           padding: "12px",
           height: props.height,
+          width: props.width,
+          margin: props.margin
         }}
       >
         <CardContent>

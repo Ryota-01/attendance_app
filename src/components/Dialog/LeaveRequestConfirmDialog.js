@@ -76,6 +76,7 @@ function LeaveRequestConfirmDialog(props) {
       );
       console.log("Success!");
       navigate("/home");
+      await alert("申請しました");
     } catch (e) {
       console.log("申請できませんでした", e.message);
     }

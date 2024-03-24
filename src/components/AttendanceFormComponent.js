@@ -6,7 +6,7 @@ import CardComponent from "./CardComponent";
 export default function AttendanceFormComponent() {
   return (
     <>
-      <CardComponent title={"打刻"} height={"360px"}>
+      <CardComponent title={"打刻"} height={"450px"}>
         <DigitalClock />
         <AttendanceButton />
       </CardComponent>
