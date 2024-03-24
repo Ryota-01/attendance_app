@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { SidebarData } from "./SidebarData";
 import { useState } from "react";
-import "../../css/Sidebar.css";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";

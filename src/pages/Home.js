@@ -1,34 +1,19 @@
 import React from "react";
+import NewSideBar from "../components/Sidebar/NewSideBar.js";
+import AttendanceFormComponent from "../components/AttendanceFormComponent.js";
+import UserInfoCompornent from "../components/UserInfoCompornent.js";
+import LeaveConutComponent from "../components/LeaveConutComponent.js";
+import ApplicationListComponent from "../components/ApplicationListComponent.js";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { Box } from "@mui/system";
-import { useUserContext } from "../context/useUserContext.js";
-import {
-  Card,
-  CardContent,
-  Divider,
-  Grid,
-  Skeleton,
-  Typography,
-} from "@mui/material";
-import DigitalClock from "../components/DigitalClock";
-import AttendanceButton from "../components/AttendanceButton";
-import Sidebar from "../components/Sidebar/Sidebar.js";
-import NewSideBar from "../components/Sidebar/NewSideBar.js";
-import CardComponent from "../components/CardComponent.js";
-import AttendanceFormComponent from "../components/AttendanceFormComponent.js";
-import UserInfoCompornent from "../components/UserInfoCompornent.js";
-import ApplicationListDataTable from "../components/Table/ApplicationListDataTable.js";
-import { useApplicationDataContext } from "../context/useApplicationDataContext.js";
-import LeaveConutComponent from "../components/LeaveConutComponent.js";
+import { Grid } from "@mui/material";
 
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
-  const { userData } = useUserContext();
-  const { applicationsData } = useApplicationDataContext();
 
-  // PCのGrid
+  // GridItemの幅調整(PC)
   const pcGridItemSpacing = (spacingNumber) => {
     if (spacingNumber) {
       return spacingNumber;
@@ -36,6 +21,8 @@ export default function Home() {
       return 12;
     }
   };
+
+  // GridItemの幅調整(SP)
   const spGridItemSpacing = (spacingNumber) => {
     if (spacingNumber) {
       return spacingNumber;
@@ -45,6 +32,7 @@ export default function Home() {
   };
 
   if (!user) {
+    // userがfalseの場合は、ログインページに遷移
     return navigation("/login");
   } else {
     return (
@@ -61,16 +49,13 @@ export default function Home() {
                 <AttendanceFormComponent />
               </Grid>
               <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(5)}>
-                <UserInfoCompornent userData={userData} />
+                <UserInfoCompornent />
               </Grid>
               <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing()}>
-                <LeaveConutComponent userData={userData} />
+                <LeaveConutComponent />
               </Grid>
               <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing()}>
-                <ApplicationListDataTable
-                  userData={userData}
-                  applicationsData={applicationsData}
-                />
+                <ApplicationListComponent />
               </Grid>
               <useApplicationDataContext />
             </Grid>

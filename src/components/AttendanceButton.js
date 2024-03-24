@@ -2,11 +2,19 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
-import { collection, setDoc, doc, getDocs, getDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  setDoc,
+  doc,
+  getDocs,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../css/AttendanceButton.css";
 import Snackbar from "./Snackbar/Snackbar.js";
+import { fontSize } from "@mui/system";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -38,8 +46,6 @@ export default function AttendanceButton() {
     .padStart(2, 0)}`;
   const dayOfWeek = d.getDay();
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
-  const getHours = d.getHours();
-  const getMinutes = d.getMinutes();
 
   //時計
   useEffect(() => {
@@ -61,13 +67,23 @@ export default function AttendanceButton() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // attendanceコレクションを参照
         const attendanceCollectionRef = collection(db, "attendance");
+        // userIDに紐付くドキュメントを作成
         const userDocRef = doc(attendanceCollectionRef, user.uid);
-        const subCollectionRef = collection(userDocRef, currentYearAndMonth);
-        const userDoc = doc(subCollectionRef, currentMonthAndDate);
-        const userDocSnapshot = await getDoc(userDoc);
-        if (userDocSnapshot.exists()) {
-          const userData = userDocSnapshot.data();
+        // 年月で分けるサブコレクションを参照
+        const attendanceSubCollectionRef = collection(
+          userDocRef,
+          currentYearAndMonth
+        );
+        // 日毎に分けるドキュメントを作成
+        const attendanceDocRef = doc(
+          attendanceSubCollectionRef,
+          currentMonthAndDate
+        );
+        const snapShot = await getDoc(attendanceDocRef);
+        if (snapShot.exists()) {
+          const userData = snapShot.data();
           setIsClockInDisabled(userData.isClockInDisabled);
           setIsClockOutDisabled(userData.isClockOutDisabled);
         }
@@ -103,7 +119,7 @@ export default function AttendanceButton() {
         date: serverTimestamp(),
         startTime: serverTimestamp(),
         isClockInDisabled: true,
-        remarks: ""
+        remarks: "",
       };
       //ドキュメントを作成または更新
       const userDoc = doc(subCollectionRef, currentMonthAndDate);
@@ -111,8 +127,6 @@ export default function AttendanceButton() {
       const popupMessage = () => {
         if (dayOfWeek === 5) {
           return "おはようございます！今週も残り1日頑張りましょう！";
-        } if(dayOfWeek === 0 || dayOfWeek === 6) {
-          return `${dayNames[dayOfWeek]}曜出勤お疲れさまです・・！`;
         } else {
           return "おはようございます！今日も１日頑張りましょう！";
         }
@@ -140,10 +154,8 @@ export default function AttendanceButton() {
         const popupMessage = () => {
           if (dayOfWeek === 5) {
             return "お疲れさまでした！良い週末を！";
-          } if(dayOfWeek === 0 || dayOfWeek === 6) {
-            return `${dayNames[dayOfWeek]}曜出勤お疲れさまでした。代休取ってくださいね。`
           } else {
-            return "お疲れさまでした！ゆっくり休んでくださいね！";
+            return "お疲れさまでした！";
           }
         };
         setIsClockOutDisabled(value.isClockOutDisabled);
@@ -156,41 +168,53 @@ export default function AttendanceButton() {
       console.log("退勤処理が実行できませんでした", e.message);
     }
   };
+
+  const buttonStyle = (buttonColor) => ({
+    variant: "contained",
+    color: buttonColor,
+    style: {
+      fontSize: "1.3rem",
+      padding: "4px 60px",
+    },
+  });
+
   return (
     <>
-      <div className="attendanceBtnWrapper">
-        <Stack direction="row" spacing={4}>
-          <Button
-            variant="contained"
-            onClick={handleClockIn}
-            color="primary"
-            disabled={isClockInDisabled}
-            style={{
-              fontSize: "1.3rem",
-              padding: "4px 60px",
-            }}
-          >
-            出 勤
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleClockOut}
-            color="secondary"
-            disabled={isClockOutDisabled}
-            style={{
-              fontSize: "1.3rem",
-              padding: "4px 60px",
-            }}
-          >
-            退 勤
-          </Button>
-        </Stack>
-      </div>
-      {isPopupMessage ? (
-        <Snackbar popupMessage={popupMessage} />
-      ) : (
-        <></>
-      )}
+      <Stack
+        direction={{ xs: "column", sm: "row", md: "row" }}
+        justifyContent={"center"}
+        spacing={3}
+        sx={{
+          marginTop: "28px",
+        }}
+      >
+        <Button
+          variant="contained"
+          onClick={handleClockIn}
+          color="primary"
+          disabled={isClockInDisabled}
+          style={{
+            fontSize: "1.3rem",
+            padding: "4px 60px",
+          }}
+          {...buttonStyle("primary")}
+        >
+          出 勤
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleClockOut}
+          color="secondary"
+          disabled={isClockOutDisabled}
+          style={{
+            fontSize: "1.3rem",
+            padding: "4px 60px",
+          }}
+        >
+          退 勤
+        </Button>
+      </Stack>
+      {isPopupMessage ? <Snackbar popupMessage={popupMessage} /> : <></>}
     </>
   );
 }

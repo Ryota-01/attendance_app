@@ -1,6 +1,7 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,6 +19,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { SidebarData } from "./SidebarData";
+import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -29,6 +32,7 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
 });
+
 
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
@@ -87,8 +91,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer({ children }) {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const handleLogout = () => {
+    navigate('/login');
+    auth.signOut();
+  }
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -125,9 +135,10 @@ export default function MiniDrawer({ children }) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
               TimeNote
             </Typography>
+            <Button onClick={handleLogout} color="inherit">ログアウト</Button>
           </Toolbar>
         </AppBar>
       </ThemeProvider>

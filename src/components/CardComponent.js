@@ -1,35 +1,65 @@
 import React from "react";
-import Sidebar from "./Sidebar/Sidebar";
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Divider,
-  Grid,
   Typography,
 } from "@mui/material";
 
 function CardComponent(props) {
   const children = props.children;
   const title = props.title;
-  const currentYear = props.currentYear;
-  const currentMonth = props.currentMonth;
 
   return (
     <>
-      <Card sx={{ width: "100%", padding: { md: "24px"} }}>
+      <Card
+        sx={{
+          padding: "12px",
+          height: props.height,
+        }}
+      >
         <CardContent>
-          <Box marginBottom={"12px"}>
-            <Typography variant="h5" color="text.secondary" gutterBottom>
-              {title}
-            </Typography>
-            {props.title === "勤怠実績" && (
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                {`${currentYear}年${currentMonth}月`}
+          {title === "休暇申請一覧" ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "12px 0",
+              }}
+            >
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                fontWeight={"bold"}
+                gutterBottom
+              >
+                {title}
               </Typography>
-            )}
-            <Divider />
-          </Box>
+              <Button
+                variant="contained"
+                size="small"
+                color="success"
+                href="/leaveRequest"
+                sx={{ fontWeight: "bold" }}
+              >
+                休暇を申請する
+              </Button>
+            </Box>
+          ) : (
+            <Box marginBottom={"12px"}>
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                fontWeight={"bold"}
+                gutterBottom
+              >
+                {title}
+              </Typography>
+            </Box>
+          )}
+          <Divider />
           {children}
         </CardContent>
       </Card>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../css/LeaveRequestForm.css";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import LeaveRequestConfirmDialog from "../components/Dialog/LeaveRequestConfirmDialog";
@@ -13,7 +12,6 @@ import { useUserContext } from "../context/useUserContext.js";
 export default function LeaveRequestForm() {
   const { user } = useAuthContext();
   const { userData } = useUserContext();
-  // console.log(userData.userName);
   // モーダルの表示・非表示を切り替えるstate
   const [isLeaveRequestConfirmation, setIsLeaveRequestConfirmation] =
     useState(false);
@@ -56,11 +54,11 @@ export default function LeaveRequestForm() {
   return (
     <>
       <NewSideBar>
-          <CardComponent title={"休暇申請"}>
+          <CardComponent title={"休暇申請フォーム"}>
             <form onSubmit={handleSubmit(handleFormSubmit)}>
               <Grid container spacing={spacing} sx={{ padding: padding }}>
                 <Grid item xs={4}>
-                  {userData !== null ? (
+                  {userData !== null && userData !== undefined ? (
                     <>
                       <Typography variant="body2">申請者名</Typography>
                       <Typography variant="h7">{userData.userName}</Typography>

@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase.js";
 import { DialogActions, Divider, Grid, Typography } from "@mui/material";
+import { useAuthContext } from "../../context/AuthContext.js";
 
 function LeaveRequestConfirmDialog(props) {
+  const { user } = useAuthContext();
   const values = props.values;
   const hideConfirmation = props.hideConfirmation;
   const isConfirmationVisible = props.isConfirmationVisible;
@@ -43,7 +45,7 @@ function LeaveRequestConfirmDialog(props) {
     e.preventDefault();
     try {
       // usersコレクションを参照
-      const userCollectionRef = doc(db, "users", values.email);
+      const userCollectionRef = doc(db, "users", user.uid);
       // usersコレクションにドキュメントを追加
       await setDoc(userCollectionRef, values);
       console.log("Success!");
