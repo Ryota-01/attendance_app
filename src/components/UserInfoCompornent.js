@@ -11,25 +11,32 @@ import { Box } from "@mui/system";
 import { useUserContext } from "../context/useUserContext";
 import { formatDate } from "../service/formatDate";
 import { InfoBasicAlert } from "./Alert/BasicAlert";
+import FetchUserInfoData from "./FetchData/FetchUserInfoData";
+import { useAuthContext } from "../context/AuthContext";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function UserInfoCompornent(props) {
-  const { userData } = useUserContext();
+  // const { userData } = useUserContext();
+  const { user } = useAuthContext();
+  const userData = FetchUserInfoData(user.uid);
+  console.log(userData);
   return (
     <>
       <Card
         sx={{
           padding: "12px",
-          height: "360px"
+          height: "100%",
         }}
       >
         <CardContent>
           <CardMedia
             component="img"
-            height="100"
-            image="/static/images/cards/contemplative-reptile.jpg"
-            alt="green iguana"
+            height="130"
+            sx={{ width: "70%", objectFit:"cover", margin:"auto" }}
+            image={require("../imeges/kkrn_icon_user_8.png")}
+            alt="User Image"
           />
-          <Box>
+          <Box sx={{ marginTop: "24px" }}>
             {userData !== null && userData !== undefined ? (
               <>
                 <Typography
@@ -38,7 +45,7 @@ export default function UserInfoCompornent(props) {
                   gutterBottom
                   fontWeight={"bold"}
                 >
-                  {userData.userName}
+                  {`${userData.lastName} ${userData.firstName}`}
                 </Typography>
                 <Divider />
                 <Grid container spacing={1}>

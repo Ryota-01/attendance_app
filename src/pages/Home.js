@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
+import FetchUserInfoData from "../components/FetchData/FetchUserInfoData.js";
 
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
+  FetchUserInfoData()
 
   // GridItemの幅調整(PC)
   const pcGridItemSpacing = (spacingNumber) => {

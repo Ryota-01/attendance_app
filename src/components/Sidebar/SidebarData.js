@@ -21,10 +21,10 @@ export const SidebarData = [
     link: "/leaverequest",
     icon: <SendIcon />,
   },
-  {
-    title: "社員情報作成",
-    link: "/createuserinfo",
-    icon: <PermIdentityIcon />,
-    roles: ["admin"],
-  },
+  // {
+  //   title: "社員情報作成",
+  //   link: "/createuserinfo",
+  //   icon: <PermIdentityIcon />,
+  //   roles: ["admin"],
+  // },
 ];

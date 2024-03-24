@@ -5,7 +5,6 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 //データベース（realtime database）をインポート
 import { getDatabase } from "firebase/database";
-
 import "firebase/compat/auth";
 
 const firebaseConfig = {
@@ -15,14 +14,13 @@ const firebaseConfig = {
   storageBucket: "attendance-dev-20798.appspot.com",
   messagingSenderId: "289901762448",
   appId: "1:289901762448:web:af05020be4a935b7480515",
-  measurementId: "G-3MBN5WPN9D"
+  measurementId: "G-3MBN5WPN9D",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-console.log(auth)
 const db = getFirestore(app);
 const database = getDatabase(app);
 

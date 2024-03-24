@@ -14,7 +14,6 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../css/AttendanceButton.css";
 import Snackbar from "./Snackbar/Snackbar.js";
-import { fontSize } from "@mui/system";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -35,17 +34,10 @@ export default function AttendanceButton() {
 
   // 現在の年月日と時間を取得
   const d = new Date();
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1;
-  const today = new Date().getDate();
-  const currentYearAndMonth = `${currentYear}-${currentMonth
-    .toString()
-    .padStart(2, 0)}`;
-  const currentMonthAndDate = `${currentMonth.toString().padStart(2, 0)}-${today
-    .toString()
-    .padStart(2, 0)}`;
+  const currentYear = d.getFullYear();
+  const currentMonth = (d.getMonth() + 1).toString().padStart(2, 0);
+  const today = d.getDate().toString().padStart(2, 0);
   const dayOfWeek = d.getDay();
-  const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
 
   //時計
   useEffect(() => {
@@ -67,21 +59,21 @@ export default function AttendanceButton() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // attendanceコレクションを参照
-        const attendanceCollectionRef = collection(db, "attendance");
-        // userIDに紐付くドキュメントを作成
-        const userDocRef = doc(attendanceCollectionRef, user.uid);
+        // userコレクションを参照
+        const userCollectionRef = collection(db, user.uid);
+        // attendanceドキュメントを作成
+        const attendanceDocRef = doc(userCollectionRef, "attendance");
         // 年月で分けるサブコレクションを参照
         const attendanceSubCollectionRef = collection(
-          userDocRef,
-          currentYearAndMonth
+          attendanceDocRef,
+          `${currentYear}-${currentMonth}`
         );
         // 日毎に分けるドキュメントを作成
-        const attendanceDocRef = doc(
+        const attendanceDataDocRef = doc(
           attendanceSubCollectionRef,
-          currentMonthAndDate
+          `${currentMonth}-${today}`
         );
-        const snapShot = await getDoc(attendanceDocRef);
+        const snapShot = await getDoc(attendanceDataDocRef);
         if (snapShot.exists()) {
           const userData = snapShot.data();
           setIsClockInDisabled(userData.isClockInDisabled);
@@ -95,24 +87,31 @@ export default function AttendanceButton() {
   }, []);
 
   const getAttendanceCollection = async () => {
-    // attendanceコレクションを参照（基本）
-    const attendanceCollectionRef = collection(db, "attendance");
+    // userコレクションを参照
+    const userCollectionRef = collection(db, user.uid);
+    // userコレクション内のattendanceドキュメントを参照
+    const attendanceDocRef = doc(userCollectionRef, "attendance");
+    // 年月で分けるサブコレクションを参照
+    const attendanceSubCollectionRef = collection(
+      attendanceDocRef,
+      `${currentYear}-${currentMonth}`
+    );
+    // 日毎に分けるドキュメントを作成
+    const attendanceDataDocRef = doc(
+      attendanceSubCollectionRef,
+      `${currentMonth}-${today}`
+    );
+    return { attendanceDataDocRef };
+    // 補足
     //（setDocを使う場合）ドキュメントのIDを指定
     // docメソッドは指定されたコレクション内のドキュメント参照するメソッド。
     // ドキュメントが存在しない場合でも参照を取得する。この参照を使用して新しいドキュメントを作成することができる。getDocでも参照ができる。
-    const userDocRef = doc(attendanceCollectionRef, user.uid);
-    //サブコレクションが存在しているかチェック。
-    const subCollectionRef = collection(userDocRef, currentYearAndMonth);
-    const subCollectionDoc = await getDocs(subCollectionRef);
-    return { subCollectionRef, subCollectionDoc };
   };
 
   // 出勤ボタンを押した時の処理
   const handleClockIn = async (e) => {
     e.preventDefault();
     try {
-      const { subCollectionRef, subCollectionDoc } =
-        await getAttendanceCollection();
       const value = {
         userID: user.uid,
         // date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
@@ -121,9 +120,8 @@ export default function AttendanceButton() {
         isClockInDisabled: true,
         remarks: "",
       };
-      //ドキュメントを作成または更新
-      const userDoc = doc(subCollectionRef, currentMonthAndDate);
-      await setDoc(userDoc, value); // setDocはdocメソッドとセットで使う
+      const { attendanceDataDocRef } = await getAttendanceCollection();
+      await setDoc(attendanceDataDocRef, value); // setDocはdocメソッドとセットで使う
       const popupMessage = () => {
         if (dayOfWeek === 5) {
           return "おはようございます！今週も残り1日頑張りましょう！";
@@ -142,15 +140,13 @@ export default function AttendanceButton() {
   const handleClockOut = async (e) => {
     e.preventDefault();
     try {
-      const { subCollectionRef, subCollectionDoc } =
-        await getAttendanceCollection();
-      if (!subCollectionDoc.empty) {
-        const userDoc = doc(subCollectionRef, currentMonthAndDate);
+      const { attendanceDataDocRef } = await getAttendanceCollection();
+      if (!attendanceDataDocRef.empty) {
         const value = {
           endTime: serverTimestamp(),
           isClockOutDisabled: true,
         };
-        await setDoc(userDoc, value, { merge: true });
+        await setDoc(attendanceDataDocRef, value, { merge: true });
         const popupMessage = () => {
           if (dayOfWeek === 5) {
             return "お疲れさまでした！良い週末を！";
