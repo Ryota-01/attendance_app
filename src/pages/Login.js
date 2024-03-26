@@ -43,6 +43,15 @@ export default function Login() {
     },
   });
 
+  const textFieldStyle = (type, label) => ({
+    type: type,
+    label: label,
+    required: true,
+    fullWidth: true,
+    variant: "outlined",
+    size: "small",
+    margin: "normal",
+  });
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -67,31 +76,21 @@ export default function Login() {
       >
         <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
           <TextField
-            required
-            type="email"
-            label="メールアドレス"
-            variant="outlined"
             inputRef={emailRef}
-            fullWidth
-            size="small"
-            margin="normal"
+            {...textFieldStyle("email", "メールアドレス")}
           />
           <TextField
-            required
-            label="パスワード"
-            type="password"
-            variant="outlined"
             inputRef={passwordRef}
-            size="small"
-            fullWidth
-            margin="normal"
+            {...textFieldStyle("パスワード", "password")}
           />
           <Typography variant="body2" sx={{ mb: 1 }}>
             {errorMessage}
           </Typography>
-          <Button type="submit" variant="contained" onSubmit={handleSubmit}>
-            login
-          </Button>
+          <ThemeProvider theme={darkTheme}>
+            <Button type="submit" variant="contained" onSubmit={handleSubmit}>
+              LOGIN
+            </Button>
+          </ThemeProvider>
           <Typography variant="body2" sx={{ mt: 2 }}>
             ユーザー登録は<Link to={"/signup"}>こちら</Link>
           </Typography>
