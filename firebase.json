@@ -7,7 +7,7 @@
     "rewriters": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "build/index.html"
       }
     ],
     "public": "build",
