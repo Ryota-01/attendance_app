@@ -26,20 +26,20 @@ export default function LeaveConutDataTable() {
     { field: "nextGrantDate", headerName: "次回付与日" },
   ];
 
-  useEffect(() => {
-    // 入社日
-    const formatJoinDate = new Date(joinDate);
-    //入社日から半年後を計算
-    const sixMonthLatter = new Date(formatJoinDate);
-    sixMonthLatter.setMonth(sixMonthLatter.getMonth() + 6);
-    // 現在日
-    const currentDate = new Date();
-    console.log(sixMonthLatter, currentDate)
-    if (sixMonthLatter >= currentDate) {
-      console.log("半年経過");
-    } else {
-      console.log("半年経過していません");
-    }
+  // useEffect(() => {
+  //   // 入社日
+  //   const formatJoinDate = new Date(joinDate);
+  //   //入社日から半年後を計算
+  //   const sixMonthLatter = new Date(formatJoinDate);
+  //   sixMonthLatter.setMonth(sixMonthLatter.getMonth() + 6);
+  //   // 現在日
+  //   const currentDate = new Date();
+  //   console.log(sixMonthLatter, currentDate)
+  //   if (sixMonthLatter >= currentDate) {
+  //     console.log("半年経過");
+  //   } else {
+  //     console.log("半年経過していません");
+  //   }
 
     const fetchLeaveCountData = async () => {
       try {
