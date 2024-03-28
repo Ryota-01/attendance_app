@@ -10,5 +10,11 @@
       "**/.*",
       "**/node_modules/**"
     ]
-  }
+  },
+  "rewriters": [
+    {
+      "source": "**",
+      "destination": "/index.html"
+    }
+  ]
 }
