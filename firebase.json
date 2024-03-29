@@ -4,7 +4,6 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site": "1:289901762448:web:af05020be4a935b7480515",
     "public": "build",
     "rewriters": [
       {
@@ -12,6 +11,14 @@
         "destination": "/index.html"
       }
     ],
+    "headers": [
+      {
+        "source": "/service-worker.js",
+        "headers": [{
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }]
+      }],
     "ignore": [
       "firebase.json",
       "**/.*",
