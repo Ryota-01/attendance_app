@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import AttendanceDataTable from "../components/Table/AttendanceDataTable.js";
-import CardComponent from "../components/CardComponent.js";
-import NewSideBar from "../components/Sidebar/NewSideBar.js";
-import { useAuthContext } from "../context/AuthContext.js";
+import AttendanceDataTable from "../components/Table/AttendanceDataTable";
+import CardComponent from "../components/CardComponent";
+import NewSideBar from "../components/Sidebar/NewSideBar";
+import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { get } from "firebase/database";
-import { db } from "../firebase.js";
+import { db } from "../firebase";
 import { useLocation } from "react-router-dom";
 import { Box, Card, Divider, Grid } from "@mui/material";
 

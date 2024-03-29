@@ -1,6 +1,6 @@
 import React from "react";
-import DigitalClock from "../components/DigitalClock";
-import AttendanceButton from "../components/AttendanceButton";
+import DigitalClock from "./DigitalClock";
+import AttendanceButton from "./AttendanceButton";
 import CardComponent from "./CardComponent";
 
 export default function AttendanceFormComponent() {

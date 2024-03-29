@@ -4,11 +4,11 @@ import MenuItem from "@mui/material/MenuItem";
 import LeaveRequestConfirmDialog from "../components/Dialog/LeaveRequestConfirmDialog";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import CardComponent from "../components/CardComponent.js";
-import { useAuthContext } from "../context/AuthContext.js";
-import NewSideBar from "../components/Sidebar/NewSideBar.js";
-import { useUserContext } from "../context/useUserContext.js";
-import FetchUserInfoData from "../components/FetchData/FetchUserInfoData.js";
+import CardComponent from "../components/CardComponent";
+import { useAuthContext } from "../context/AuthContext";
+import NewSideBar from "../components/Sidebar/NewSideBar";
+import { useUserContext } from "../context/useUserContext";
+import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
 
 export default function LeaveRequestForm() {
   const { user } = useAuthContext();

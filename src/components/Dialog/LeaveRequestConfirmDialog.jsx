@@ -7,8 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import { doc, collection, addDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase.js";
-import { useAuthContext } from "../../context/AuthContext.js";
+import { db } from "../../firebase";
+import { useAuthContext } from "../../context/AuthContext";
 import { Grid, Typography } from "@mui/material";
 
 function LeaveRequestConfirmDialog(props) {

@@ -1,14 +1,14 @@
 import React from "react";
-import NewSideBar from "../components/Sidebar/NewSideBar.js";
-import AttendanceFormComponent from "../components/AttendanceFormComponent.js";
-import UserInfoCompornent from "../components/UserInfoCompornent.js";
-import LeaveConutComponent from "../components/LeaveConutComponent.js";
-import ApplicationListComponent from "../components/ApplicationListComponent.js";
+import NewSideBar from "../components/Sidebar/NewSideBar";
+import AttendanceFormComponent from "../components/AttendanceFormComponent";
+import UserInfoCompornent from "../components/UserInfoCompornent";
+import LeaveConutComponent from "../components/LeaveConutComponent";
+import ApplicationListComponent from "../components/ApplicationListComponent";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
-import FetchUserInfoData from "../components/FetchData/FetchUserInfoData.js";
+import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
 
 export default function Home() {
   const navigation = useNavigate();

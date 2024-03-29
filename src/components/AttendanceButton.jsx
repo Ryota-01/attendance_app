@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../context/AuthContext.jsx";
 import {
   collection,
   setDoc,
@@ -13,7 +13,7 @@ import {
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../css/AttendanceButton.css";
-import Snackbar from "./Snackbar/Snackbar.js";
+import Snackbar from "./Snackbar/Snackbar";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
