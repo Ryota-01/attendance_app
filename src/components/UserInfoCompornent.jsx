@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useUserContext } from "../context/useUserContext";
 import { formatDate } from "../service/formatDate";
 import { InfoBasicAlert } from "./Alert/BasicAlert";
 import FetchUserInfoData from "./FetchData/FetchUserInfoData";
@@ -16,10 +15,10 @@ import { useAuthContext } from "../context/AuthContext";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function UserInfoCompornent(props) {
-  // const { userData } = useUserContext();
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
   console.log(userData);
+  const { formattedDate } = formatDate(userData.joinDate);
   return (
     <>
       <Card
@@ -32,7 +31,7 @@ export default function UserInfoCompornent(props) {
           <CardMedia
             component="img"
             height="130"
-            sx={{ width: "70%", objectFit:"cover", margin:"auto" }}
+            sx={{ width: "70%", objectFit: "cover", margin: "auto" }}
             image={require("../imeges/kkrn_icon_user_8.png")}
             alt="User Image"
           />
@@ -65,7 +64,7 @@ export default function UserInfoCompornent(props) {
                       color="text.secondary"
                       gutterBottom
                     >
-                      入社日：{formatDate(userData.joinDate)}
+                      入社日：{formattedDate}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>

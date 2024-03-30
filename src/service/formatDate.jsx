@@ -1,5 +1,6 @@
 import React from "react";
 
+// 日付のフォーマット
 export function formatDate(props) {
   const date = new Date(props);
   const getYear = date.getFullYear();
@@ -8,5 +9,6 @@ export function formatDate(props) {
   const getDay = date.getDay();
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
   const formattedDate = `${getYear}/${getMonth}/${getDate}(${dayNames[getDay]})`;
-  return formattedDate;
+  const attendanceFormattedDate = `${getMonth}/${getDate}(${dayNames[getDay]})`;
+  return { formattedDate, attendanceFormattedDate, getDay, dayNames };
 }

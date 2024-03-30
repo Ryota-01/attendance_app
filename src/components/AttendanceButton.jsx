@@ -6,7 +6,6 @@ import {
   collection,
   setDoc,
   doc,
-  getDocs,
   getDoc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -35,8 +34,8 @@ export default function AttendanceButton() {
   // 現在の年月日と時間を取得
   const d = new Date();
   const currentYear = d.getFullYear();
-  const currentMonth = (d.getMonth() + 1).toString().padStart(2, 0);
-  const today = d.getDate().toString().padStart(2, 0);
+  const currentMonth = d.getMonth() + 1;
+  const today = d.getDate();
   const dayOfWeek = d.getDay();
 
   //時計

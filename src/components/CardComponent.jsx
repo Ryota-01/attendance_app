@@ -23,7 +23,7 @@ function CardComponent(props) {
         }}
       >
         <CardContent>
-          {title === "休暇申請一覧" ? (
+          {title === "休暇取得一覧" ? (
             <Box
               sx={{
                 display: "flex",

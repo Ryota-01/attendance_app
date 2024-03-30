@@ -13,7 +13,7 @@ import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
-  FetchUserInfoData()
+  FetchUserInfoData();
 
   // GridItemの幅調整(PC)
   const pcGridItemSpacing = (spacingNumber) => {

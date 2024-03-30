@@ -1,62 +1,84 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import AttendanceDataTable from "../components/Table/AttendanceDataTable";
-import CardComponent from "../components/CardComponent";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import NewSideBar from "../components/Sidebar/NewSideBar";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
-import { get } from "firebase/database";
 import { db } from "../firebase";
-import { useLocation } from "react-router-dom";
-import { Box, Card, Divider, Grid } from "@mui/material";
+import { Card, Divider, Grid, Stack } from "@mui/material";
+import Link from "@mui/material/Link";
+import TotalWorkingDaysTable from "../components/Table/TotalWorkingDaysTable";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
-  // const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  // const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+  const [isEmptyDocument, setIsEmptyDocument] = useState(false);
+  const [disabled, setDisabled] = useState(
+    currentYear === new Date().getFullYear() &&
+      currentMonth === new Date().getMonth() + 1
+  );
   const { user } = useAuthContext();
 
+  // 今日の日付を取得
   const d = new Date();
-  // 現在の年と月を取得
-  const currentYear = d.getFullYear();
-  const currentMonth = (d.getMonth() + 1).toString().padStart(2, 0);
-  const today = d.getDate().toString().padStart(2, 0);
+  const today = d.getDate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // userコレクションを取得
         const userCollectionRef = collection(db, user.uid);
-        // attendanceドキュメント参照
-        const attendanceDocRef = doc(userCollectionRef, "attendance");
         // 年月のサブコレクションのドキュメント(勤怠データ)を取得
-        // getDocはDocumentReference（=docメソッド)を引数として受け取る(collectionではない)
         const attendanceSubCollectionRef = collection(
-          attendanceDocRef,
+          doc(userCollectionRef, "attendance"),
           `${currentYear}-${currentMonth}`
         );
-        // 日毎に分けるドキュメントを作成
-        const attendanceDataDocRef = doc(
-          attendanceSubCollectionRef,
-          `${currentMonth}-${today}`
-        );
         const subCollectionSnapshot = await getDocs(attendanceSubCollectionRef);
-        console.log(subCollectionSnapshot)
-        if (!attendanceDataDocRef.empty) {
+        if (!subCollectionSnapshot.empty) {
           const data = subCollectionSnapshot.docs.map((doc) => doc.data());
+          setIsEmptyDocument(false);
           setAttendanceLists(data);
         } else {
-          console.log("ドキュメントが存在しません");
+          setIsEmptyDocument(true);
+          console.log("勤怠データが存在しません");
         }
       } catch (e) {
         console.log("データの取得中にエラーが発生しました", e.message);
       }
     };
-    console.log(attendanceLists);
     fetchData();
-  }, [user.uid]);
+  }, [currentMonth, currentYear, user]);
 
-  useEffect(() => {});
+  // 前月の勤怠情報
+  const handleLastMonth = () => {
+    if (currentMonth === 1) {
+      setCurrentYear(currentYear - 1);
+      setCurrentMonth(12);
+    } else {
+      setCurrentMonth(currentMonth - 1);
+    }
+    setDisabled(false);
+  };
+
+  // 翌月の勤怠情報
+  const handleNextMonth = () => {
+    if (currentMonth === 12) {
+      setCurrentYear(currentYear + 1);
+      setCurrentMonth(1);
+    } else {
+      setCurrentMonth(currentMonth + 1);
+      if (
+        // 左辺と右辺が同じ年月ならtrue
+        currentYear === new Date().getFullYear() &&
+        currentMonth === new Date().getMonth()
+      ) {
+        setDisabled(true);
+      }
+    }
+  };
 
   return (
     <>
@@ -77,13 +99,56 @@ export default function AttendanceList() {
               >
                 勤怠実績
               </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
-                {`${currentYear}年${currentMonth}月`}
-              </Typography>
 
-              <Divider />
+              <Stack direction="row" spacing={1}>
+                <Link
+                  component="button"
+                  underline="none"
+                  color="inherit"
+                  onClick={handleLastMonth}
+                >
+                  {
+                    <KeyboardArrowLeftIcon
+                      sx={{
+                        minWidth: 0,
+                        justifyContent: "center",
+                        verticalAlign: "bottom",
+                      }}
+                    />
+                  }
+                </Link>
+                <Typography variant="body1" color="text.secondary" gutterBottom>
+                  {`${currentYear}年${currentMonth}月`}
+                </Typography>
+                <Link
+                  component="button"
+                  underline="none"
+                  color="inherit"
+                  onClick={handleNextMonth}
+                  disabled={disabled}
+                >
+                  <KeyboardArrowRightIcon
+                    sx={{
+                      minWidth: 0,
+                      justifyContent: "center",
+                      verticalAlign: "bottom",
+                    }}
+                  />
+                </Link>
+              </Stack>
+              <Divider sx={{ margin: "10px 10px" }} />
+              <TotalWorkingDaysTable
+                attendanceLists={attendanceLists}
+                currentYear={currentYear}
+                currentMonth={currentMonth}
+                isEmptyDocument={isEmptyDocument}
+                sx={{ marginTop: "24px" }}
+              />
               <AttendanceDataTable
                 attendanceLists={attendanceLists}
+                currentYear={currentYear}
+                currentMonth={currentMonth}
+                isEmptyDocument={isEmptyDocument}
                 sx={{ marginTop: "24px" }}
               />
             </Card>

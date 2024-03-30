@@ -39,8 +39,8 @@ export function ApplicationDataProvider({ children }) {
       try {
         const currentYear = new Date().getFullYear(); // サブコレクション名を現在の年に
         const subCollectionName = `${currentYear}_applicationDatas`;
-        const leaveRequestCollectionRef = collection(db, "leaveRequest");
-        const leaveRequestDocRef = doc(leaveRequestCollectionRef, user.uid);
+        const leaveRequestCollectionRef = collection(db, user.uid);
+        const leaveRequestDocRef = doc(leaveRequestCollectionRef, "leaveRequest");
         const leaveRequestSubCollectionRef = collection(
           leaveRequestDocRef,
           subCollectionName

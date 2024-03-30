@@ -49,29 +49,32 @@ function ApplicationListDataTable(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {applicationsData.map((applicationData, index) => (
-                  <TableRow key={index}>
-                    {/* <TableCell align="center">{requestIds}</TableCell> */}
-                    <TableCell align="center" sx={tableCellStyles}>
-                      {formatDate(applicationData.leaveDate)}
-                    </TableCell>
-                    <TableCell align="center" sx={tableCellStyles}>
-                      {applicationData.applicantName}
-                    </TableCell>
-                    {/* <TableCell align="center" sx={tableCellStyles}>
+                {applicationsData.map((applicationData, index) => {
+                  const [formattedDate] = formatDate(applicationData.leaveDate);
+                  return (
+                    <TableRow key={index}>
+                      {/* <TableCell align="center">{requestIds}</TableCell> */}
+                      <TableCell align="center" sx={tableCellStyles}>
+                        {formattedDate}
+                      </TableCell>
+                      <TableCell align="center" sx={tableCellStyles}>
+                        {applicationData.applicantName}
+                      </TableCell>
+                      {/* <TableCell align="center" sx={tableCellStyles}>
                         {applicationData.status}
                       </TableCell> */}
-                    <TableCell align="center" sx={tableCellStyles}>
-                      {applicationData.leaveType}
-                    </TableCell>
-                    <TableCell align="left" sx={tableCellStyles}>
-                      {applicationData.leaveReason}
-                    </TableCell>
-                    <TableCell align="left" sx={tableCellStyles}>
-                      {applicationData.remarks}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell align="center" sx={tableCellStyles}>
+                        {applicationData.leaveType}
+                      </TableCell>
+                      <TableCell align="left" sx={tableCellStyles}>
+                        {applicationData.leaveReason}
+                      </TableCell>
+                      <TableCell align="left" sx={tableCellStyles}>
+                        {applicationData.remarks}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>

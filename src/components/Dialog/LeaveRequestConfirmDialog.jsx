@@ -16,10 +16,7 @@ function LeaveRequestConfirmDialog(props) {
   const hideConfirmation = props.hideConfirmation;
   const values = props.values;
   const applicantName  = props.userName;
-  console.log({...values, applicantName})
-
   const { user } = useAuthContext();
-  const { leaveRequestRef } = props;
   const [open, setOpen] = useState(isLeaveRequestConfirmation);
   const navigate = useNavigate();
   const padding = {
@@ -52,15 +49,15 @@ function LeaveRequestConfirmDialog(props) {
     try {
       // const selectedDate = leaveRequestRef.acquisitionStartDate; // 休暇の取得日
 
-      // サブコレクション名を現在の年煮、ドキュメント名を今日の年月日に
+      // サブコレクション名を現在の年日、ドキュメント名を今日の年月日に
       const currentDate = new Date();
       const currentYear = new Date().getFullYear(); 
-      const currentMonth = currentDate.getMonth() + 1;
-      const today = currentDate.getDate();
+      // const currentMonth = currentDate.getMonth() + 1;
+      // const today = currentDate.getDate();
 
       // leaveRequestコレクションからログイン中のuserIdと一致するドキュメントを参照。
-      const leaveRequestCollectionRef = collection(db, "leaveRequest");
-      const leaveRequestDocRef = doc(leaveRequestCollectionRef, user.uid);
+      const leaveRequestCollectionRef = collection(db, user.uid);
+      const leaveRequestDocRef = doc(leaveRequestCollectionRef, "leaveRequest");
       const leaveRequestSubCollectionRef = collection(
         leaveRequestDocRef,
         `${currentYear}_applicationDatas`
@@ -71,7 +68,7 @@ function LeaveRequestConfirmDialog(props) {
         status: "申請中"
       }
       await setDoc(
-        doc(leaveRequestSubCollectionRef, `${currentYear}-${currentMonth}-${today}_${values.leaveDate}`),
+        doc(leaveRequestSubCollectionRef, `${values.leaveDate}`),
         leaveRequestData,
       );
       console.log("Success!");
