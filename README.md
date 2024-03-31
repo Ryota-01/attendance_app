@@ -10,7 +10,7 @@
 データベース：firestore  
 <img src="https://img.shields.io/badge/-react-61DAFB.svg?logo=react&style=flat">
 <img src="https://img.shields.io/badge/-reacthookform-EC5990.svg?logo=react&style=flat">
-<img src="https://img.shields.io/badge/-createreactapp-09D3AC.svg?logo=react&style=flat">  
+<img src="https://img.shields.io/badge/-createreactapp-09D3AC.svg?logo=react&style=flat">
 <img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">
 
 ### WHY
@@ -19,7 +19,7 @@
 ・ReactとLaravelを勉強してきたので、それらを使って実用性のあるものを開発したかったから。  -->
 ・エクセルで勤怠管理をするのにかかる時間を短縮したい。  
 ・現状手入力のため、正確な労働時間を管理できていない。  
-・残業時間まで記録して給与計算する。  
+<!-- ・残業時間まで記録して給与計算する。   -->
 ・記録を出勤簿として管理したい。  
 ・有給休暇の取得日数と残日数を一元管理したい。  
 
