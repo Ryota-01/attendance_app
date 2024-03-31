@@ -11,6 +11,7 @@ import LeaveRequestForm from "./pages/LeaveRequestForm";
 import CreateUserInfo from "./pages/CreateUserInfo";
 import { UserProvider } from "./context/useUserContext";
 import { ApplicationDataProvider } from "./context/useApplicationDataContext";
+import PDFDownloadPage from "./pages/PDFDownloadPage";
 
 function App() {
   return (
@@ -45,7 +46,13 @@ function App() {
               />
               <Route
                 path="/attendancelist"
-                element={<PrivateRoute index element={<AttendanceListPage />} />}
+                element={
+                  <PrivateRoute index element={<AttendanceListPage />} />
+                }
+              />
+              <Route
+                path="/attendancelist/download"
+                element={<PrivateRoute index element={<PDFDownloadPage />} />}
               />
               <Route
                 path="/leaverequest"

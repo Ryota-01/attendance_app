@@ -13,7 +13,8 @@ export default function DigitalClock() {
   );
 
   useEffect(() => {
-    setDate(formatDate(new Date()));
+    const [formattedDate] = formatDate(new Date())
+    setDate(formattedDate);
     //1秒ごとに時間を更新する
     const intervalId = setInterval(() => {
       const newTime = new Date();

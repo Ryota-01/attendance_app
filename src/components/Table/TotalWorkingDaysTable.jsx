@@ -1,47 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
+import { workingHours } from "../../service/formatDate";
 
 export default function TotalWorkingDaysTable(props) {
   const { attendanceLists } = props;
 
-  const array = [];
+  // 空の配列を用意
+  const workingDates = [];
   for (let i = 0; i < attendanceLists.length; i++) {
     const newArrayData = {
       date: attendanceLists[i].date,
-      stsrtTime: attendanceLists[i].startTime,
+      startTime: attendanceLists[i].startTime,
       endTime: attendanceLists[i].endTime,
     };
-    array.push(newArrayData);
+    workingDates.push(newArrayData);
   }
 
-  //稼働時間を計算
-  function workingHours(startTime, endTime) {
-    if (!endTime) {
-      const currentTime = new Date();
-      const diffInMillSeconds = currentTime.getTime() - startTime.toMillis();
-      const operatingTimeMinutes = diffInMillSeconds / (1000 * 60);
-      return formattedOperatingTime(operatingTimeMinutes);
-    } else {
-      const diffInMillSeconds = endTime.toMillis() - startTime.toMillis();
-      const operatingTimeMinutes = diffInMillSeconds / (1000 * 60);
-      return formattedOperatingTime(operatingTimeMinutes);
-    }
-  }
+  const formatWorkingTimes = [];
+  const workingDate = workingDates.map((value) => {
+    const startTime = value.startTime;
+    const endTime = value.endTime;
+    formatWorkingTimes.push(workingHours(startTime, endTime));
+  });
 
-  function formattedOperatingTime(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = Math.round(minutes % 60);
-    const formattedTime = `${hours}:${remainingMinutes
+  //1ヶ月の総労働時間を計算
+  function calcTotalWorkingTime() {
+    // 合計時間と合計分を初期化
+    let totalHours = 0;
+    let totalMinutes = 0;
+    formatWorkingTimes.forEach((time) => {
+      const [hours, minutes] = time.split(":");
+      totalHours += parseInt(hours);
+      totalMinutes += parseInt(minutes);
+    });
+    // 合計時間と合計分を正規化
+    totalHours += Math.floor(totalMinutes / 60);
+    totalMinutes %= 60;
+    // 合計時間をフォーマットして表示
+    const formattedTotalTime = `${totalHours}:${totalMinutes
       .toString()
       .padStart(2, "0")}`;
-    return formattedTime;
+    return formattedTotalTime;
   }
-
-  console.log(array);
 
   return (
     <>
-      <p>総稼働日数：{array.length}日</p>
-      {/* <p>総稼働時間：{workingHours()}</p> */}
+      <p>総稼働日数：{workingDate.length}日</p>
+      <p>総稼働時間：{calcTotalWorkingTime()}</p>
     </>
   );
 }

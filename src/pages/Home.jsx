@@ -9,11 +9,12 @@ import { useAuthContext } from "../context/AuthContext";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
 import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
+import PDF from "../components/PDF";
+import { PDFViewer } from "@react-pdf/renderer";
 
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
-  FetchUserInfoData();
 
   // GridItemの幅調整(PC)
   const pcGridItemSpacing = (spacingNumber) => {
@@ -23,6 +24,13 @@ export default function Home() {
       return 12;
     }
   };
+
+  // const PDFViewer = dynamic(
+  //   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
+  //   {
+  //     ssr: false,
+  //   }
+  // )
 
   // GridItemの幅調整(SP)
   const spGridItemSpacing = (spacingNumber) => {
@@ -47,6 +55,9 @@ export default function Home() {
             }}
           >
             <Grid container spacing={4}>
+              <PDFViewer width="100%" height="100%">
+                <PDF />
+              </PDFViewer>
               <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(7)}>
                 <AttendanceFormComponent />
               </Grid>

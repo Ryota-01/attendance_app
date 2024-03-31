@@ -17,8 +17,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export default function UserInfoCompornent(props) {
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
-  console.log(userData);
-  const { formattedDate } = formatDate(userData.joinDate);
+  const [formattedDate] = formatDate(userData.joinDate);
   return (
     <>
       <Card

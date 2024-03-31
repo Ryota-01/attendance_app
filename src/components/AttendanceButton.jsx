@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { useAuthContext } from "../context/AuthContext.jsx";
+import { useAuthContext } from "../context/AuthContext";
 import {
   collection,
   setDoc,
@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../css/AttendanceButton.css";
 import Snackbar from "./Snackbar/Snackbar";
+import { workingHours } from "../service/formatDate";
 
 export default function AttendanceButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -114,7 +115,7 @@ export default function AttendanceButton() {
       const value = {
         userID: user.uid,
         // date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
-        date: serverTimestamp(),
+        date: new Date(),
         startTime: serverTimestamp(),
         isClockInDisabled: true,
         remarks: "",

@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { useAuthContext } from "../context/AuthContext";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { Button, Card, Divider, Grid, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import AttendanceDataTable from "../components/Table/AttendanceDataTable";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import NewSideBar from "../components/Sidebar/NewSideBar";
-import { useAuthContext } from "../context/AuthContext";
-import { collection, doc, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
-import { Card, Divider, Grid, Stack } from "@mui/material";
 import Link from "@mui/material/Link";
 import TotalWorkingDaysTable from "../components/Table/TotalWorkingDaysTable";
+import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [isEmptyDocument, setIsEmptyDocument] = useState(false);
+  const navigate = useNavigate("");
   const [disabled, setDisabled] = useState(
     currentYear === new Date().getFullYear() &&
       currentMonth === new Date().getMonth() + 1
   );
   const { user } = useAuthContext();
-
+  const userData = FetchUserInfoData(user.uid);
+  console.log(userData);
   // 今日の日付を取得
   const d = new Date();
   const today = d.getDate();
@@ -42,6 +46,7 @@ export default function AttendanceList() {
           setIsEmptyDocument(false);
           setAttendanceLists(data);
         } else {
+          setAttendanceLists([]);
           setIsEmptyDocument(true);
           console.log("勤怠データが存在しません");
         }
@@ -78,6 +83,14 @@ export default function AttendanceList() {
         setDisabled(true);
       }
     }
+  };
+
+  // PDFダウンロードページに遷移
+  const handleOnClick = (e) => {
+    e.preventDefault();
+    navigate("/attendancelist/download", {
+      state: { attendanceLists: attendanceLists },
+    });
   };
 
   return (
@@ -144,6 +157,9 @@ export default function AttendanceList() {
                 isEmptyDocument={isEmptyDocument}
                 sx={{ marginTop: "24px" }}
               />
+              <Button variant="outlined" onClick={handleOnClick}>
+                PDF出力
+              </Button>
               <AttendanceDataTable
                 attendanceLists={attendanceLists}
                 currentYear={currentYear}
