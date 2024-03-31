@@ -10,7 +10,7 @@
 データベース：firestore  
 <img src="https://img.shields.io/badge/-react-61DAFB.svg?logo=react&style=flat">
 <img src="https://img.shields.io/badge/-reacthookform-EC5990.svg?logo=react&style=flat">
-<img src="https://img.shields.io/badge/-createreactapp-09D3AC.svg?logo=react&style=flat">
+<img src="https://img.shields.io/badge/-createreactapp-09D3AC.svg?logo=react&style=flat">  
 <img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">  
 
 ### WHY
@@ -29,7 +29,7 @@
 ### TECH
 
 ### FUTURE
-・Typescriptの導入 
-・経費申請などの機能追加 
-・有休日数のカウント機能追加 
-・管理者画面の作成（管理者画面からユーザー作成や管理をできるようにする） 
+・Typescriptの導入  
+・経費申請などの機能追加  
+・有休日数のカウント機能追加  
+・管理者画面の作成（管理者画面からユーザー作成や管理をできるようにする）  
