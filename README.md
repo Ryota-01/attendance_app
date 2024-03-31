@@ -9,10 +9,11 @@
 フロントエンド：React  
 データベース：firestore  
 <img src="https://img.shields.io/badge/-react-61DAFB.svg?logo=react&style=flat">  
-
+<img src="https://img.shields.io/badge/-reacthookform-EC5990.svg?logo=react&style=flat">  
+<img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">  
 
 ### WHY
-<!-- ・現在の仕事で使うことを想定して作成しました。  
+<!-- ・現在の仕事で使うことを想定して作成しました。 
 ・自分で開発できればお金のコストをかけずに済み、他の業務に時間を割けるから  （小規模会社のためバックオフィスの業務にあまりリソースを割けなかったから）  
 ・ReactとLaravelを勉強してきたので、それらを使って実用性のあるものを開発したかったから。  -->
 ・エクセルで勤怠管理をするのにかかる時間を短縮したい。  
