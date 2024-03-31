@@ -11,7 +11,7 @@
 <img src="https://img.shields.io/badge/-react-61DAFB.svg?logo=react&style=flat">
 <img src="https://img.shields.io/badge/-reacthookform-EC5990.svg?logo=react&style=flat">
 <img src="https://img.shields.io/badge/-createreactapp-09D3AC.svg?logo=react&style=flat">  
-<img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">  
+<img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">
 
 ### WHY
 <!-- ・現在の仕事で使うことを想定して作成しました。 
