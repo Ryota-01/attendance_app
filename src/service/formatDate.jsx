@@ -41,13 +41,15 @@ export function formatTimestamp(timestamp) {
 
 // 稼働時間を計算して表示させるフォーマット(AttendanceDataTable.jsx)
 export function workingHours(startTime, endTime) {
+  console.log(endTime);
   if (!endTime) {
     const currentTime = new Date();
-    const diffInMillSeconds = currentTime.getTime() - startTime.toMillis();
+    const diffInMillSeconds = currentTime.getTime() - startTime.toDate().getTime();
     const operatingTimeMinutes = diffInMillSeconds / (1000 * 60);
     return formattedOperatingTime(operatingTimeMinutes);
   } else {
-    const diffInMillSeconds = endTime.toMillis() - startTime.toMillis();
+    const diffInMillSeconds = endTime.toDate().getTime() - startTime.toDate().getTime();
+    console.log(diffInMillSeconds);
     const operatingTimeMinutes = diffInMillSeconds / (1000 * 60);
     return formattedOperatingTime(operatingTimeMinutes);
   }

@@ -18,7 +18,6 @@ export default function FetchUserInfoData(uid) {
           if (snapShot.exists()) {
             const userInfoData = snapShot.data();
             setUserInfoData(userInfoData);
-            console.log(userInfoData)
           } else {
             return;
           }

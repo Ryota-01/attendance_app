@@ -55,9 +55,6 @@ export default function Home() {
             }}
           >
             <Grid container spacing={4}>
-              <PDFViewer width="100%" height="100%">
-                <PDF />
-              </PDFViewer>
               <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(7)}>
                 <AttendanceFormComponent />
               </Grid>

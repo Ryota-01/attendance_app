@@ -115,7 +115,7 @@ export default function AttendanceButton() {
       const value = {
         userID: user.uid,
         // date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
-        date: new Date(),
+        date: serverTimestamp(),
         startTime: serverTimestamp(),
         isClockInDisabled: true,
         remarks: "",

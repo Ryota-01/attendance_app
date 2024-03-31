@@ -25,7 +25,6 @@ export default function AttendanceList() {
   );
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
-  console.log(userData);
   // 今日の日付を取得
   const d = new Date();
   const today = d.getDate();
@@ -83,14 +82,6 @@ export default function AttendanceList() {
         setDisabled(true);
       }
     }
-  };
-
-  // PDFダウンロードページに遷移
-  const handleOnClick = (e) => {
-    e.preventDefault();
-    navigate("/attendancelist/download", {
-      state: { attendanceLists: attendanceLists },
-    });
   };
 
   return (
@@ -157,14 +148,12 @@ export default function AttendanceList() {
                 isEmptyDocument={isEmptyDocument}
                 sx={{ marginTop: "24px" }}
               />
-              <Button variant="outlined" onClick={handleOnClick}>
-                PDF出力
-              </Button>
               <AttendanceDataTable
                 attendanceLists={attendanceLists}
                 currentYear={currentYear}
                 currentMonth={currentMonth}
                 isEmptyDocument={isEmptyDocument}
+                userData={userData}
                 sx={{ marginTop: "24px" }}
               />
             </Card>
