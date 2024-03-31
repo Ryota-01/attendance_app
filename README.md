@@ -8,7 +8,7 @@
   
 フロントエンド：React  
 データベース：firestore  
-<img src="https://img.shields.io/badge/-react-#61DAFB.svg?logo=react&style=flat">  
+<img src="https://img.shields.io/badge/-react-61DAFB.svg?logo=react&style=flat">  
 
 
 ### WHY
