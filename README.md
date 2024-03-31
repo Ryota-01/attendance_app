@@ -1,14 +1,14 @@
 ### WHAT
 勤怠管理系アプリ  
-・打刻
-・ユーザー作成 
-・ログイン・ログアウト機能 
-・出勤簿のPDF出力
-・休暇申請 
-
-フロントエンド：React 
-データベース：firestore 
-<img src="https://img.shields.io/badge/-Vim-019733.svg?logo=vim&style=flat">
+・打刻  
+・ユーザー作成   
+・ログイン・ログアウト機能   
+・出勤簿のPDF出力  
+・休暇申請  
+  
+フロントエンド：React  
+データベース：firestore  
+<img src="https://img.shields.io/badge/-react-#61DAFB.svg?logo=react&style=flat">  
 
 
 ### WHY
