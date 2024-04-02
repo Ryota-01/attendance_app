@@ -8,9 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
-import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
-import PDF from "../components/PDF";
-import { PDFViewer } from "@react-pdf/renderer";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -24,13 +21,6 @@ export default function Home() {
       return 12;
     }
   };
-
-  // const PDFViewer = dynamic(
-  //   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-  //   {
-  //     ssr: false,
-  //   }
-  // )
 
   // GridItemの幅調整(SP)
   const spGridItemSpacing = (spacingNumber) => {

@@ -49,7 +49,6 @@ export function workingHours(startTime, endTime) {
     return formattedOperatingTime(operatingTimeMinutes);
   } else {
     const diffInMillSeconds = endTime.toDate().getTime() - startTime.toDate().getTime();
-    console.log(diffInMillSeconds);
     const operatingTimeMinutes = diffInMillSeconds / (1000 * 60);
     return formattedOperatingTime(operatingTimeMinutes);
   }
