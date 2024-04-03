@@ -10,8 +10,11 @@ export function formatDate(props) {
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
   const dayOfWeek = dayNames[getDay];
   const formattedDate = `${getYear}/${getMonth}/${getDate}(${dayNames[getDay]})`;
-  const attendanceFormattedDate = `${getMonth}/${getDate}(${dayNames[getDay]})`;
-  return [formattedDate, attendanceFormattedDate, dayOfWeek];
+  console.log(formattedDate)
+  // if(dayNames[getDay] === "土") {
+  //   formattedDate.push("")
+  // }
+  return [formattedDate];
 }
 
 // 日付のフォーマット
@@ -28,6 +31,7 @@ export function formatAttedanceDate(props) {
   const attendanceFormattedDate = `${getMonth}/${getDate}(${dayNames[getDay]})`;
   return [formattedDate, attendanceFormattedDate, dayOfWeek];
 }
+
 // 出勤・退勤時刻を表示させるためのフォーマット(AttendanceDataTable.jsx)
 export function formatTimestamp(timestamp) {
   const dateObject = new Date(
@@ -41,7 +45,6 @@ export function formatTimestamp(timestamp) {
 
 // 稼働時間を計算して表示させるフォーマット(AttendanceDataTable.jsx)
 export function workingHours(startTime, endTime) {
-  console.log(endTime);
   if (!endTime) {
     const currentTime = new Date();
     const diffInMillSeconds = currentTime.getTime() - startTime.toDate().getTime();

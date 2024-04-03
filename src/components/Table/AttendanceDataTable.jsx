@@ -24,24 +24,65 @@ function AttendanceDataTable(props) {
   const navigate = useNavigate();
 
   // フォーマットした日付（カレンダー）
-  const formattedDates = dates.map((date) => formatDate(date)[1]);
+  const formattedDates = dates.map((date) => formatDate(date));
+  console.log(formattedDates);
   const dayOfWeek = dates.map((date) => formatDate(date)[2]);
 
   const formattedAttendanceLists = attendanceLists.map((attendanceList) => {
     const formattedDate = formatAttedanceDate(attendanceList.date.seconds)[1];
     // ブラウザ表示用にフォーマットした出勤時刻
     const formattedStartTime = formatTimestamp(attendanceList.startTime);
-    let formattedEndTime = null;
-    if (attendanceList.endTime) {
-      // ブラウザ表示用にフォーマットした退勤時刻
-      formattedEndTime = formatTimestamp(attendanceList.endTime);
-    }
+    const formattedEndTime = formatTimestamp(attendanceList.endTime);
+    console.log(formattedDate, formattedStartTime, formattedEndTime);
     return {
       formattedDate,
       formattedStartTime,
       formattedEndTime,
     };
   });
+
+  // 空の配列を用意
+  const workingDates = [];
+  for (let i = 0; i < attendanceLists.length; i++) {
+    const newArrayData = {
+      date: attendanceLists[i].date,
+      startTime: attendanceLists[i].startTime,
+      endTime: attendanceLists[i].endTime,
+    };
+    workingDates.push(newArrayData);
+  }
+  console.log(workingDates);
+
+  const formatWorkingTimes = [];
+  const workingDate = workingDates.map((value) => {
+    console.log(value);
+    const date = formatDate(value.date)[0];
+    console.log(date);
+    const startTime = value.startTime;
+    const endTime = value.endTime;
+    formatWorkingTimes.push(workingHours(startTime, endTime));
+  });
+  console.log(formatWorkingTimes);
+
+  //1ヶ月の総労働時間を計算
+  function calcTotalWorkingTime() {
+    // 合計時間と合計分を初期化
+    let totalHours = 0;
+    let totalMinutes = 0;
+    formatWorkingTimes.forEach((time) => {
+      const [hours, minutes] = time.split(":");
+      totalHours += parseInt(hours);
+      totalMinutes += parseInt(minutes);
+    });
+    // 合計時間と合計分を正規化
+    totalHours += Math.floor(totalMinutes / 60);
+    totalMinutes %= 60;
+    // 合計時間をフォーマットして表示
+    const formattedTotalTime = `${totalHours}:${totalMinutes
+      .toString()
+      .padStart(2, "0")}`;
+    return formattedTotalTime;
+  }
 
   const styles = {
     tableContainer: {
@@ -141,13 +182,16 @@ function AttendanceDataTable(props) {
                             <TableCell align="center">
                               {attendanceList.formattedEndTime}
                             </TableCell>
-                            <TableCell align="center">
-                              {attendanceList.formattedStartTime ||
+                            {/* {attendanceList.formattedStartTime ||
                                 (attendanceList.formattedEndTime &&
                                   workingHours(
                                     attendanceList.formattedStartTime,
                                     attendanceList.formattedEndTime
-                                  ))}
+                                  ))} */}
+                            <TableCell align="center">
+                              {formatWorkingTimes.map((workingTime, index) => {
+                                return <>{workingTime}</>;
+                              })}
                             </TableCell>
                           </>
                         );

@@ -3,7 +3,6 @@ import { workingHours } from "../../service/formatDate";
 
 export default function TotalWorkingDaysTable(props) {
   const { attendanceLists } = props;
-  console.log(attendanceLists)
 
   // 稼働の日数
   // 空の配列を用意
@@ -19,13 +18,10 @@ export default function TotalWorkingDaysTable(props) {
 
   const formatWorkingTimes = [];
   const workingDate = workingDates.map((value) => {
-    console.log(value);
     const startTime = value.startTime;
     const endTime = value.endTime;
     formatWorkingTimes.push(workingHours(startTime, endTime));
   });
-
-  console.log(formatWorkingTimes);
 
   //1ヶ月の総労働時間を計算
   function calcTotalWorkingTime() {
@@ -33,7 +29,6 @@ export default function TotalWorkingDaysTable(props) {
     let totalHours = 0;
     let totalMinutes = 0;
     formatWorkingTimes.forEach((time) => {
-      console.log(time)
       const [hours, minutes] = time.split(":");
       totalHours += parseInt(hours);
       totalMinutes += parseInt(minutes);
