@@ -3,6 +3,7 @@ import React from "react";
 
 // 日付のフォーマット
 export function formatDate(props) {
+  console.log(props)
   let dateObj = props;
   if (props instanceof Timestamp) {
     dateObj = props.toDate(); // ミリ秒に変換

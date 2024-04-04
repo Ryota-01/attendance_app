@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { Button, Card, Divider, Grid, Stack } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Card, Divider, Grid, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import AttendanceDataTable from "../components/Table/AttendanceDataTable";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -18,16 +17,12 @@ export default function AttendanceList() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [isEmptyDocument, setIsEmptyDocument] = useState(false);
-  const navigate = useNavigate("");
   const [disabled, setDisabled] = useState(
     currentYear === new Date().getFullYear() &&
       currentMonth === new Date().getMonth() + 1
   );
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
-  // 今日の日付を取得
-  const d = new Date();
-  const today = d.getDate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,60 +79,62 @@ export default function AttendanceList() {
     }
   };
 
+  // スタイリング
+  const styles = (variant, weight) => ({
+    title: {
+      variant: variant, //"h6"
+      color: "text.secondary",
+      fontWeight: weight,
+      gutterBottom: true,
+    },
+    subTitle: {
+      variant: variant, // "body1"
+      color: "text.secondary",
+      fontWeight: weight,
+      gutterBottom: true,
+    },
+    link: {
+      component: "button",
+      underline: "none",
+      color: "inherit",
+    },
+    arrowIcon: {
+      sx: {
+        minWidth: 0,
+        justifyContent: "center",
+        verticalAlign: "bottom",
+      },
+    },
+    divider: {},
+  });
+
   return (
     <>
       <NewSideBar>
-        <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Card
-              sx={{
-                padding: "24px",
-                height: "100%",
-              }}
-            >
-              <Typography
-                variant="h6"
-                color="text.secondary"
-                gutterBottom
-                fontWeight={"bold"}
-              >
-                勤怠実績
-              </Typography>
-
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              padding: "24px",
+              height: "100%",
+            }}
+          >
+            <Card {...styles().card}>
+              <Typography {...styles("h6", "bold").title}>勤怠実績</Typography>
               <Stack direction="row" spacing={1}>
-                <Link
-                  component="button"
-                  underline="none"
-                  color="inherit"
-                  onClick={handleLastMonth}
-                >
-                  {
-                    <KeyboardArrowLeftIcon
-                      sx={{
-                        minWidth: 0,
-                        justifyContent: "center",
-                        verticalAlign: "bottom",
-                      }}
-                    />
-                  }
+                <Link {...styles().link} onClick={handleLastMonth}>
+                  {<KeyboardArrowLeftIcon {...styles().arrowIcon} />}
                 </Link>
-                <Typography variant="body1" color="text.secondary" gutterBottom>
+                <Typography {...styles("body5").subTitle}>
                   {`${currentYear}年${currentMonth}月`}
                 </Typography>
                 <Link
-                  component="button"
-                  underline="none"
-                  color="inherit"
+                  {...styles().link}
                   onClick={handleNextMonth}
                   disabled={disabled}
                 >
-                  <KeyboardArrowRightIcon
-                    sx={{
-                      minWidth: 0,
-                      justifyContent: "center",
-                      verticalAlign: "bottom",
-                    }}
-                  />
+                  <KeyboardArrowRightIcon {...styles().arrowIcon} />
                 </Link>
               </Stack>
               <Divider sx={{ margin: "10px 10px" }} />
@@ -146,7 +143,6 @@ export default function AttendanceList() {
                 currentYear={currentYear}
                 currentMonth={currentMonth}
                 isEmptyDocument={isEmptyDocument}
-                sx={{ marginTop: "24px" }}
               />
               <AttendanceDataTable
                 attendanceLists={attendanceLists}
@@ -154,7 +150,6 @@ export default function AttendanceList() {
                 currentMonth={currentMonth}
                 isEmptyDocument={isEmptyDocument}
                 userData={userData}
-                sx={{ marginTop: "24px" }}
               />
             </Card>
           </Grid>

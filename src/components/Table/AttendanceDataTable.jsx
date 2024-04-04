@@ -34,7 +34,10 @@ function AttendanceDataTable(props) {
       startTime: formatTimestamp(attendanceList.startTime),
       // ブラウザ表示用にフォーマットした退勤時刻
       endTime: formatTimestamp(attendanceList.endTime),
-      workingTime: workingHours(attendanceList.startTime, attendanceList.endTime)
+      workingTime: workingHours(
+        attendanceList.startTime,
+        attendanceList.endTime
+      ),
     };
     const formattedDateTime = { ...formattedDate, ...formattedTime };
     return formattedDateTime;
@@ -50,7 +53,6 @@ function AttendanceDataTable(props) {
   //   };
   //   formattedAttendanceLists.push(newArrayData);
   // }
-
 
   const formatWorkingTimes = [];
   // const workingDate = formattedAttendanceLists.map((value) => {
@@ -165,27 +167,21 @@ function AttendanceDataTable(props) {
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.startTime}</>
-                        ) : (
-                          null
-                        )
+                        ) : null
                       )}
                     </TableCell>
                     <TableCell align="center">
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.endTime}</>
-                        ) : (
-                          null
-                        )
+                        ) : null
                       )}
                     </TableCell>
                     <TableCell align="center">
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.workingTime}</>
-                        ) : (
-                          null
-                        )
+                        ) : null
                       )}
                     </TableCell>
                   </TableRow>
