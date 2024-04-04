@@ -164,15 +164,6 @@ export default function AttendanceButton() {
     }
   };
 
-  const buttonStyle = (buttonColor) => ({
-    variant: "contained",
-    color: buttonColor,
-    style: {
-      fontSize: "1.3rem",
-      padding: "4px 60px",
-    },
-  });
-
   const styles = (buttonColor, disabled) => ({
     stackStyle: {
       direction: { xs: "column", sm: "row", md: "row" },
