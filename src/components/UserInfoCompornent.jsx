@@ -17,7 +17,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 export default function UserInfoCompornent(props) {
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
-  const [formattedDate] = formatDate(userData.joinDate);
+  // const [formattedDate] = formatDate(userData.joinDate);
+  // console.log(userData.joinDate)
   return (
     <>
       <Card
@@ -63,7 +64,7 @@ export default function UserInfoCompornent(props) {
                       color="text.secondary"
                       gutterBottom
                     >
-                      入社日：{formattedDate}
+                      {/* 入社日：{formattedDate} */}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>

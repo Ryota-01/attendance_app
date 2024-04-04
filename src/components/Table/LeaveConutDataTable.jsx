@@ -17,8 +17,7 @@ import calculateSixMonthsAfterJoinDate from "../../service/calculateMonthsSinceJ
 export default function LeaveConutDataTable() {
   const { user } = useAuthContext();
   const { userData } = useUserContext();
-  const joinDate = userData?.joinDate || "";
-
+  const joinDate = formatDate(userData?.joinDate) || "";
   const columns = [
     { field: "joinDate", headerName: "入社日" },
     { field: "leaveType", headerName: "休暇種別" },
@@ -34,7 +33,6 @@ export default function LeaveConutDataTable() {
     sixMonthLatter.setMonth(sixMonthLatter.getMonth() + 6);
     // 現在日
     const currentDate = new Date();
-    console.log(sixMonthLatter, currentDate)
     if (sixMonthLatter >= currentDate) {
       // console.log("半年経過");
     } else {
@@ -74,7 +72,7 @@ export default function LeaveConutDataTable() {
         if (formatJoinDate.setMonth(formatJoinDate.getMonth() + 6)) {
         }
       } catch (e) {
-        console.log(e.message);
+        console.error(e.message);
       }
     };
     fetchLeaveCountData();
@@ -100,7 +98,7 @@ export default function LeaveConutDataTable() {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell align="center">{formatDate(joinDate)}</TableCell>
+              <TableCell align="center">{joinDate.date}</TableCell>
               <TableCell align="center"></TableCell>
               <TableCell align="center"></TableCell>
               <TableCell align="center"></TableCell>

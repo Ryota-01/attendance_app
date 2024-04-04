@@ -49,20 +49,20 @@ function ApplicationListDataTable(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {applicationsData.map((applicationData, index) => {
+                {/* {applicationsData.map((applicationData, index) => {
                   const [formattedDate] = formatDate(applicationData.leaveDate);
                   return (
                     <TableRow key={index}>
-                      {/* <TableCell align="center">{requestIds}</TableCell> */}
+                      <TableCell align="center">{requestIds}</TableCell>
                       <TableCell align="center" sx={tableCellStyles}>
                         {formattedDate}
                       </TableCell>
                       <TableCell align="center" sx={tableCellStyles}>
                         {applicationData.applicantName}
                       </TableCell>
-                      {/* <TableCell align="center" sx={tableCellStyles}>
+                      <TableCell align="center" sx={tableCellStyles}>
                         {applicationData.status}
-                      </TableCell> */}
+                      </TableCell>
                       <TableCell align="center" sx={tableCellStyles}>
                         {applicationData.leaveType}
                       </TableCell>
@@ -74,7 +74,7 @@ function ApplicationListDataTable(props) {
                       </TableCell>
                     </TableRow>
                   );
-                })}
+                })} */}
               </TableBody>
             </Table>
           </TableContainer>
