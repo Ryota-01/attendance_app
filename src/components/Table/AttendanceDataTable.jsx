@@ -39,7 +39,6 @@ function AttendanceDataTable(props) {
     const formattedDateTime = { ...formattedDate, ...formattedTime };
     return formattedDateTime;
   });
-  console.log(formattedAttendanceLists)
 
   // 空の配列を用意
   // const workingDates = [];
@@ -110,8 +109,8 @@ function AttendanceDataTable(props) {
     };
     fetchData();
   }, [currentMonth, currentYear]);
-  // PDFダウンロードページに遷移
 
+  // PDFダウンロードページに遷移
   const handleOnClick = (e) => {
     e.preventDefault();
     navigate("/attendancelist/download", {
@@ -189,45 +188,6 @@ function AttendanceDataTable(props) {
                         )
                       )}
                     </TableCell>
-                    {/* {formattedAttendanceLists.map((attendanceList) => {
-                      if (
-                        formattedCalendarDate === attendanceList.date
-                      ) {
-                        return (
-                          <>
-                            <TableCell align="center">
-                              {attendanceList.startTime}
-                            </TableCell>
-                            <TableCell align="center">
-                              {attendanceList.formattedEndTime}
-                            </TableCell>
-                            {attendanceList.formattedStartTime ||
-                                (attendanceList.formattedEndTime &&
-                                  workingHours(
-                                    attendanceList.formattedStartTime,
-                                    attendanceList.formattedEndTime
-                                  ))}
-                            <TableCell align="center">
-                              {formatWorkingTimes.map((workingTime, index) => {
-                                return <>{workingTime}</>;
-                              })}
-                            </TableCell>
-                          </>
-                        );
-                      }
-                      return null;
-                    })} */}
-                    {/* カレンダーの日付と一致しない場合はここで "-- : --" を表示 */}
-                    {formattedAttendanceLists.every(
-                      (attendanceList) =>
-                        attendanceList.formattedDate !== formattedCalendarDate
-                    ) && (
-                      <>
-                        {/* <TableCell align="center">-- : --</TableCell>
-                        <TableCell align="center">-- : --</TableCell>
-                        <TableCell align="center">-- : --</TableCell> */}
-                      </>
-                    )}
                   </TableRow>
                 ))}
               </TableBody>

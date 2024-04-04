@@ -114,7 +114,6 @@ export default function AttendanceButton() {
     try {
       const value = {
         userID: user.uid,
-        // date: `${currentYear}年${currentMonth}月${today}日(${dayNames[dayOfWeek]})`,
         date: serverTimestamp(),
         startTime: serverTimestamp(),
         isClockInDisabled: true,
@@ -133,7 +132,7 @@ export default function AttendanceButton() {
       setPopupMessage(popupMessage);
       setIsClockInDisabled(value.isClockInDisabled);
     } catch (e) {
-      console.log("error", e.message);
+      console.error("error", e.message);
     }
   };
   // 退勤ボタンを押した時の処理
@@ -174,38 +173,38 @@ export default function AttendanceButton() {
     },
   });
 
+  const styles = (buttonColor, disabled) => ({
+    stackStyle: {
+      direction: { xs: "column", sm: "row", md: "row" },
+      justifyContent: "center",
+      spacing: 3,
+      marginTop: "28px",
+    },
+    buttonStyle: {
+      variant: "contained",
+      color: buttonColor,
+      disabled: disabled,
+      sx: {
+        fontSize: "1.3rem",
+        padding: "4px 60px",
+      }
+    }
+  })
+
   return (
     <>
       <Stack
-        direction={{ xs: "column", sm: "row", md: "row" }}
-        justifyContent={"center"}
-        spacing={3}
-        sx={{
-          marginTop: "28px",
-        }}
+        {...styles().stackStyle}
       >
         <Button
-          variant="contained"
           onClick={handleClockIn}
-          color="primary"
-          disabled={isClockInDisabled}
-          style={{
-            fontSize: "1.3rem",
-            padding: "4px 60px",
-          }}
-          {...buttonStyle("primary")}
+          {...styles("primary", isClockInDisabled).buttonStyle}
         >
           出 勤
         </Button>
         <Button
-          variant="contained"
           onClick={handleClockOut}
-          color="secondary"
-          disabled={isClockOutDisabled}
-          style={{
-            fontSize: "1.3rem",
-            padding: "4px 60px",
-          }}
+          {...styles("secondary", isClockOutDisabled).buttonStyle}
         >
           退 勤
         </Button>

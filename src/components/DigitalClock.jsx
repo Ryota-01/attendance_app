@@ -13,8 +13,7 @@ export default function DigitalClock() {
   );
 
   useEffect(() => {
-    const [formattedDate] = formatDate(new Date());
-    console.log(formattedDate)
+    const formattedDate = formatDate(new Date());
     setDate(formattedDate);
     //1秒ごとに時間を更新する
     const intervalId = setInterval(() => {
@@ -25,18 +24,22 @@ export default function DigitalClock() {
     return () => clearInterval(intervalId);
   }, []);
 
+  const styles = () => ({
+    container: {
+      marginTop: "40px"
+    },
+  })
+
   return (
     <div className="databoxWrapper">
-      <Grid cantainer sx={{ marginTop: "40px" }}>
-        <Grid item md={12}>
-          <Typography variant="h5">{date}</Typography>
+      <Grid cantainer {...styles().container}>
+        <Grid item>
+          <Typography variant="h5">{date.date}</Typography>
         </Grid>
-        <Grid item md={12}>
+        <Grid item>
           <Typography variant="h2">{formattedTime}</Typography>
         </Grid>
       </Grid>
-      {/* <p class="currentDate">{date}</p>
-      <h2 class="currentTime">{formattedTime}</h2> */}
     </div>
   );
 }

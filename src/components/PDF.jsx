@@ -16,7 +16,6 @@ export default function PDF(props) {
   const { currentYear } = props.state;
   const { currentMonth } = props.state;
   const { userData } = props.state;
-  console.log(props);
 
   Font.register({
     family: "NotoSansJP",
@@ -41,13 +40,13 @@ export default function PDF(props) {
       textAlign: "right",
     },
     header: {
-      fontSize: 20,
+      fontSize: 16,
       marginBottom: 0,
       fontWeight: "bold",
       textAlign: "center",
     },
     subHeader: {
-      fontSize: 12,
+      fontSize: 10,
       marginBottom: 0,
       fontWeight: "bold",
       textAlign: "center",
@@ -72,25 +71,26 @@ export default function PDF(props) {
       flexDirection: "row",
     },
     tableColHeader: {
-      width: "25%",
+      width: "20%",
       borderStyle: "solid",
       borderWidth: 1,
       textAlign: "center",
       borderLeftWidth: 0,
       borderTopWidth: 0,
       fontWeight: "bold",
+      fontSize: 8,
       padding: 2,
       backgroundColor: "#BEE5EB",
     },
     tableCol: {
-      width: "25%",
+      width: "20%",
       borderStyle: "solid",
       borderWidth: 1,
       textAlign: "center",
       borderLeftWidth: 0,
       borderTopWidth: 0,
       padding: 2,
-      fontSize: 10,
+      fontSize: 8,
     },
     textVertical: {
       flexDirection: "column",
@@ -125,14 +125,30 @@ export default function PDF(props) {
                 <Text>〜〜御中</Text> */}
               </View>
               <View>
-                <View style={styles.user}>
-                  <Text style={styles.EmployeeName}>
+                <View style={styles.itemsTable}>
+                  <View style={styles.tableRow}>
+                    <Text style={styles.tableColHeader}>社員名</Text>
+                    <Text style={styles.tableColHeader}>稼働日数</Text>
+                    <Text style={styles.tableColHeader}>稼働時間</Text>
+                    <Text style={styles.tableColHeader}>社員名</Text>
+                    <Text style={styles.tableColHeader}>社員名</Text>
+                    {/* <Text style={styles.EmployeeName}>
                     社員名：{userData.lastName} {userData.firstName}
                   </Text>
-                  {/* <Text>東京都渋谷区・・・</Text> */}
-                  {/* <Text>TEL:00-0000-0000</Text> */}
+                  <Text>東京都渋谷区・・・</Text>
+                  <Text>TEL:00-0000-0000</Text> */}
+                  </View>
+                  <View style={styles.tableRow}>
+                    <Text style={styles.tableCol}>{userData.lastName} {userData.firstName}</Text>
+                    <Text style={styles.tableCol}>社員名</Text>
+                    <Text style={styles.tableCol}>社員名</Text>
+                    <Text style={styles.tableCol}>社員名</Text>
+                    <Text style={styles.tableCol}>社員名</Text>
+                  </View>
+
                 </View>
               </View>
+
             </View>
           ))}
         </View>
@@ -140,6 +156,7 @@ export default function PDF(props) {
           <View style={styles.itemsTable}>
             <View style={styles.tableRow}>
               <Text style={styles.tableColHeader}>日付</Text>
+              <Text style={styles.tableColHeader}>休日</Text>
               <Text style={styles.tableColHeader}>出勤時刻</Text>
               <Text style={styles.tableColHeader}>退勤時刻</Text>
               <Text style={styles.tableColHeader}>稼働時間</Text>
@@ -147,24 +164,23 @@ export default function PDF(props) {
             </View>
             {formattedDates.map((formattedCalendarDate, index) => (
               <View style={styles.tableRow} key={index}>
-                <Text style={styles.tableCol}>{formattedCalendarDate}</Text>
+                <Text style={styles.tableCol}>{formattedCalendarDate.date}</Text>
+                <Text style={styles.tableCol}>{formattedCalendarDate.holidayType}</Text>
+                {/* <Text style={styles.tableCol}>
+                  {formattedCalendarDate.holidayType}
+                </Text> */}
                 {formattedAttendanceLists.map((attendanceList) => {
-                  if (formattedCalendarDate === attendanceList.formattedDate) {
+                  if (formattedCalendarDate.date === attendanceList.date) {
                     return (
                       <>
                         <Text style={styles.tableCol}>
-                          {attendanceList.formattedStartTime}
+                          {attendanceList.startTime}
                         </Text>
                         <Text style={styles.tableCol}>
-                          {attendanceList.formattedEndTime}
+                          {attendanceList.endTime}
                         </Text>
                         <Text style={styles.tableCol}>
-                          {attendanceList.formattedStartTime ||
-                            (attendanceList.formattedEndTime &&
-                              workingHours(
-                                attendanceList.formattedStartTime,
-                                attendanceList.formattedEndTime
-                              ))}
+                          {attendanceList.workingTime}
                         </Text>
                         {/* <Text style={styles.tableCol}>--</Text> */}
                       </>
@@ -174,15 +190,15 @@ export default function PDF(props) {
                 })}
                 {formattedAttendanceLists.every(
                   (attendanceList) =>
-                    attendanceList.formattedDate !== formattedCalendarDate
+                    attendanceList.date !== formattedCalendarDate.date
                 ) && (
-                  <>
-                    {/* <Text style={styles.tableCol}>--</Text> */}
-                    <Text style={styles.tableCol}>--</Text>
-                    <Text style={styles.tableCol}>--</Text>
-                    <Text style={styles.tableCol}>--</Text>
-                  </>
-                )}
+                    <>
+                      {/* <Text style={styles.tableCol}>--</Text> */}
+                      <Text style={styles.tableCol}>--</Text>
+                      <Text style={styles.tableCol}>--</Text>
+                      <Text style={styles.tableCol}>--</Text>
+                    </>
+                  )}
               </View>
             ))}
           </View>

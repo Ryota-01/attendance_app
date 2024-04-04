@@ -12,24 +12,12 @@ import { Grid } from "@mui/material";
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
-
-  // GridItemの幅調整(PC)
-  const pcGridItemSpacing = (spacingNumber) => {
-    if (spacingNumber) {
-      return spacingNumber;
-    } else {
-      return 12;
-    }
-  };
-
-  // GridItemの幅調整(SP)
-  const spGridItemSpacing = (spacingNumber) => {
-    if (spacingNumber) {
-      return spacingNumber;
-    } else {
-      return 12;
-    }
-  };
+  const styles = (spacingNumber) => ({
+    gridItemSpacing: {
+      xs: 12,
+      md: spacingNumber,
+    },
+  })
 
   if (!user) {
     // userがfalseの場合は、ログインページに遷移
@@ -38,28 +26,21 @@ export default function Home() {
     return (
       <>
         <NewSideBar>
-          <Box
-            sx={{
-              display: { xs: "block", sm: "flex", md: "flex" },
-              flexDirection: "row",
-            }}
-          >
-            <Grid container spacing={4}>
-              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(7)}>
-                <AttendanceFormComponent />
-              </Grid>
-              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing(5)}>
-                <UserInfoCompornent />
-              </Grid>
-              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing()}>
-                <LeaveConutComponent />
-              </Grid>
-              <Grid item xs={spGridItemSpacing()} md={pcGridItemSpacing()}>
-                <ApplicationListComponent />
-              </Grid>
-              <useApplicationDataContext />
+          <Grid container spacing={4}>
+            <Grid item {...styles(6).gridItemSpacing}>
+              <AttendanceFormComponent />
             </Grid>
-          </Box>
+            <Grid item {...styles(6).gridItemSpacing}>
+              <UserInfoCompornent />
+            </Grid>
+            <Grid item {...styles().gridItemSpacing}>
+              <LeaveConutComponent />
+            </Grid>
+            <Grid item {...styles().gridItemSpacing}>
+              <ApplicationListComponent />
+            </Grid>
+            <useApplicationDataContext />
+          </Grid>
         </NewSideBar>
       </>
     );

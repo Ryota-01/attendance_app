@@ -29,6 +29,9 @@ export function formatDate(props) {
 
 // 出勤・退勤時刻を表示させるためのフォーマット(AttendanceDataTable.jsx)
 export function formatTimestamp(timestamp) {
+  if(timestamp === undefined) {
+    return null
+  }
   const dateObj = new Date(
     timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
   );
