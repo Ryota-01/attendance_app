@@ -25,44 +25,41 @@ function AttendanceDataTable(props) {
 
   // フォーマットした日付（カレンダー）
   const formattedDates = dates.map((date) => formatDate(date));
-  console.log(formattedDates);
-  const dayOfWeek = dates.map((date) => formatDate(date)[2]);
 
   const formattedAttendanceLists = attendanceLists.map((attendanceList) => {
-    const formattedDate = formatAttedanceDate(attendanceList.date.seconds)[1];
-    // ブラウザ表示用にフォーマットした出勤時刻
-    const formattedStartTime = formatTimestamp(attendanceList.startTime);
-    const formattedEndTime = formatTimestamp(attendanceList.endTime);
-    console.log(formattedDate, formattedStartTime, formattedEndTime);
-    return {
-      formattedDate,
-      formattedStartTime,
-      formattedEndTime,
+    // カレンダーの日付と一致した場合に表示させる
+    const formattedDate = formatDate(attendanceList.date);
+    const formattedTime = {
+      // ブラウザ表示用にフォーマットした出勤時刻
+      startTime: formatTimestamp(attendanceList.startTime),
+      // ブラウザ表示用にフォーマットした退勤時刻
+      endTime: formatTimestamp(attendanceList.endTime),
+      workingTime: workingHours(attendanceList.startTime, attendanceList.endTime)
     };
+    const formattedDateTime = { ...formattedDate, ...formattedTime };
+    return formattedDateTime;
   });
+  console.log(formattedAttendanceLists)
 
   // 空の配列を用意
-  const workingDates = [];
-  for (let i = 0; i < attendanceLists.length; i++) {
-    const newArrayData = {
-      date: attendanceLists[i].date,
-      startTime: attendanceLists[i].startTime,
-      endTime: attendanceLists[i].endTime,
-    };
-    workingDates.push(newArrayData);
-  }
-  console.log(workingDates);
+  // const workingDates = [];
+  // for (let i = 0; i < attendanceLists.length; i++) {
+  //   const newArrayData = {
+  //     date: attendanceLists[i].date,
+  //     startTime: attendanceLists[i].startTime,
+  //     endTime: attendanceLists[i].endTime,
+  //   };
+  //   formattedAttendanceLists.push(newArrayData);
+  // }
+
 
   const formatWorkingTimes = [];
-  const workingDate = workingDates.map((value) => {
-    console.log(value);
-    const date = formatDate(value.date)[0];
-    console.log(date);
-    const startTime = value.startTime;
-    const endTime = value.endTime;
-    formatWorkingTimes.push(workingHours(startTime, endTime));
-  });
-  console.log(formatWorkingTimes);
+  // const workingDate = formattedAttendanceLists.map((value) => {
+  //   const startTime = value.startTime;
+  //   const endTime = value.endTime;
+  //   console.log(endTime)
+  //   formatWorkingTimes.push(workingHours(startTime, endTime));
+  // });
 
   //1ヶ月の総労働時間を計算
   function calcTotalWorkingTime() {
@@ -156,38 +153,60 @@ function AttendanceDataTable(props) {
                 {formattedDates.map((formattedCalendarDate, index) => (
                   <TableRow autoHeight>
                     <TableCell align="center">
-                      {formattedCalendarDate}
+                      {formattedCalendarDate.date}
                     </TableCell>
                     <TableCell align="center">
-                      {dayOfWeek[index] === "土" && (
-                        <Typography variant="body2" sx={{ color: "blue" }}>
-                          法定休日
-                        </Typography>
-                      )}
-                      {dayOfWeek[index] === "日" && (
-                        <Typography variant="body2" sx={{ color: "red" }}>
-                          所定休日
-                        </Typography>
+                      {formattedCalendarDate.holidayType ? (
+                        <>{formattedCalendarDate.holidayType}</>
+                      ) : (
+                        <>ー</>
                       )}
                     </TableCell>
-                    {formattedAttendanceLists.map((attendanceList) => {
+                    <TableCell align="center">
+                      {formattedAttendanceLists.map((attendance) =>
+                        formattedCalendarDate.date === attendance.date ? (
+                          <>{attendance.startTime}</>
+                        ) : (
+                          null
+                        )
+                      )}
+                    </TableCell>
+                    <TableCell align="center">
+                      {formattedAttendanceLists.map((attendance) =>
+                        formattedCalendarDate.date === attendance.date ? (
+                          <>{attendance.endTime}</>
+                        ) : (
+                          null
+                        )
+                      )}
+                    </TableCell>
+                    <TableCell align="center">
+                      {formattedAttendanceLists.map((attendance) =>
+                        formattedCalendarDate.date === attendance.date ? (
+                          <>{attendance.workingTime}</>
+                        ) : (
+                          null
+                        )
+                      )}
+                    </TableCell>
+                    {/* {formattedAttendanceLists.map((attendanceList) => {
                       if (
-                        formattedCalendarDate === attendanceList.formattedDate
+                        formattedCalendarDate === attendanceList.date
                       ) {
                         return (
                           <>
                             <TableCell align="center">
-                              {attendanceList.formattedStartTime}
+                              {attendanceList.startTime}
                             </TableCell>
                             <TableCell align="center">
                               {attendanceList.formattedEndTime}
                             </TableCell>
-                            {/* {attendanceList.formattedStartTime ||
+                            {attendanceList.formattedStartTime ||
                                 (attendanceList.formattedEndTime &&
                                   workingHours(
                                     attendanceList.formattedStartTime,
                                     attendanceList.formattedEndTime
-                                  ))} */}
+                                  ))}
                             <TableCell align="center">
                               {formatWorkingTimes.map((workingTime, index) => {
                                 return <>{workingTime}</>;
@@ -197,16 +216,16 @@ function AttendanceDataTable(props) {
                         );
                       }
                       return null;
-                    })}
+                    })} */}
                     {/* カレンダーの日付と一致しない場合はここで "-- : --" を表示 */}
                     {formattedAttendanceLists.every(
                       (attendanceList) =>
                         attendanceList.formattedDate !== formattedCalendarDate
                     ) && (
                       <>
+                        {/* <TableCell align="center">-- : --</TableCell>
                         <TableCell align="center">-- : --</TableCell>
-                        <TableCell align="center">-- : --</TableCell>
-                        <TableCell align="center">-- : --</TableCell>
+                        <TableCell align="center">-- : --</TableCell> */}
                       </>
                     )}
                   </TableRow>
