@@ -11,6 +11,7 @@ import NewSideBar from "../components/Sidebar/NewSideBar";
 import Link from "@mui/material/Link";
 import TotalWorkingDaysTable from "../components/Table/TotalWorkingDaysTable";
 import FetchUserInfoData from "../components/FetchData/FetchUserInfoData";
+import CardComponent from "../components/CardComponent";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -45,7 +46,7 @@ export default function AttendanceList() {
           console.log("勤怠データが存在しません");
         }
       } catch (e) {
-        console.log("データの取得中にエラーが発生しました", e.message);
+        console.error("データの取得中にエラーが発生しました", e.message);
       }
     };
     fetchData();
@@ -79,8 +80,26 @@ export default function AttendanceList() {
     }
   };
 
+  const propsAttendanceItem = attendanceLists.map((props) => {
+    const date = props.date;
+    const startTime = props.startTime;
+    const endTime = props.endTime;
+    return { date, startTime, endTime };
+  });
+
+  const props = {
+    attendanceLists: propsAttendanceItem,
+    currentYear: currentYear,
+    currentMonth: currentMonth,
+    isEmptyDocument: isEmptyDocument,
+    userData: userData,
+  };
+
   // スタイリング
   const styles = (variant, weight) => ({
+    card: {
+      padding: "12px 0",
+    },
     title: {
       variant: variant, //"h6"
       color: "text.secondary",
@@ -105,55 +124,41 @@ export default function AttendanceList() {
         verticalAlign: "bottom",
       },
     },
-    divider: {},
   });
 
   return (
     <>
       <NewSideBar>
-        <Grid container>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              padding: "24px",
-              height: "100%",
-            }}
-          >
-            <Card {...styles().card}>
-              <Typography {...styles("h6", "bold").title}>勤怠実績</Typography>
-              <Stack direction="row" spacing={1}>
-                <Link {...styles().link} onClick={handleLastMonth}>
-                  {<KeyboardArrowLeftIcon {...styles().arrowIcon} />}
-                </Link>
-                <Typography {...styles("body5").subTitle}>
-                  {`${currentYear}年${currentMonth}月`}
-                </Typography>
-                <Link
-                  {...styles().link}
-                  onClick={handleNextMonth}
-                  disabled={disabled}
-                >
-                  <KeyboardArrowRightIcon {...styles().arrowIcon} />
-                </Link>
-              </Stack>
-              <Divider sx={{ margin: "10px 10px" }} />
-              <TotalWorkingDaysTable
-                attendanceLists={attendanceLists}
-                currentYear={currentYear}
-                currentMonth={currentMonth}
-                isEmptyDocument={isEmptyDocument}
-              />
-              <AttendanceDataTable
-                attendanceLists={attendanceLists}
-                currentYear={currentYear}
-                currentMonth={currentMonth}
-                isEmptyDocument={isEmptyDocument}
-                userData={userData}
-              />
-            </Card>
+        <CardComponent title="勤怠実績">
+          <Stack direction="row" spacing={1}>
+            <Link {...styles().link} onClick={handleLastMonth}>
+              {<KeyboardArrowLeftIcon {...styles().arrowIcon} />}
+            </Link>
+            <Typography {...styles("body5").subTitle}>
+              {`${currentYear}年${currentMonth}月`}
+            </Typography>
+            <Link
+              {...styles().link}
+              onClick={handleNextMonth}
+              disabled={disabled}
+            >
+              <KeyboardArrowRightIcon {...styles().arrowIcon} />
+            </Link>
+          </Stack>
+          <TotalWorkingDaysTable {...props} />
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                padding: "14px",
+                height: "100%",
+              }}
+            >
+              <AttendanceDataTable {...props} />
+            </Grid>
           </Grid>
-        </Grid>
+        </CardComponent>
       </NewSideBar>
     </>
   );

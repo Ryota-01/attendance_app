@@ -56,7 +56,7 @@ export default function LeaveRequestForm() {
   return (
     <>
       <NewSideBar>
-        <CardComponent title={"休暇申請フォーム"}>
+        <CardComponent title="休暇申請フォーム">
           <form onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid container spacing={spacing} sx={{ padding: padding }}>
               <Grid item xs={4}>

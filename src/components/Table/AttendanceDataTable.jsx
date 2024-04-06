@@ -10,7 +10,6 @@ import {
   formatDate,
   formatTimestamp,
   workingHours,
-  formatAttedanceDate,
 } from "../../service/formatDate";
 import { attendanceDataTableColumns } from "../ColumnsData/ColumnsData";
 import { useNavigate } from "react-router-dom";
@@ -42,45 +41,6 @@ function AttendanceDataTable(props) {
     const formattedDateTime = { ...formattedDate, ...formattedTime };
     return formattedDateTime;
   });
-
-  // 空の配列を用意
-  // const workingDates = [];
-  // for (let i = 0; i < attendanceLists.length; i++) {
-  //   const newArrayData = {
-  //     date: attendanceLists[i].date,
-  //     startTime: attendanceLists[i].startTime,
-  //     endTime: attendanceLists[i].endTime,
-  //   };
-  //   formattedAttendanceLists.push(newArrayData);
-  // }
-
-  const formatWorkingTimes = [];
-  // const workingDate = formattedAttendanceLists.map((value) => {
-  //   const startTime = value.startTime;
-  //   const endTime = value.endTime;
-  //   console.log(endTime)
-  //   formatWorkingTimes.push(workingHours(startTime, endTime));
-  // });
-
-  //1ヶ月の総労働時間を計算
-  function calcTotalWorkingTime() {
-    // 合計時間と合計分を初期化
-    let totalHours = 0;
-    let totalMinutes = 0;
-    formatWorkingTimes.forEach((time) => {
-      const [hours, minutes] = time.split(":");
-      totalHours += parseInt(hours);
-      totalMinutes += parseInt(minutes);
-    });
-    // 合計時間と合計分を正規化
-    totalHours += Math.floor(totalMinutes / 60);
-    totalMinutes %= 60;
-    // 合計時間をフォーマットして表示
-    const formattedTotalTime = `${totalHours}:${totalMinutes
-      .toString()
-      .padStart(2, "0")}`;
-    return formattedTotalTime;
-  }
 
   const styles = {
     tableContainer: {
@@ -129,7 +89,6 @@ function AttendanceDataTable(props) {
   return (
     <>
       {/* PC用テーブル */}
-
       {!props.isEmptyDocument ? (
         <>
           <Button variant="outlined" onClick={handleOnClick}>
