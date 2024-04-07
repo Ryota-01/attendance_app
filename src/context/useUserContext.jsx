@@ -42,11 +42,13 @@ export function UserProvider({ children }) {
         const userData = snapShot.data();
         setUserData(userData);
       } catch (e) {
-        console.log("ユーザー情報が取得できませんでした", e.message);
+        console.error("ユーザー情報が取得できませんでした", e.message);
       }
     };
     FetchUserData();
   }, [user]);
+  console.log(userData)
+
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

@@ -1,14 +1,14 @@
 import React from "react";
 import CardComponent from "./CardComponent";
-import LeaveConutDataTable from "./Table/LeaveConutDataTable";
-import { Card, Typography } from "@mui/material";
+import LeaveConutDataTable from "./Table/LeaveCountDataTable";
+import { Button, Card, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 export default function LeaveConutComponent(props) {
   return (
     <>
       <Card sx={{ position: "relative" }}>
-        <Typography
+        {/* <Typography
           variant="h5"
           sx={{
             width: "100%",
@@ -22,8 +22,8 @@ export default function LeaveConutComponent(props) {
           padding={1}
         >
           開発中...
-        </Typography>
-        <Box sx={{ bgcolor: "dimGray", opacity: 0.2 }}>
+        </Typography> */}
+        <Box>
           <CardComponent title={"休暇残日数"}>
             <LeaveConutDataTable />
           </CardComponent>
