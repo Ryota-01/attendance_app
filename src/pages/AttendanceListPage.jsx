@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { Card, Divider, Grid, Stack } from "@mui/material";
+import { Box, Card, Divider, Grid, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import AttendanceDataTable from "../components/Table/AttendanceDataTable";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -131,19 +131,21 @@ export default function AttendanceList() {
       <NewSideBar>
         <CardComponent title="勤怠実績">
           <Stack direction="row" spacing={1}>
-            <Link {...styles().link} onClick={handleLastMonth}>
-              {<KeyboardArrowLeftIcon {...styles().arrowIcon} />}
-            </Link>
-            <Typography {...styles("body5").subTitle}>
-              {`${currentYear}年${currentMonth}月`}
-            </Typography>
-            <Link
-              {...styles().link}
-              onClick={handleNextMonth}
-              disabled={disabled}
-            >
-              <KeyboardArrowRightIcon {...styles().arrowIcon} />
-            </Link>
+            <Box sx={{ padding: "14px 0" }}>
+              <Link {...styles().link} onClick={handleLastMonth}>
+                {<KeyboardArrowLeftIcon {...styles().arrowIcon} />}
+              </Link>
+              <Typography {...styles("body5").subTitle}>
+                {`${currentYear}年${currentMonth}月`}
+              </Typography>
+              <Link
+                {...styles().link}
+                onClick={handleNextMonth}
+                disabled={disabled}
+              >
+                <KeyboardArrowRightIcon {...styles().arrowIcon} />
+              </Link>
+            </Box>
           </Stack>
           <TotalWorkingDaysTable {...props} />
           <Grid container>

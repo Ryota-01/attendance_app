@@ -52,7 +52,7 @@ export default function PDF(props) {
       textAlign: "center",
     },
     details: {
-      marginBottom: "30",
+      // marginBottom: "30",
     },
     detailItem: {
       flexDirection: "row",
@@ -61,6 +61,7 @@ export default function PDF(props) {
     itemsTable: {
       display: "flex",
       width: "auto",
+      marginTop: "20px",
       borderStyle: "solid",
       borderWidth: 1,
       borderRightWidth: 0,
@@ -128,10 +129,10 @@ export default function PDF(props) {
                 <View style={styles.itemsTable}>
                   <View style={styles.tableRow}>
                     <Text style={styles.tableColHeader}>社員名</Text>
-                    <Text style={styles.tableColHeader}>稼働日数</Text>
-                    <Text style={styles.tableColHeader}>稼働時間</Text>
-                    <Text style={styles.tableColHeader}>社員名</Text>
-                    <Text style={styles.tableColHeader}>社員名</Text>
+                    <Text style={styles.tableColHeader}></Text>
+                    <Text style={styles.tableColHeader}></Text>
+                    <Text style={styles.tableColHeader}></Text>
+                    <Text style={styles.tableColHeader}></Text>
                     {/* <Text style={styles.EmployeeName}>
                     社員名：{userData.lastName} {userData.firstName}
                   </Text>
@@ -140,10 +141,10 @@ export default function PDF(props) {
                   </View>
                   <View style={styles.tableRow}>
                     <Text style={styles.tableCol}>{userData.lastName} {userData.firstName}</Text>
-                    <Text style={styles.tableCol}>社員名</Text>
-                    <Text style={styles.tableCol}>社員名</Text>
-                    <Text style={styles.tableCol}>社員名</Text>
-                    <Text style={styles.tableCol}>社員名</Text>
+                    <Text style={styles.tableCol}></Text>
+                    <Text style={styles.tableCol}></Text>
+                    <Text style={styles.tableCol}></Text>
+                    <Text style={styles.tableCol}></Text>
                   </View>
 
                 </View>
