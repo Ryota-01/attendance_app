@@ -52,6 +52,7 @@ export default function Login() {
     size: "small",
     margin: "normal",
   });
+  
   return (
     <>
       <ThemeProvider theme={darkTheme}>
