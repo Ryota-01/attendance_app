@@ -20,7 +20,7 @@ export default function Home() {
   })
 
   if (!user) {
-    // userがfalseの場合は、ログインページに遷移
+    // userがfalseの場合は、ログインページに遷移する
     return navigation("/login");
   } else {
     return (
