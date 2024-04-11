@@ -37,6 +37,7 @@ export default function Home() {
               <LeaveConutComponent />
             </Grid>
             <Grid item {...styles().gridItemSpacing}>
+              
               <ApplicationListComponent />
             </Grid>
             <useApplicationDataContext />
