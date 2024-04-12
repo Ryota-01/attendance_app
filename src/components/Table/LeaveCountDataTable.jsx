@@ -172,6 +172,7 @@ export default function LeaveConutDataTable() {
       const grantDate = new Date(formattedJoinDate);
       grantDate.setFullYear(grantDate.getFullYear() + 6);
       grantDate.setMonth(grantDate.getMonth() + 6);
+      
       setGrantDate(grantDate);
       // 消滅日
       const limitDate = new Date(grantDate);
