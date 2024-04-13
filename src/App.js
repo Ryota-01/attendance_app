@@ -1,17 +1,16 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ApplicationDataProvider } from "./context/useApplicationDataContext";
 import { UserProvider } from "./context/useUserContext";
-import "./css/App.css";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import AttendanceListPage from "./pages/AttendanceListPage";
-import LeaveRequestForm from "./pages/LeaveRequestForm";
-import CreateUserInfo from "./pages/CreateUserInfo";
-import PDFDownloadPage from "./pages/PDFDownloadPage";
-import PrivateRoute from "./components/PrivateRoute";
-import PublicRoute from "./components/PublicRoute";
+import AttendanceListPage from "./pages/attendancelist/AttendanceListPage";
+import CreateUserInfo from "./pages/createuserinfo/CreateUserInfo";
+import LeaveRequestForm from "./pages/leaverequest/LeaveRequestPage";
+import Login from "./pages/login/Login";
+import Home from "./pages/home/Home";
+import PDFDownloadPage from "./pages/pdf/PDFDownloadPage";
+import PublicRoute from "./lib/PublicRoute";
+import PrivateRoute from "./lib/PrivateRoute";
+import SignUp from "./pages/signup/Signup";
 
 function App() {
   return (

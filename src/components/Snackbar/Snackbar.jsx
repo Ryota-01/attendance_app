@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../../css/UserCollectionStatus.css";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
