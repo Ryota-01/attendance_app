@@ -27,32 +27,24 @@ export default function UserInfo() {
     formState: { errors },
   } = useForm({ mode: "onChange", criteriaMode: "all" });
 
-  const padding = {
-    padding: "18px",
-  };
-  const spacing = 3;
-  const spItemSpacing = (spacingNumber) => {
-    if (spacingNumber) {
-      return;
-    } else {
-      return 12;
-    }
-  };
-
-  const pcItemSpacing = (spacingNumber) => {
-    if (spacingNumber) {
-      return;
-    } else {
-      return 6;
-    }
-  };
-
   const props = {
     varient: "filled",
     register: register,
     errors: errors,
   };
   const handleFormSubmit = () => setIsConfirmationVisible(true);
+  const styles = {
+    gridItem: {
+      xs: 12,
+      md: 6,
+    },
+    gridContainer: {
+      spacing: 3,
+      sx: {
+        padding: "18px",
+      },
+    },
+  };
 
   return (
     <Box sx={{ padding: "56px" }}>
@@ -65,68 +57,68 @@ export default function UserInfo() {
       <CardComponent title={"社員情報作成"}>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid container {...styles.gridContainer}>
               {/* 苗字入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <LastNameInput props={props} />
               </Grid>
 
               {/* 名前入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <FirstNameInput props={props} />
               </Grid>
 
               {/* 苗字フリガナ入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <LastNameFuriganaInput props={props} />
               </Grid>
 
               {/* 名前フリガナ入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <FirstNameFuriganaInput props={props} />
               </Grid>
               {/* email入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <EmailInput props={props} />
               </Grid>
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}></Grid>
+              <Grid item {...styles.gridItem}></Grid>
 
               {/* 電話番号入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <PhoneNumberInput props={props} />
               </Grid>
             </Grid>
             <Divider />
 
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid container {...styles.gridContainer}>
               {/* 郵便番号入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <PostCodeInput props={props} />
               </Grid>
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}></Grid>
+              <Grid item {...styles.gridItem}></Grid>
               {/* 都道府県入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <PrefecturesInput props={props} />
               </Grid>
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}></Grid>
+              <Grid item {...styles.gridItem}></Grid>
               {/* 住所入力フォーム */}
-              <Grid item xs={spItemSpacing()} md={pcItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <AddressInput props={props} />
               </Grid>
             </Grid>
             <Divider />
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid container {...styles.gridContainer}>
               {/* 入社日フォーム */}
-              <Grid item xs={spItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <JoinDateInput props={props} />
               </Grid>
               <Grid item xs={6}></Grid>
               {/* 雇用形態フォーム */}
-              <Grid item xs={spItemSpacing()}>
+              <Grid item {...styles.gridItem}>
                 <EmploymentTypeInput props={props} />
               </Grid>
             </Grid>
-            <Grid container spacing={spacing} sx={{ padding: padding }}>
+            <Grid container {...styles.gridContainer}>
               <Grid item xs={2}>
                 <Button type="submit" fullWidth variant="contained">
                   確認
