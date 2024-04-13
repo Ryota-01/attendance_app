@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import Snackbar from "../../components/Snackbar/Snackbar";
+import Snackbar from "../../components/Snackbar";
 import { useAuthContext } from "../../context/AuthContext";
 
 export default function AttendanceComponentButton() {
