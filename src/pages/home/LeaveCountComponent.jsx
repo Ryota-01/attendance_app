@@ -1,8 +1,7 @@
 import React from "react";
-import { Card } from "@mui/material";
-import { Box } from "@mui/system";
-import CardComponent from "../../components/CardComponent";
+import { Box, Card } from "@mui/material";
 import LeaveConutDataTable from "./LeaveCountComponentTable";
+import CardComponent from "../../components/CardComponent";
 
 export default function LeaveCountComponent(props) {
   return (

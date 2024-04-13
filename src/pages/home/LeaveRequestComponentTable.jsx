@@ -1,11 +1,13 @@
 import React from "react";
-import { Typography } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import {
+  Typography,
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@mui/material";
 import { formatDate } from "../../hooks/formatDate";
 import { useApplicationDataContext } from "../../context/useApplicationDataContext";
 
@@ -80,9 +82,6 @@ function LeaveRequestComponentTable(props) {
                       <TableCell {...styles().tableCell}>
                         {applicationData.applicantName}
                       </TableCell>
-                      {/* <TableCell {...styles().tableCell}>
-                        {applicationData.status}
-                      </TableCell> */}
                       <TableCell {...styles().tableCell}>
                         {applicationData.leaveType}
                       </TableCell>

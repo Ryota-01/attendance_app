@@ -1,13 +1,17 @@
-import React, { useRef, useState } from "react";
+import { React, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { AppBar, Toolbar } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Button,
+  ThemeProvider,
+  createTheme,
+  Typography,
+  TextField,
+} from "@mui/material";
+import { auth } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
 
 export default function Login() {
@@ -50,7 +54,7 @@ export default function Login() {
     size: "small",
     margin: "normal",
   });
-  
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>

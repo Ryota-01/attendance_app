@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { React, useEffect, useState } from "react";
+import { Alert, Snackbar } from "@mui/material";
 
 function AttendanceButtonPopup(props) {
   const popupMessage = props.popupMessage;

@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { doc, collection, setDoc } from "firebase/firestore";
 import {
-  doc,
-  collection,
-  addDoc,
-  setDoc,
-  serverTimestamp,
-  getDoc,
-} from "firebase/firestore";
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { db } from "../../firebase";
 import { useAuthContext } from "../../context/AuthContext";
-import { Grid, Typography } from "@mui/material";
 
 function LeaveRequestConfirmDialog(props) {
   const isLeaveRequestConfirmation = props.isLeaveRequestConfirmation;
@@ -26,24 +22,6 @@ function LeaveRequestConfirmDialog(props) {
   const { user } = useAuthContext();
   const [open, setOpen] = useState(isLeaveRequestConfirmation);
   const navigate = useNavigate();
-  const padding = {
-    padding: "18px",
-  };
-  const spacing = 3;
-  const xs = (xsNumber) => {
-    if (xsNumber) {
-      return xsNumber;
-    } else {
-      return 8;
-    }
-  };
-  const variant = (variant) => {
-    if (variant) {
-      return variant;
-    } else {
-      return "body2";
-    }
-  };
 
   const handleClose = () => {
     setOpen(hideConfirmation);
@@ -53,9 +31,6 @@ function LeaveRequestConfirmDialog(props) {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      // サブコレクション名を現在の年日、ドキュメント名を今日の年月日に
-      const currentDate = new Date();
-      const currentYear = new Date().getFullYear();
       // leaveRequestコレクションからログイン中のuserIdと一致するドキュメントを参照。
       const leaveRequestCollectionRef = collection(db, user.uid);
       const leaveRequestDocRef = doc(leaveRequestCollectionRef, "休暇申請");
@@ -78,6 +53,24 @@ function LeaveRequestConfirmDialog(props) {
     }
   };
 
+  const styles = {
+    gridContainer: {
+      margin: "0 auto 32px auto",
+      rowSpacing: 3,
+    },
+    gridItemTitle: {
+      xs: 6,
+      textAlign: "right",
+    },
+    gridItemValue: {
+      xs: 6,
+      textAlign: "left",
+    },
+    typographyValue: {
+      variant: "body2",
+    },
+  };
+
   return (
     <div>
       <Dialog
@@ -86,50 +79,56 @@ function LeaveRequestConfirmDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent sx={{ width: "600px" }}>
-          <DialogTitle id="alert-dialog-title" textAlign={"center"}>
+        <DialogContent sx={{ width: "400px" }}>
+          <DialogTitle id="alert-dialog-title" textAlign={"center"} >
             {"以下の内容で申請しますか？"}
           </DialogTitle>
           <DialogContentText id="alert-dialog-description">
-            <Grid
-              container
-              spacing={spacing}
-              sx={{ padding: padding, margin: "auto" }}
-            >
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>申請者：</Typography>
+            <Grid container {...styles.gridContainer}>
+              <Grid item {...styles.gridItemTitle} >
+                <Typography {...styles.typographyValue}>申請者：</Typography>
               </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{applicantName}</Typography>
+              <Grid item {...styles.gridItemValue} >
+                <Typography {...styles.typographyValue}>
+                  {applicantName}
+                </Typography>
               </Grid>
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>休暇取得日：</Typography>
+              <Grid item {...styles.gridItemTitle}>
+                <Typography {...styles.typographyValue}>
+                  休暇取得日：
+                </Typography>
               </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{values.leaveDate}</Typography>
+              <Grid item {...styles.gridItemValue}>
+                <Typography {...styles.typographyValue}>
+                  {values.leaveDate}
+                </Typography>
               </Grid>
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>休暇種別：</Typography>
+              <Grid item {...styles.gridItemTitle}>
+                <Typography {...styles.typographyValue}>休暇種別：</Typography>
               </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{values.leaveType}</Typography>
+              <Grid item {...styles.gridItemValue}>
+                <Typography {...styles.typographyValue}>
+                  {values.leaveType}
+                </Typography>
               </Grid>
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>申請理由：</Typography>
+              <Grid item {...styles.gridItemTitle}>
+                <Typography {...styles.typographyValue}>申請理由：</Typography>
               </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>
+              <Grid item {...styles.gridItemValue}>
+                <Typography {...styles.typographyValue}>
                   {values.leaveReason}
                 </Typography>
               </Grid>
-              <Grid item xs={xs(4)}>
-                <Typography variant={variant()}>備考：</Typography>
+              <Grid item {...styles.gridItemTitle}>
+                <Typography {...styles.typographyValue}>備考：</Typography>
               </Grid>
-              <Grid item xs={xs()}>
-                <Typography variant={variant()}>{values.remarks}</Typography>
+              <Grid item {...styles.gridItemValue}>
+                <Typography {...styles.typographyValue}>
+                  {values.remarks}
+                </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={xs(12)}>
+            <Grid item xs={12}>
               <DialogActions>
                 <Button onClick={handleClose} variant="contained">
                   戻る

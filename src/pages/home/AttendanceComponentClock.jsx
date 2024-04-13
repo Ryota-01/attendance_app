@@ -1,9 +1,7 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import "./AttendanceComponentClock.css";
-import { formatDate } from "../../hooks/formatDate";
+import { React, useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
+import { formatDate } from "../../hooks/formatDate";
+import "./AttendanceComponentClock.css";
 
 export default function AttendanceComponentClock() {
   const [date, setDate] = useState([]);
@@ -26,9 +24,9 @@ export default function AttendanceComponentClock() {
 
   const styles = () => ({
     container: {
-      marginTop: "40px"
+      marginTop: "40px",
     },
-  })
+  });
 
   return (
     <div className="databoxWrapper">

@@ -1,16 +1,20 @@
-import React, { useRef, useState } from "react";
+import { React, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import { useAuthContext } from "../../context/AuthContext";
 import { collection, doc, getDoc } from "firebase/firestore";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Button,
+  Typography,
+  TextField,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
+import { auth, db } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { AppBar, Toolbar } from "@mui/material";
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function Signup() {
   const emailRef = useRef(null);

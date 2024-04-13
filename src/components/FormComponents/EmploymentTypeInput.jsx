@@ -1,6 +1,5 @@
 import React from "react";
-import MenuItem from "@mui/material/MenuItem";
-import { TextField } from "@mui/material";
+import { TextField, MenuItem } from "@mui/material";
 
 export default function EmploymentTypeInput({ props }) {
   const register = props.register;

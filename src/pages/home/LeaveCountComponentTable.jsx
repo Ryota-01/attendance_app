@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -7,12 +7,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import {
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuthContext } from "../../context/AuthContext";
 import { formatDate } from "../../hooks/formatDate";
@@ -21,7 +16,7 @@ import FetchUserInfoData from "../../hooks/FetchUserInfoData";
 export default function LeaveCountComponentTable() {
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
-  const [paidHolidayData, setPaidHolidayData] = useState()
+  const [paidHolidayData, setPaidHolidayData] = useState();
   // 付与する休暇の日数
   const [grantPaidHoliday, setGrantPaidHoliday] = useState();
   // 現在の休暇残数
@@ -77,7 +72,7 @@ export default function LeaveCountComponentTable() {
     } else if (yearsSinceDate >= 1.5 && yearsSinceDate < 2.5) {
       // 入社から1年半後に11日付与
       setGrantPaidHoliday(11);
-      setCarriedPaidDate(currentPaidHoliday)
+      setCarriedPaidDate(currentPaidHoliday);
       // 今期付与日
       const grantDate = new Date(formattedJoinDate);
       grantDate.setFullYear(grantDate.getFullYear() + 1);
@@ -196,13 +191,13 @@ export default function LeaveCountComponentTable() {
           documents.push(doc.data());
         });
         setCurrentPaidHoliday(grantPaidHoliday - documents.length);
-        console.log(carriedPaidDate)
+        console.log(carriedPaidDate);
         const value = {
           nextGrantDate: nextGrantDate, // 次回の付与日
           grantPaidHoliday: grantPaidHoliday, // 付与日数
           carriedPaidDate: carriedPaidDate,
           currentPaidHoliday: grantPaidHoliday - documents.length, // 現在の休暇残数
-        }
+        };
 
         await setDoc(paidHolidayDocRef, value);
         setPaidHolidayData(value);
@@ -212,7 +207,6 @@ export default function LeaveCountComponentTable() {
     };
     fetchData();
   }, [userData.joinDate, grantPaidHoliday, currentPaidHoliday]);
-  console.log(paidHolidayData);
 
   return (
     <>
@@ -234,14 +228,15 @@ export default function LeaveCountComponentTable() {
           </TableHead>
           <TableBody>
             <TableRow>
-              {/* <TableCell align="center">{joinDate.date}</TableCell> */}
               <TableCell align="center">有休休暇</TableCell>
               <TableCell align="center">{formatDate(grantDate).date}</TableCell>
               <TableCell align="center">
                 {grantPaidHoliday}日 ／ {formatDate(limitPaidHoliday).date}
               </TableCell>
               <TableCell align="center">{carriedPaidDate}日</TableCell>
-              <TableCell align="center">{carriedPaidDate + currentPaidHoliday}日</TableCell>
+              <TableCell align="center">
+                {carriedPaidDate + currentPaidHoliday}日
+              </TableCell>
               <TableCell align="center">
                 {formatDate(nextGrantDate).date}
               </TableCell>

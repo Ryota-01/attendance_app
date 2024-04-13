@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Card,
   CardContent,
   CardMedia,
@@ -7,7 +8,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import { InfoBasicAlert } from "../../components/BasicAlert";
 import { useAuthContext } from "../../context/AuthContext";
 import { formatDate } from "../../hooks/formatDate";
@@ -18,7 +18,7 @@ export default function UserInfoCompornent(props) {
   const userData = FetchUserInfoData(user.uid);
   const formattedDate = formatDate(userData.joinDate);
 
-  const styles = (variant, weight) => ({
+  const styles = {
     card: {
       sx: {
         padding: "12px",
@@ -33,49 +33,58 @@ export default function UserInfoCompornent(props) {
       image: require("../../imeges/kkrn_icon_user_8.png"),
       alt: "User Image",
     },
-    typoStyle: {
-      variant: variant,
+    name: {
+      variant: "h5",
+      fontWeight: "bold",
       color: "text.secondary",
-      fontWeight: weight,
       gutterBottom: true,
+    },
+    textValue: {
+      variant: "body2",
+      fontWeight: "normal",
+      color: "text.secondary",
+      gutterBottom: true,
+    },
+    gridContainerSpacing: {
+      spacing: 1
     },
     gridItemSpacing: {
       xs: 12,
     },
-  });
+  };
 
   return (
     <>
-      <Card {...styles().card}>
+      <Card {...styles.card}>
         <CardContent>
-          <CardMedia {...styles().cardMediaStyle} />
+          <CardMedia {...styles.cardMediaStyle} />
           <Box sx={{ marginTop: "24px" }}>
             {userData !== null && userData !== undefined ? (
               <>
-                <Typography {...styles("h5", "bold").typoStyle}>
+                <Typography {...styles.name}>
                   {`${userData.lastName} ${userData.firstName}`}
                 </Typography>
                 <Divider />
-                <Grid container spacing={1}>
-                  <Grid item {...styles().gridItemSpacing}>
+                <Grid container {...styles.gridContainerSpacing}>
+                  <Grid item {...styles.gridItemSpacing}>
                     <Typography
-                      {...styles("body2", "normal").typoStyle}
+                      {...styles.textValue}
                       sx={{ marginTop: "12px" }}
                     >
                       雇用形態：{userData.employmentType}
                     </Typography>
                   </Grid>
-                  <Grid item {...styles().gridItemSpacing}>
-                    <Typography {...styles("body2", "normal").typoStyle}>
+                  <Grid item {...styles.gridItemSpacing}>
+                    <Typography {...styles.textValue}>
                       入社日：{formattedDate.date}
                     </Typography>
                   </Grid>
-                  <Grid item {...styles().gridItemSpacing}>
-                    <Typography {...styles("body2", "normal").typoStyle}>
+                  <Grid item {...styles.gridItemSpacing}>
+                    <Typography {...styles.textValue}>
                       メールアドレス：{userData.email}
                     </Typography>
                   </Grid>
-                  <Grid item {...styles().gridItemSpacing}>
+                  <Grid item {...styles.gridItemSpacing}>
                     <InfoBasicAlert message="ユーザー情報を変更する際は管理者へお問合せください" />
                   </Grid>
                 </Grid>

@@ -1,13 +1,18 @@
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc, collection } from "firebase/firestore";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { db } from "../../firebase";
-import { DialogActions, Divider, Grid, Typography } from "@mui/material";
 import { useAuthContext } from "../../context/AuthContext";
 
 function LeaveRequestConfirmDialog(props) {

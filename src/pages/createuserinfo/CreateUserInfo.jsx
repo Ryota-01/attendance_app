@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import { React, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Divider, Grid } from "@mui/material";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { Box, Button, Divider, Grid } from "@mui/material";
 import AddressInput from "../../components/FormComponents/AddressInput";
 import EmailInput from "../../components/FormComponents/EmailInput";
 import EmploymentTypeInput from "../../components/FormComponents/EmploymentTypeInput";

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { db } from "../../firebase";
 import {
   collection,
@@ -8,10 +7,9 @@ import {
   getDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import Snackbar from "../../components/Snackbar";
+import { Button, Stack } from "@mui/material";
 import { useAuthContext } from "../../context/AuthContext";
+import Snackbar from "../../components/Snackbar";
 
 export default function AttendanceComponentButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
@@ -158,7 +156,7 @@ export default function AttendanceComponentButton() {
         console.log("対象のドキュメントが存在しません");
       }
     } catch (e) {
-      console.log("退勤処理が実行できませんでした", e.message);
+      console.error("退勤処理が実行できませんでした", e.message);
     }
   };
 
@@ -176,15 +174,13 @@ export default function AttendanceComponentButton() {
       sx: {
         fontSize: "1.3rem",
         padding: "4px 60px",
-      }
-    }
-  })
+      },
+    },
+  });
 
   return (
     <>
-      <Stack
-        {...styles().stackStyle}
-      >
+      <Stack {...styles().stackStyle}>
         <Button
           onClick={handleClockIn}
           {...styles("primary", isClockInDisabled).buttonStyle}

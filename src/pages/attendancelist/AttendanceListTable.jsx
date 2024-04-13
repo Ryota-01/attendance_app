@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import { React, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { attendanceListTableColums } from "./AttendanceListTableColums";
 import {
   formatDate,
   formatTimestamp,
   workingHours,
 } from "../../hooks/formatDate";
-import { attendanceListTableColums } from "./AttendanceListTableColums";
-import { useNavigate } from "react-router-dom";
 
 function AttendanceListTable(props) {
   const { attendanceLists } = props;
@@ -41,14 +45,6 @@ function AttendanceListTable(props) {
     const formattedDateTime = { ...formattedDate, ...formattedTime };
     return formattedDateTime;
   });
-
-  const styles = {
-    tableContainer: {
-      display: { sm: "flex" },
-      marginTop: "24px",
-      width: { xs: "100%" },
-    },
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +82,17 @@ function AttendanceListTable(props) {
     });
   };
 
+  const styles = {
+    tableContainer: {
+      display: { sm: "flex" },
+      marginTop: "24px",
+      width: { xs: "100%" },
+    },
+    tableCell: {
+      align: "center",
+    },
+  };
+
   return (
     <>
       {/* PC用テーブル */}
@@ -101,7 +108,7 @@ function AttendanceListTable(props) {
                 <TableRow>
                   {attendanceListTableColums.map((column) => (
                     <TableCell
-                      align="center"
+                      {...styles.tableCell}
                       sx={{ color: "white", width: column.width }}
                     >
                       {column.headerName}
@@ -112,31 +119,31 @@ function AttendanceListTable(props) {
               <TableBody>
                 {formattedDates.map((formattedCalendarDate, index) => (
                   <TableRow autoHeight>
-                    <TableCell align="center">
+                    <TableCell {...styles.tableCell}>
                       {formattedCalendarDate.date}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell {...styles.tableCell}>
                       {formattedCalendarDate.holidayType ? (
                         <>{formattedCalendarDate.holidayType}</>
                       ) : (
                         <>ー</>
                       )}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell {...styles.tableCell}>
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.startTime}</>
                         ) : null
                       )}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell {...styles.tableCell}>
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.endTime}</>
                         ) : null
                       )}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell {...styles.tableCell}>
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.workingTime}</>

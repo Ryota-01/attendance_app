@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import { React, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthContext } from "../../context/AuthContext";
-import { Button, Grid, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+import { Button, Grid, Typography, TextField, MenuItem } from "@mui/material";
 import CardComponent from "../../components/CardComponent";
-import FetchUserInfoData from "../../hooks/FetchUserInfoData";
-import LeaveRequestConfirmDialog from "../../components/Dialog/LeaveRequestConfirmDialog";
 import NewSideBar from "../../components/Sidebar/NewSideBar";
+import LeaveRequestConfirmDialog from "../../components/Dialog/LeaveRequestConfirmDialog";
+import FetchUserInfoData from "../../hooks/FetchUserInfoData";
 
 export default function LeaveRequestPage() {
   const { user } = useAuthContext();

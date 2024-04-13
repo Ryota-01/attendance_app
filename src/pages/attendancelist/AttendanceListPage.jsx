@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../../context/AuthContext";
+import { React, useEffect, useState } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Grid, Stack, Typography, Link } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
+import AttendanceTotalWorkingTable from "./AttendanceTotalWorkingTable";
+import AttendanceDataTable from "./AttendanceListTable";
 import CardComponent from "../../components/CardComponent";
-import TotalWorkingDaysTable from "./AttendanceTotalWorkingTable";
 import NewSideBar from "../../components/Sidebar/NewSideBar";
 import FetchUserInfoData from "../../hooks/FetchUserInfoData";
-import AttendanceDataTable from "./AttendanceListTable";
+import { db } from "../../firebase";
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function AttendanceList() {
   const [attendanceLists, setAttendanceLists] = useState([]);
@@ -147,7 +145,7 @@ export default function AttendanceList() {
               </Link>
             </Box>
           </Stack>
-          <TotalWorkingDaysTable {...props} />
+          <AttendanceTotalWorkingTable {...props} />
           <Grid container>
             <Grid
               item
