@@ -1,8 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { Box, Grid, Stack, Typography, Link } from "@mui/material";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
 import AttendanceTotalWorkingTable from "./AttendanceTotalWorkingTable";
 import AttendanceDataTable from "./AttendanceListTable";
 import CardComponent from "../../components/CardComponent";
@@ -94,20 +93,22 @@ export default function AttendanceList() {
   };
 
   // スタイリング
-  const styles = (variant, weight) => ({
+  const styles = {
     card: {
       padding: "12px 0",
     },
-    title: {
-      variant: variant, //"h6"
-      color: "text.secondary",
-      fontWeight: weight,
-      gutterBottom: true,
+    stack: {
+      direction: "row",
+      spacing: 1,
+    },
+    box: {
+      sx: {
+        padding: "14px 0",
+      },
     },
     subTitle: {
-      variant: variant, // "body1"
+      variant: "body5",
       color: "text.secondary",
-      fontWeight: weight,
       gutterBottom: true,
     },
     link: {
@@ -122,39 +123,39 @@ export default function AttendanceList() {
         verticalAlign: "bottom",
       },
     },
-  });
+    gridItem: {
+      xs: 12,
+      sx: {
+        padding: "14px",
+        height: "100%",
+      },
+    },
+  };
 
   return (
     <>
       <NewSideBar>
         <CardComponent title="勤怠実績">
-          <Stack direction="row" spacing={1}>
-            <Box sx={{ padding: "14px 0" }}>
-              <Link {...styles().link} onClick={handleLastMonth}>
-                {<KeyboardArrowLeftIcon {...styles().arrowIcon} />}
+          <Stack {...styles.stack}>
+            <Box {...styles.box}>
+              <Link {...styles.link} onClick={handleLastMonth}>
+                <KeyboardArrowLeft {...styles.arrowIcon} />
               </Link>
-              <Typography {...styles("body5").subTitle}>
+              <Typography {...styles.subTitle}>
                 {`${currentYear}年${currentMonth}月`}
               </Typography>
               <Link
-                {...styles().link}
+                {...styles.link}
                 onClick={handleNextMonth}
                 disabled={disabled}
               >
-                <KeyboardArrowRightIcon {...styles().arrowIcon} />
+                <KeyboardArrowRight {...styles.arrowIcon} />
               </Link>
             </Box>
           </Stack>
           <AttendanceTotalWorkingTable {...props} />
           <Grid container>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                padding: "14px",
-                height: "100%",
-              }}
-            >
+            <Grid item {...styles.gridItem}>
               <AttendanceDataTable {...props} />
             </Grid>
           </Grid>
