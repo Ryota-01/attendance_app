@@ -1,8 +1,10 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { collection, doc, getDocs } from "firebase/firestore";
 import {
   Box,
   Button,
+  IconButton,
   Typography,
   Table,
   TableBody,
@@ -10,21 +12,35 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  tableCellClasses,
+  Stack,
+  styled,
 } from "@mui/material";
+import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
 import { attendanceListTableColums } from "./AttendanceListTableColums";
 import {
   formatDate,
   formatTimestamp,
   workingHours,
 } from "../../hooks/formatDate";
+import { db } from "../../firebase";
+import { useAuthContext } from "../../context/AuthContext";
+import AttendanceTotalWorkingTable from "./AttendanceTotalWorkingTable";
 
 function AttendanceListTable(props) {
-  const { attendanceLists } = props;
+  console.log(props)
+  const [attendanceLists, setAttendanceLists] = useState([]);
   const { userData } = props;
-  const currentYear = props.currentYear;
-  const currentMonth = props.currentMonth;
   const [dates, setDates] = useState([]);
   const navigate = useNavigate();
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+  const [disabled, setDisabled] = useState(
+    currentYear === new Date().getFullYear() &&
+      currentMonth === new Date().getMonth() + 1
+  );
+  const [isEmptyDocument, setIsEmptyDocument] = useState(false);
+  const { user } = useAuthContext();
 
   // フォーマットした日付（カレンダー）
   const formattedDates = dates.map((date) => formatDate(date));
@@ -65,7 +81,29 @@ function AttendanceListTable(props) {
         console.log(e.message);
       }
     };
+    const fetchAttendanceData = async () => {
+      try {
+        // userコレクションを取得
+        const userCollectionRef = collection(db, user.uid);
+        // 年月のサブコレクションのドキュメント(勤怠データ)を取得
+        const attendanceSubCollectionRef = collection(
+          doc(userCollectionRef, "attendance"),
+          `${currentYear}-${currentMonth}`
+        );
+        const subCollectionSnapshot = await getDocs(attendanceSubCollectionRef);
+        if (!subCollectionSnapshot.empty) {
+          const data = subCollectionSnapshot.docs.map((doc) => doc.data());
+          setAttendanceLists(data);
+        } else {
+          setAttendanceLists([]);
+          console.log("勤怠データが存在しません");
+        }
+      } catch (e) {
+        console.error("データの取得中にエラーが発生しました", e.message);
+      }
+    };
     fetchData();
+    fetchAttendanceData();
   }, [currentMonth, currentYear]);
 
   // PDFダウンロードページに遷移
@@ -82,76 +120,147 @@ function AttendanceListTable(props) {
     });
   };
 
-  const styles = {
-    tableContainer: {
-      display: { sm: "flex" },
-      marginTop: "24px",
-      width: { xs: "100%" },
+  // 前月の勤怠情報
+  const handleLastMonth = () => {
+    if (currentMonth === 1) {
+      setCurrentYear(currentYear - 1);
+      setCurrentMonth(12);
+    } else {
+      setCurrentMonth(currentMonth - 1);
+    }
+    setDisabled(false);
+  };
+
+  // 翌月の勤怠情報
+  const handleNextMonth = () => {
+    if (currentMonth === 12) {
+      setCurrentYear(currentYear + 1);
+      setCurrentMonth(1);
+    } else {
+      setCurrentMonth(currentMonth + 1);
+      if (
+        // 左辺と右辺が同じ年月ならtrue
+        currentYear === new Date().getFullYear() &&
+        currentMonth === new Date().getMonth()
+      ) {
+        setDisabled(true);
+      }
+    }
+  };
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      // backgroundColor: theme.palette.primary.light,
+      color: theme.palette.common.white,
     },
+    [`&.${tableCellClasses.body}`]: {
+      fontSiz: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td , &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  const styles = {
+    tableContainer: {},
     tableCell: {
       align: "center",
     },
+    subTitle: {
+      variant: "body5",
+      color: "text.secondary",
+    },
   };
+
+  // const propsItem = {
+  //   attendanceLists: propsAttendanceItem,
+  //   currentYear: currentYear,
+  //   currentMonth: currentMonth,
+  //   isEmptyDocument: isEmptyDocument,
+  //   userData: userData,
+  // };
 
   return (
     <>
       {/* PC用テーブル */}
       {!props.isEmptyDocument ? (
         <>
-          <Button variant="outlined" onClick={handleOnClick}>
-            PDF出力
-          </Button>
-
-          <TableContainer sx={styles.tableContainer}>
-            <Table size="small">
+          <Stack direction="row" spacing={2} justifyContent={"space-between"}>
+            <Box></Box>
+            <Box sx={{ margin: "0 auto" }}>
+              <IconButton onClick={handleLastMonth}>
+                <KeyboardArrowLeft />
+              </IconButton>
+              <Typography {...styles.subTitle}>
+                {`${currentYear}年${currentMonth}月`}
+              </Typography>
+              <IconButton onClick={handleNextMonth} disabled={disabled}>
+                <KeyboardArrowRight />
+              </IconButton>
+            </Box>
+            <Box>
+              <Button variant="outlined" size="small" onClick={handleOnClick}>
+                PDF出力
+              </Button>
+            </Box>
+          </Stack>
+          <TableContainer sx={{ marginTop: "8px" }}>
+            <Table size="small" sx={{ minWidth: 650 }}>
               <TableHead sx={{ background: "#383636" }}>
                 <TableRow>
                   {attendanceListTableColums.map((column) => (
-                    <TableCell
+                    <StyledTableCell
                       {...styles.tableCell}
                       sx={{ color: "white", width: column.width }}
                     >
                       {column.headerName}
-                    </TableCell>
+                    </StyledTableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {formattedDates.map((formattedCalendarDate, index) => (
-                  <TableRow autoHeight>
-                    <TableCell {...styles.tableCell}>
+                  <StyledTableRow autoHeight>
+                    <StyledTableCell {...styles.tableCell}>
                       {formattedCalendarDate.date}
-                    </TableCell>
-                    <TableCell {...styles.tableCell}>
+                    </StyledTableCell>
+                    <StyledTableCell {...styles.tableCell}>
                       {formattedCalendarDate.holidayType ? (
                         <>{formattedCalendarDate.holidayType}</>
                       ) : (
                         <>ー</>
                       )}
-                    </TableCell>
-                    <TableCell {...styles.tableCell}>
+                    </StyledTableCell>
+                    <StyledTableCell {...styles.tableCell}>
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.startTime}</>
                         ) : null
                       )}
-                    </TableCell>
-                    <TableCell {...styles.tableCell}>
+                    </StyledTableCell>
+                    <StyledTableCell {...styles.tableCell}>
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.endTime}</>
                         ) : null
                       )}
-                    </TableCell>
-                    <TableCell {...styles.tableCell}>
+                    </StyledTableCell>
+                    <StyledTableCell {...styles.tableCell}>
                       {formattedAttendanceLists.map((attendance) =>
                         formattedCalendarDate.date === attendance.date ? (
                           <>{attendance.workingTime}</>
                         ) : null
                       )}
-                    </TableCell>
-                  </TableRow>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 ))}
+                <AttendanceTotalWorkingTable {...props} />
               </TableBody>
             </Table>
           </TableContainer>
