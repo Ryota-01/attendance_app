@@ -23,6 +23,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SidebarData } from "./SidebarData";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import logo from "../../imeges/logo.svg";
 
 const drawerWidth = 240;
 
@@ -141,7 +142,7 @@ export default function MiniDrawer({ children }) {
               component="div"
               sx={{ flexGrow: 1 }}
             >
-              TimeNote
+              <img src={logo} width={120}/>
             </Typography>
             <Button onClick={handleLogout} color="inherit">
               ログアウト
