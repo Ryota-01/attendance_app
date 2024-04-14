@@ -213,7 +213,6 @@ export default function LeaveCountComponentTable() {
       <TableContainer
         sx={{
           display: "flex",
-          marginTop: "24px",
         }}
       >
         <Table size="small">

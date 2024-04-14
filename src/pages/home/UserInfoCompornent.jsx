@@ -12,6 +12,7 @@ import { InfoBasicAlert } from "../../components/BasicAlert";
 import { useAuthContext } from "../../context/AuthContext";
 import { formatDate } from "../../hooks/formatDate";
 import FetchUserInfoData from "../../hooks/FetchUserInfoData";
+import CardComponent from "../../components/CardComponent";
 
 export default function UserInfoCompornent(props) {
   const { user } = useAuthContext();
@@ -46,7 +47,7 @@ export default function UserInfoCompornent(props) {
       gutterBottom: true,
     },
     gridContainerSpacing: {
-      spacing: 1
+      spacing: 1,
     },
     gridItemSpacing: {
       xs: 12,
@@ -55,7 +56,7 @@ export default function UserInfoCompornent(props) {
 
   return (
     <>
-      <Card {...styles.card}>
+      {/* <Card {...styles.card}>
         <CardContent>
           <CardMedia {...styles.cardMediaStyle} />
           <Box sx={{ marginTop: "24px" }}>
@@ -94,7 +95,45 @@ export default function UserInfoCompornent(props) {
             )}
           </Box>
         </CardContent>
-      </Card>
+      </Card> */}
+      <CardComponent title="社員情報" bgColor="lightGreen">
+        {userData !== null && userData !== undefined ? (
+          <>
+            <Grid container {...styles.gridContainerSpacing}>
+              <Grid item {...styles.gridItemSpacing}>
+                <Typography {...styles.textValue} sx={{ marginTop: "12px" }}>
+                  氏名：{`${userData.lastName} ${userData.firstName}`}
+                </Typography>
+              </Grid>
+              <Grid item {...styles.gridItemSpacing}>
+                <Typography {...styles.textValue}>
+                  ヨミ：{`${userData.lastNameFurigana} ${userData.firstNameFurigana}`}
+                </Typography>
+              </Grid>
+              <Grid item {...styles.gridItemSpacing}>
+                <Typography {...styles.textValue}>
+                  雇用形態：{userData.employmentType}
+                </Typography>
+              </Grid>
+              <Grid item {...styles.gridItemSpacing}>
+                <Typography {...styles.textValue}>
+                  入社日：{formattedDate.date}
+                </Typography>
+              </Grid>
+              <Grid item {...styles.gridItemSpacing}>
+                <Typography {...styles.textValue}>
+                  メールアドレス：{userData.email}
+                </Typography>
+              </Grid>
+              <Grid item {...styles.gridItemSpacing}>
+                <InfoBasicAlert message="ユーザー情報を変更する際は管理者へお問合せください" />
+              </Grid>
+            </Grid>
+          </>
+        ) : (
+          <></>
+        )}
+      </CardComponent>
     </>
   );
 }

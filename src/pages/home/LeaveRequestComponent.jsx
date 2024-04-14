@@ -7,10 +7,9 @@ export default function LeaveRequestComponent(props) {
   const applicationsData = props.applicationsData;
   return (
     <>
-      <CardComponent title={"休暇取得一覧"}>
+      <CardComponent title={"休暇取得一覧"} bgColor="green">
         <Stack
           direction={"row"}
-          marginTop={"18px"}
           spacing={1}
         >
           <Button

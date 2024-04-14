@@ -165,7 +165,7 @@ export default function AttendanceComponentButton() {
       direction: { xs: "column", sm: "row", md: "row" },
       justifyContent: "center",
       spacing: 3,
-      marginTop: "28px",
+      // marginTop: "28px",
     },
     buttonStyle: {
       variant: "contained",
@@ -180,7 +180,7 @@ export default function AttendanceComponentButton() {
 
   return (
     <>
-      <Stack {...styles().stackStyle}>
+      <Stack {...styles().stackStyle} padding={"24px"}>
         <Button
           onClick={handleClockIn}
           {...styles("primary", isClockInDisabled).buttonStyle}

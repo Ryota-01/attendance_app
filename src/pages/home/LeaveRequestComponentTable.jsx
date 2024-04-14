@@ -27,7 +27,7 @@ function LeaveRequestComponentTable(props) {
     tableContainer: {
       sx: {
         display: "flex",
-        marginTop: "24px",
+        marginTop: "8px",
       },
     },
     tableHead: {

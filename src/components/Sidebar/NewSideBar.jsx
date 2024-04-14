@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {
@@ -13,7 +14,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -22,7 +23,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SidebarData } from "./SidebarData";
 import { auth } from "../../firebase";
-import { useNavigate } from "react-router-dom";
 import logo from "../../imeges/logo.svg";
 
 const drawerWidth = 240;
@@ -142,7 +142,9 @@ export default function MiniDrawer({ children }) {
               component="div"
               sx={{ flexGrow: 1 }}
             >
-              <img src={logo} width={120}/>
+              <Link to="/home">
+                <img src={logo} width={120} href="/home" />
+              </Link>
             </Typography>
             <Button onClick={handleLogout} color="inherit">
               ログアウト
