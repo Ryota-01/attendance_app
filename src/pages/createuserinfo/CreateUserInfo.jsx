@@ -90,23 +90,23 @@ export default function UserInfo() {
             </Grid>
             <Divider />
 
-            <Grid container {...styles.gridContainer}>
-              {/* 郵便番号入力フォーム */}
+            {/* <Grid container {...styles.gridContainer}>
+              郵便番号入力フォーム
               <Grid item {...styles.gridItem}>
                 <PostCodeInput props={props} />
               </Grid>
               <Grid item {...styles.gridItem}></Grid>
-              {/* 都道府県入力フォーム */}
+              都道府県入力フォーム
               <Grid item {...styles.gridItem}>
                 <PrefecturesInput props={props} />
               </Grid>
               <Grid item {...styles.gridItem}></Grid>
-              {/* 住所入力フォーム */}
+              住所入力フォーム
               <Grid item {...styles.gridItem}>
                 <AddressInput props={props} />
               </Grid>
             </Grid>
-            <Divider />
+            <Divider /> */}
             <Grid container {...styles.gridContainer}>
               {/* 入社日フォーム */}
               <Grid item {...styles.gridItem}>
