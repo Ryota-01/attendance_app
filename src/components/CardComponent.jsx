@@ -18,6 +18,8 @@ function CardComponent(props) {
     <>
       <Card
         sx={{
+          width: props.width,
+          margin: props.margin,
           height: "100%",
           position: "relative",
           boxShadow: "0 2px 12px lightgray",

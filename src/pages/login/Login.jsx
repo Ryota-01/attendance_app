@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { auth } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
+import logo from "../../imeges/logo.svg";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,24 +61,16 @@ export default function Login() {
       <ThemeProvider theme={darkTheme}>
         <AppBar position="fix" color="primary" enableColorOnDark>
           <Toolbar>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1 }}
-            >
-              TimeNote
-            </Typography>
+            <img src={logo} width={120} href="/home" />
           </Toolbar>
         </AppBar>
       </ThemeProvider>
-
       <CardComponent
         title={"LOGIN"}
         width={{ xs: "84%", md: "50%" }}
         margin={"50px auto"}
       >
-        <Box component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
+        <Box component="form" onSubmit={handleSubmit} >
           <TextField
             inputRef={emailRef}
             {...textFieldStyle("email", "メールアドレス")}
