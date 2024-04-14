@@ -28,7 +28,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import AttendanceTotalWorkingTable from "./AttendanceTotalWorkingTable";
 
 function AttendanceListTable(props) {
-  console.log(props)
+  console.log(props);
   const [attendanceLists, setAttendanceLists] = useState([]);
   const { userData } = props;
   const [dates, setDates] = useState([]);
@@ -152,9 +152,11 @@ function AttendanceListTable(props) {
     [`&.${tableCellClasses.head}`]: {
       // backgroundColor: theme.palette.primary.light,
       color: theme.palette.common.white,
+      textAlign: "center",
     },
     [`&.${tableCellClasses.body}`]: {
       fontSiz: 14,
+      textAlign: "center",
     },
   }));
 
@@ -169,9 +171,6 @@ function AttendanceListTable(props) {
 
   const styles = {
     tableContainer: {},
-    tableCell: {
-      align: "center",
-    },
     subTitle: {
       variant: "body5",
       color: "text.secondary",

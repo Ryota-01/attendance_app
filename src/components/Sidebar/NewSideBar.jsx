@@ -8,7 +8,6 @@ import {
   Toolbar,
   List,
   CssBaseline,
-  Typography,
   Divider,
   IconButton,
   ListItem,
@@ -120,7 +119,6 @@ export default function MiniDrawer({ children }) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <ThemeProvider theme={darkTheme}>
         <AppBar color="primary" open={open} enableColorOnDark>
           <Toolbar>
@@ -136,9 +134,7 @@ export default function MiniDrawer({ children }) {
             >
               <MenuIcon />
             </IconButton>
-            <Box
-              sx={{ flexGrow: 1 }}
-            >
+            <Box sx={{ flexGrow: 1 }}>
               <Link to="/home">
                 <img src={logo} width={120} href="/home" />
               </Link>
@@ -190,6 +186,7 @@ export default function MiniDrawer({ children }) {
         </List>
         <Divider />
       </Drawer>
+
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
         <DrawerHeader />
         {children}

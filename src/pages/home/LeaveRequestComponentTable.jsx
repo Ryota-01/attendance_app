@@ -27,9 +27,11 @@ function LeaveRequestComponentTable(props) {
     [`&.${tableCellClasses.head}`]: {
       // backgroundColor: theme.palette.primary.light,
       color: theme.palette.common.black,
+      textAlign: "center",
     },
     [`&.${tableCellClasses.body}`]: {
       fontSiz: 14,
+      textAlign: "center",
     },
   }));
 
