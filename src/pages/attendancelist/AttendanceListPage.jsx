@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
-import { Box, Grid, Stack, Typography, Link } from "@mui/material";
+import { Box, Grid, Stack, Typography, Link, IconButton } from "@mui/material";
 import { KeyboardArrowRight, KeyboardArrowLeft } from "@mui/icons-material";
 import AttendanceTotalWorkingTable from "./AttendanceTotalWorkingTable";
 import AttendanceDataTable from "./AttendanceListTable";
@@ -111,18 +111,6 @@ export default function AttendanceList() {
       color: "text.secondary",
       gutterBottom: true,
     },
-    link: {
-      component: "button",
-      underline: "none",
-      color: "inherit",
-    },
-    arrowIcon: {
-      sx: {
-        minWidth: 0,
-        justifyContent: "center",
-        verticalAlign: "bottom",
-      },
-    },
     gridItem: {
       xs: 12,
       sx: {
@@ -138,19 +126,15 @@ export default function AttendanceList() {
         <CardComponent title="勤怠実績">
           <Stack {...styles.stack}>
             <Box {...styles.box}>
-              <Link {...styles.link} onClick={handleLastMonth}>
-                <KeyboardArrowLeft {...styles.arrowIcon} />
-              </Link>
+              <IconButton onClick={handleLastMonth}>
+                <KeyboardArrowLeft />
+              </IconButton>
               <Typography {...styles.subTitle}>
                 {`${currentYear}年${currentMonth}月`}
               </Typography>
-              <Link
-                {...styles.link}
-                onClick={handleNextMonth}
-                disabled={disabled}
-              >
-                <KeyboardArrowRight {...styles.arrowIcon} />
-              </Link>
+              <IconButton onClick={handleNextMonth} disabled={disabled} >
+                <KeyboardArrowRight />
+              </IconButton>
             </Box>
           </Stack>
           <AttendanceTotalWorkingTable {...props} />
