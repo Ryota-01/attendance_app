@@ -7,6 +7,8 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  styled,
+  tableCellClasses,
 } from "@mui/material";
 import { formatDate } from "../../hooks/formatDate";
 import { useApplicationDataContext } from "../../context/useApplicationDataContext";
@@ -20,30 +22,30 @@ function LeaveRequestComponentTable(props) {
     { field: "leaveReason", headerName: "申請理由" },
     { field: "remarks", headerName: "備考" },
   ];
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      // backgroundColor: theme.palette.primary.light,
+      color: theme.palette.common.black,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSiz: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "&:last-child td , &:last-child th": {
+      border: 0,
+    },
+  }));
   const styles = () => ({
     table: {
-      size: "small",
-    },
-    tableContainer: {
       sx: {
-        display: "flex",
-        marginTop: "8px",
+        minWidth: 650,
       },
-    },
-    tableHead: {
-      sx: {
-        background: "#BEE5EB",
-      },
-    },
-    tableHeaderCell: {
-      align: "center",
-      color: "text.secondary",
-    },
-    tableCell: {
-      align: "center",
-      maxWidth: 150,
-      minWidth: 50,
-      wordBreak: "break-word",
     },
     typography: {
       sx: {
@@ -63,35 +65,35 @@ function LeaveRequestComponentTable(props) {
         <>
           <TableContainer {...styles().tableContainer}>
             <Table {...styles().table}>
-              <TableHead {...styles().tableHead}>
+              <TableHead>
                 <TableRow>
                   {columns.map((column, key) => (
-                    <TableCell key={key} {...styles().tableHeaderCell}>
+                    <StyledTableCell key={key}>
                       {column.headerName}
-                    </TableCell>
+                    </StyledTableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {applicationsData.map((applicationData, index) => {
                   return (
-                    <TableRow key={index}>
-                      <TableCell {...styles().tableCell}>
+                    <StyledTableRow key={index}>
+                      <StyledTableCell>
                         {formatDate(applicationData.leaveDate).date}
-                      </TableCell>
-                      <TableCell {...styles().tableCell}>
+                      </StyledTableCell>
+                      <StyledTableCell>
                         {applicationData.applicantName}
-                      </TableCell>
-                      <TableCell {...styles().tableCell}>
+                      </StyledTableCell>
+                      <StyledTableCell>
                         {applicationData.leaveType}
-                      </TableCell>
-                      <TableCell align="left" {...styles().tableCell}>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
                         {applicationData.leaveReason}
-                      </TableCell>
-                      <TableCell align="left" {...styles().tableCell}>
+                      </StyledTableCell>
+                      <StyledTableCell align="left">
                         {applicationData.remarks}
-                      </TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                    </StyledTableRow>
                   );
                 })}
               </TableBody>

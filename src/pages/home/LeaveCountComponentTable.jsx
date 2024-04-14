@@ -210,23 +210,21 @@ export default function LeaveCountComponentTable() {
 
   return (
     <>
-      <TableContainer
-        sx={{
-          display: "flex",
-        }}
-      >
-        <Table size="small">
-          <TableHead sx={{ background: "#BEE5EB" }}>
+      <TableContainer>
+        <Table sx={{ minWidth: 650 }}>
+          <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell align="center" color="text.secondary">
+                <TableCell align="center" >
                   {column.headerName}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
+            <TableRow
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
               <TableCell align="center">有休休暇</TableCell>
               <TableCell align="center">{formatDate(grantDate).date}</TableCell>
               <TableCell align="center">

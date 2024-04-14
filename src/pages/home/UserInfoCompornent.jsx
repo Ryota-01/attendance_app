@@ -96,7 +96,7 @@ export default function UserInfoCompornent(props) {
           </Box>
         </CardContent>
       </Card> */}
-      <CardComponent title="社員情報" bgColor="lightGreen">
+      <CardComponent title="社員情報" bgColor="#1679AB">
         {userData !== null && userData !== undefined ? (
           <>
             <Grid container {...styles.gridContainerSpacing}>

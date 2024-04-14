@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Card, CardContent, Divider, Typography } from "@mui/material";
+import { Box, Card, Divider, Typography } from "@mui/material";
 
 function CardComponent(props) {
   const children = props.children;
@@ -20,6 +20,7 @@ function CardComponent(props) {
         sx={{
           height: "100%",
           position: "relative",
+          boxShadow: "0 2px 12px lightgray",
         }}
       >
         <Box

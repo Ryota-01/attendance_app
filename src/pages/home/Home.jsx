@@ -6,7 +6,7 @@ import NewSideBar from "../../components/Sidebar/NewSideBar";
 import AttendanceFormComponent from "./AttendanceComponent";
 import UserInfoCompornent from "./UserInfoCompornent";
 import LeaveConutComponent from "./LeaveCountComponent";
-import ApplicationListComponent from "./LeaveRequestComponent";
+import LeaveRequestComponent from "./LeaveRequestComponent";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -36,7 +36,7 @@ export default function Home() {
               <LeaveConutComponent />
             </Grid>
             <Grid item {...styles().gridItemSpacing}>
-              <ApplicationListComponent />
+              <LeaveRequestComponent />
             </Grid>
             <useApplicationDataContext />
           </Grid>

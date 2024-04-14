@@ -136,18 +136,15 @@ export default function MiniDrawer({ children }) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
+            <Box
               sx={{ flexGrow: 1 }}
             >
               <Link to="/home">
                 <img src={logo} width={120} href="/home" />
               </Link>
-            </Typography>
+            </Box>
             <Button onClick={handleLogout} color="inherit">
-              ログアウト
+              LOGOUT
             </Button>
           </Toolbar>
         </AppBar>
@@ -193,7 +190,7 @@ export default function MiniDrawer({ children }) {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
         <DrawerHeader />
         {children}
       </Box>
