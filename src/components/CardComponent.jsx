@@ -42,11 +42,11 @@ function CardComponent(props) {
               <Button
                 variant="contained"
                 size="small"
-                color="success"
+                color="secondary"
                 href="/leaveRequest"
                 sx={{ fontWeight: "bold" }}
               >
-                休暇を申請する
+                休暇申請
               </Button>
             </Box>
           ) : (
