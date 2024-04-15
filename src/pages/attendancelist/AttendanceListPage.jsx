@@ -31,9 +31,6 @@ export default function AttendanceList() {
 
   // スタイリング
   const styles = {
-    card: {
-      padding: "12px 0",
-    },
     gridItem: {
       xs: 12,
     },

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   Box,
   Button,
@@ -100,6 +101,8 @@ export default function MiniDrawer({ children }) {
     auth.signOut();
   };
 
+  const matches = useMediaQuery('(min-width:600px)');
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -145,7 +148,7 @@ export default function MiniDrawer({ children }) {
           </Toolbar>
         </AppBar>
       </ThemeProvider>
-      <Drawer variant="permanent" open={open}>
+      {open && <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
@@ -158,7 +161,7 @@ export default function MiniDrawer({ children }) {
         <Divider />
         <List>
           {SidebarData.map((value, index) => (
-            <ListItem key={value} disablePadding sx={{ display: "block" }}>
+            <ListItem key={value} disablePadding>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -185,7 +188,8 @@ export default function MiniDrawer({ children }) {
           ))}
         </List>
         <Divider />
-      </Drawer>
+      </Drawer>}
+
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
         <DrawerHeader />

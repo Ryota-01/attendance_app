@@ -37,7 +37,7 @@ function AttendanceListTable(props) {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [disabled, setDisabled] = useState(
     currentYear === new Date().getFullYear() &&
-      currentMonth === new Date().getMonth() + 1
+    currentMonth === new Date().getMonth() + 1
   );
   const [isEmptyDocument, setIsEmptyDocument] = useState(false);
   const { user } = useAuthContext();
@@ -210,7 +210,7 @@ function AttendanceListTable(props) {
             </Box>
           </Stack>
           <TableContainer sx={{ marginTop: "8px" }}>
-            <Table size="small" sx={{ minWidth: 650 }}>
+            <Table size="small" sx={{ minWidth: 500 }}>
               <TableHead sx={{ background: "#383636" }}>
                 <TableRow>
                   {attendanceListTableColums.map((column) => (
@@ -270,7 +270,8 @@ function AttendanceListTable(props) {
             勤怠実績が存在しません。
           </Typography>
         </Box>
-      )}
+      )
+      }
     </>
   );
 }
