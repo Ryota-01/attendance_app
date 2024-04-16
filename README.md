@@ -21,7 +21,7 @@ JOBPLAT
 <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" width="250" height="250">
 <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/505c9257-3a37-4d51-b1c6-c6c530143890" height="250">
 <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/041b75cd-5408-4130-a384-6c48bc1d83df" width="250" height="250">
-<img src="https://github.com/Ryota-01/attendance_app/assets/118597802/9cc4de57-ad80-4610-838f-f2b34ffd01c3" height="250">
+<img src="https://github.com/Ryota-01/attendance_app/assets/118597802/e408d664-3ef9-4c1f-8058-f7a6484d0a0a" height="250">
 
 ### ■開発背景
 ・勤怠に関する記録(打刻・休暇管理)を一元で管理したい。  
