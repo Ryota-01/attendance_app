@@ -18,8 +18,12 @@ JOBPLAT
 <img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">
 
 ### 画面イメージ
-<Grid>あああ</Grid>
+<Grid>
 <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" width="200">
+</Grid>
+<Grid>
+<img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" width="200">
+</Grid>
 
 ### ■開発背景
 ・勤怠に関する記録(打刻・休暇管理)を一元で管理したい。  
