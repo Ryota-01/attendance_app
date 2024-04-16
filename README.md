@@ -17,6 +17,9 @@ JOBPLAT
 <img src="https://img.shields.io/badge/-createreactapp-09D3AC.svg?logo=react&style=flat">
 <img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">
 
+### 画面イメージ
+![attendance-dev-20798 web app_home (2)](https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e)  
+
 ### ■開発背景
 ・勤怠に関する記録(打刻・休暇管理)を一元で管理したい。  
 ・Excelで勤怠管理をするのにかかる時間を短縮（現状手入力のため、正確な労働時間を管理できていない）  
