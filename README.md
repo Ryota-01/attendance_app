@@ -20,7 +20,7 @@ JOBPLAT
 ### 画面イメージ
 <div>
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" width="250">
-  <p>ホーム</p>
+  <p align="center">ホーム</p>
 </div>
 <div>
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/505c9257-3a37-4d51-b1c6-c6c530143890" width="250">  
