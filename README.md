@@ -1,3 +1,4 @@
+[!NOTE]
 ### ■アプリ名
 JOBPLAT  
 
