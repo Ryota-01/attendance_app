@@ -18,8 +18,8 @@ JOBPLAT
 <img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">
 
 ### 画面イメージ
-<div>
-  <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" width="250" height="250">
+<div width="250">
+  <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" >
 </div>
 <div>
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/505c9257-3a37-4d51-b1c6-c6c530143890" height="250">  
