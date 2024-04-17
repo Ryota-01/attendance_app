@@ -18,7 +18,7 @@ JOBPLAT
 <img src="https://img.shields.io/badge/-firebase-FFCA28.svg?logo=react&style=flat">
 
 ### 画面イメージ
-<div width="{100px}">
+<div style="width: 200px">
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/3e7133d9-485b-4ecf-bb85-436249487c0e" width="250">
   <p align="center">ホーム</p>
 </div>
