@@ -24,12 +24,15 @@ JOBPLAT
 </div>
 <div>
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/505c9257-3a37-4d51-b1c6-c6c530143890" width="250">  
+  <p>勤怠実績</p>
 </div>
 <div>
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/041b75cd-5408-4130-a384-6c48bc1d83df" width="250">
+  <p>休暇申請</p>
 </div>
 <div>
   <img src="https://github.com/Ryota-01/attendance_app/assets/118597802/e408d664-3ef9-4c1f-8058-f7a6484d0a0a" width="250">
+  <p>PDF出力</p>
 </div>
 
 ### ■開発背景
