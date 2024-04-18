@@ -1,6 +1,11 @@
 > ### ■アプリ名
 JOBPLAT  
 
+> ### ■リンク
+https://attendance-dev-20798.web.app/login  
+id：test@email.com  
+pass：00000000)  
+
 > ### ■主な機能
 勤怠管理アプリとして、以下の機能を実装しております。  
 ・打刻  
