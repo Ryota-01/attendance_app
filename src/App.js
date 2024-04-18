@@ -7,6 +7,7 @@ import CreateUserInfo from "./pages/createuserinfo/CreateUserInfo";
 import LeaveRequestForm from "./pages/leaverequest/LeaveRequestPage";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
+import Information from "./pages/infomation/Information";
 import PDFDownloadPage from "./pages/pdf/PDFDownloadPage";
 import PublicRoute from "./lib/PublicRoute";
 import PrivateRoute from "./lib/PrivateRoute";
@@ -56,6 +57,10 @@ function App() {
               <Route
                 path="/leaverequest"
                 element={<PrivateRoute index element={<LeaveRequestForm />} />}
+              />
+              <Route
+                path="/information"
+                element={<PrivateRoute index element={<Information />} />}
               />
             </Routes>
           </div>
