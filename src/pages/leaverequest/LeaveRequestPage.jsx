@@ -47,6 +47,13 @@ export default function LeaveRequestPage() {
     },
   ];
 
+  const styles = {
+    gridItem: {
+      xs: 12,
+      md: 12
+    }
+  }
+
   const handleFormSubmit = () => setIsLeaveRequestConfirmation(true);
 
   return (
@@ -67,7 +74,7 @@ export default function LeaveRequestPage() {
               </Grid>
             </Grid>
             <Grid container spacing={spacing} sx={{ padding: padding }}>
-              <Grid item xs={spItemSpacing()} md={6}>
+              <Grid item xs={spItemSpacing()} md={6} {...styles.gridItem}>
                 {!errors.leaveType ? (
                   <TextField
                     select
