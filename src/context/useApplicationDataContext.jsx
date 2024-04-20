@@ -37,8 +37,6 @@ export function ApplicationDataProvider({ children }) {
     }
     const fetchData = async () => {
       try {
-        // const currentYear = new Date().getFullYear(); // サブコレクション名を現在の年に
-        // const subCollectionName = `${currentYear}_applicationDatas`;
         const leaveRequestCollectionRef = collection(db, user.uid);
         const leaveRequestDocRef = doc(leaveRequestCollectionRef, "休暇申請");
         const leaveRequestSubCollectionRef = collection(
@@ -57,7 +55,7 @@ export function ApplicationDataProvider({ children }) {
       }
     };
     fetchData();
-  }, [user]);
+  }, [user, applicationsData]);
 
   return (
     <ApplicationDataContext.Provider value={value}>

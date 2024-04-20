@@ -13,7 +13,7 @@ import {
 import { formatDate } from "../../hooks/formatDate";
 import { useApplicationDataContext } from "../../context/useApplicationDataContext";
 
-function LeaveRequestComponentTable(props) {
+function LeaveRequestComponentTable() {
   const { applicationsData } = useApplicationDataContext();
   const columns = [
     { field: "leaveDate", headerName: "取得日" },
