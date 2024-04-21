@@ -165,7 +165,6 @@ export default function AttendanceComponentButton() {
       direction: { xs: "column", sm: "row", md: "row" },
       justifyContent: "center",
       spacing: 3,
-      // marginTop: "28px",
     },
     buttonStyle: {
       variant: "contained",

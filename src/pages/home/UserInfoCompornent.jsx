@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { InfoBasicAlert } from "../../components/BasicAlert";
 import { useAuthContext } from "../../context/AuthContext";
 import { formatDate } from "../../hooks/formatDate";
@@ -56,46 +48,6 @@ export default function UserInfoCompornent(props) {
 
   return (
     <>
-      {/* <Card {...styles.card}>
-        <CardContent>
-          <CardMedia {...styles.cardMediaStyle} />
-          <Box sx={{ marginTop: "24px" }}>
-            {userData !== null && userData !== undefined ? (
-              <>
-                <Typography {...styles.name}>
-                  {`${userData.lastName} ${userData.firstName}`}
-                </Typography>
-                <Divider />
-                <Grid container {...styles.gridContainerSpacing}>
-                  <Grid item {...styles.gridItemSpacing}>
-                    <Typography
-                      {...styles.textValue}
-                      sx={{ marginTop: "12px" }}
-                    >
-                      雇用形態：{userData.employmentType}
-                    </Typography>
-                  </Grid>
-                  <Grid item {...styles.gridItemSpacing}>
-                    <Typography {...styles.textValue}>
-                      入社日：{formattedDate.date}
-                    </Typography>
-                  </Grid>
-                  <Grid item {...styles.gridItemSpacing}>
-                    <Typography {...styles.textValue}>
-                      メールアドレス：{userData.email}
-                    </Typography>
-                  </Grid>
-                  <Grid item {...styles.gridItemSpacing}>
-                    <InfoBasicAlert message="ユーザー情報を変更する際は管理者へお問合せください" />
-                  </Grid>
-                </Grid>
-              </>
-            ) : (
-              <></>
-            )}
-          </Box>
-        </CardContent>
-      </Card> */}
       <CardComponent title="社員情報" bgColor="#1679AB">
         {userData !== null && userData !== undefined ? (
           <>
@@ -107,7 +59,8 @@ export default function UserInfoCompornent(props) {
               </Grid>
               <Grid item {...styles.gridItemSpacing}>
                 <Typography {...styles.textValue}>
-                  ヨミ：{`${userData.lastNameFurigana} ${userData.firstNameFurigana}`}
+                  ヨミ：
+                  {`${userData.lastNameFurigana} ${userData.firstNameFurigana}`}
                 </Typography>
               </Grid>
               <Grid item {...styles.gridItemSpacing}>
