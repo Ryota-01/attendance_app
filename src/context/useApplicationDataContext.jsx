@@ -55,7 +55,7 @@ export function ApplicationDataProvider({ children }) {
       }
     };
     fetchData();
-  }, [user, applicationsData]);
+  }, []);
 
   return (
     <ApplicationDataContext.Provider value={value}>
