@@ -6,16 +6,26 @@ import { getFirestore } from "firebase/firestore";
 //データベース（realtime database）をインポート
 import { getDatabase } from "firebase/database";
 import "firebase/compat/auth";
+import firebaseConfigDev from "./firebaseConfig.dev";
+import firebaseConfigProd from "./firebaseConfig.prod";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAxjtYQYgmUzgDZVNlX7dWOb3Fq0Z690zI",
-  authDomain: "attendance-dev-20798.firebaseapp.com",
-  projectId: "attendance-dev-20798",
-  storageBucket: "attendance-dev-20798.appspot.com",
-  messagingSenderId: "289901762448",
-  appId: "1:289901762448:web:af05020be4a935b7480515",
-  measurementId: "G-3MBN5WPN9D",
-};
+let firebaseConfig;
+
+if(process.env.NODE_ENV === "production") {
+  firebaseConfig = firebaseConfigProd
+} else {
+  firebaseConfig = firebaseConfigDev;
+}
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAxjtYQYgmUzgDZVNlX7dWOb3Fq0Z690zI",
+//   authDomain: "attendance-dev-20798.firebaseapp.com",
+//   projectId: "attendance-dev-20798",
+//   storageBucket: "attendance-dev-20798.appspot.com",
+//   messagingSenderId: "289901762448",
+//   appId: "1:289901762448:web:af05020be4a935b7480515",
+//   measurementId: "G-3MBN5WPN9D",
+// };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
