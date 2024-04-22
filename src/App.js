@@ -7,7 +7,7 @@ import CreateUserInfo from "./pages/createuserinfo/CreateUserInfo";
 import LeaveRequestForm from "./pages/leaverequest/LeaveRequestPage";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
-import Information from "./pages/infomation/Information";
+import Information from "./pages/information/Information";
 import PDFDownloadPage from "./pages/pdf/PDFDownloadPage";
 import PublicRoute from "./lib/PublicRoute";
 import PrivateRoute from "./lib/PrivateRoute";
