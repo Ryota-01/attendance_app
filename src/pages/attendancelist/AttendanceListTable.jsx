@@ -202,7 +202,7 @@ function AttendanceListTable(props) {
           </Stack>
           <AttendanceTotalWorkingTable attendanceLists={attendanceLists} />
           <TableContainer sx={{ marginTop: "8px" }}>
-            <Table size="small" sx={{ minWidth: 500 }}>
+            <Table size="small" sx={{ minWidth: 550 }}>
               <TableHead sx={{ background: "#383636" }}>
                 <TableRow>
                   {attendanceListTableColums.map((column) => (

@@ -54,7 +54,7 @@ export default function AttendanceTotalWorkingTable(props) {
   return (
     <>
       <TableContainer>
-        <Table size="small" sx={{ width: "250px", marginBottom:"12px" }}>
+        <Table size="small" sx={{ width: "250px", margin:"20px 0" }}>
           <TableHead sx={{ background: "#383636" }}>
             <TableRow>
               <TableCell sx={{ color: "white" }}>総稼働日数</TableCell>
