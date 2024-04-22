@@ -1,5 +1,13 @@
 import React from "react";
 import { workingHours } from "../../hooks/formatDate";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 export default function AttendanceTotalWorkingTable(props) {
   const { attendanceLists } = props;
@@ -45,8 +53,22 @@ export default function AttendanceTotalWorkingTable(props) {
 
   return (
     <>
-      <p>総稼働日数：{workingDate.length}日</p>
-      <p>総稼働時間：{calcTotalWorkingTime()}</p>
+      <TableContainer>
+        <Table size="small" sx={{ width: "250px", marginBottom:"24px" }}>
+          <TableHead sx={{ background: "#383636" }}>
+            <TableRow>
+              <TableCell sx={{ color: "white" }}>総稼働日数</TableCell>
+              <TableCell sx={{ color: "white" }}>総稼働時間</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell sx={{ textAlign:"center" }}>{workingDate.length}日</TableCell>
+              <TableCell sx={{ textAlign:"center" }}>{calcTotalWorkingTime()}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

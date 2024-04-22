@@ -28,18 +28,17 @@ import { useAuthContext } from "../../context/AuthContext";
 import AttendanceTotalWorkingTable from "./AttendanceTotalWorkingTable";
 
 function AttendanceListTable(props) {
-  console.log(props);
   const [attendanceLists, setAttendanceLists] = useState([]);
-  const { userData } = props;
+  const [isEmptyDocument, setIsEmptyDocument] = useState(false);
   const [dates, setDates] = useState([]);
-  const navigate = useNavigate();
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
   const [disabled, setDisabled] = useState(
     currentYear === new Date().getFullYear() &&
     currentMonth === new Date().getMonth() + 1
   );
-  const [isEmptyDocument, setIsEmptyDocument] = useState(false);
+  const { userData } = props;
+  const navigate = useNavigate();
   const { user } = useAuthContext();
 
   // フォーマットした日付（カレンダー）
@@ -184,6 +183,7 @@ function AttendanceListTable(props) {
   //   isEmptyDocument: isEmptyDocument,
   //   userData: userData,
   // };
+  console.log(attendanceLists)
 
   return (
     <>
@@ -209,6 +209,7 @@ function AttendanceListTable(props) {
               </Button>
             </Box>
           </Stack>
+          <AttendanceTotalWorkingTable attendanceLists={attendanceLists} />
           <TableContainer sx={{ marginTop: "8px" }}>
             <Table size="small" sx={{ minWidth: 500 }}>
               <TableHead sx={{ background: "#383636" }}>
@@ -259,7 +260,6 @@ function AttendanceListTable(props) {
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}
-                <AttendanceTotalWorkingTable {...props} />
               </TableBody>
             </Table>
           </TableContainer>
