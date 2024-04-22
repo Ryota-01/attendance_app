@@ -127,8 +127,8 @@ export default function PDF(props) {
                 <View style={styles.itemsTable}>
                   <View style={styles.tableRow}>
                     <Text style={styles.tableColHeader}>社員名</Text>
-                    <Text style={styles.tableColHeader}></Text>
-                    <Text style={styles.tableColHeader}></Text>
+                    <Text style={styles.tableColHeader}>総労働日数</Text>
+                    <Text style={styles.tableColHeader}>総稼働日数</Text>
                     <Text style={styles.tableColHeader}></Text>
                     <Text style={styles.tableColHeader}></Text>
                     {/* <Text style={styles.EmployeeName}>

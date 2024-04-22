@@ -176,15 +176,6 @@ function AttendanceListTable(props) {
     },
   };
 
-  // const propsItem = {
-  //   attendanceLists: propsAttendanceItem,
-  //   currentYear: currentYear,
-  //   currentMonth: currentMonth,
-  //   isEmptyDocument: isEmptyDocument,
-  //   userData: userData,
-  // };
-  console.log(attendanceLists)
-
   return (
     <>
       {/* PC用テーブル */}
