@@ -167,7 +167,6 @@ function AttendanceListTable(props) {
       border: 0,
     },
   }));
-
   const styles = {
     tableContainer: {},
     subTitle: {
@@ -175,7 +174,6 @@ function AttendanceListTable(props) {
       color: "text.secondary",
     },
   };
-
   return (
     <>
       {/* PC用テーブル */}
@@ -209,6 +207,7 @@ function AttendanceListTable(props) {
                     <StyledTableCell
                       {...styles.tableCell}
                       sx={{ color: "white", width: column.width }}
+
                     >
                       {column.headerName}
                     </StyledTableCell>

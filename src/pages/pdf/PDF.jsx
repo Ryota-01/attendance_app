@@ -138,16 +138,16 @@ export default function PDF(props) {
                   <Text>TEL:00-0000-0000</Text> */}
                   </View>
                   <View style={styles.tableRow}>
-                    <Text style={styles.tableCol}>{userData.lastName} {userData.firstName}</Text>
+                    <Text style={styles.tableCol}>
+                      {userData.lastName} {userData.firstName}
+                    </Text>
                     <Text style={styles.tableCol}></Text>
                     <Text style={styles.tableCol}></Text>
                     <Text style={styles.tableCol}></Text>
                     <Text style={styles.tableCol}></Text>
                   </View>
-
                 </View>
               </View>
-
             </View>
           ))}
         </View>
@@ -163,8 +163,12 @@ export default function PDF(props) {
             </View>
             {formattedDates.map((formattedCalendarDate, index) => (
               <View style={styles.tableRow} key={index}>
-                <Text style={styles.tableCol}>{formattedCalendarDate.date}</Text>
-                <Text style={styles.tableCol}>{formattedCalendarDate.holidayType}</Text>
+                <Text style={styles.tableCol}>
+                  {formattedCalendarDate.date}
+                </Text>
+                <Text style={styles.tableCol}>
+                  {formattedCalendarDate.holidayType}
+                </Text>
                 {/* <Text style={styles.tableCol}>
                   {formattedCalendarDate.holidayType}
                 </Text> */}
@@ -191,13 +195,13 @@ export default function PDF(props) {
                   (attendanceList) =>
                     attendanceList.date !== formattedCalendarDate.date
                 ) && (
-                    <>
-                      {/* <Text style={styles.tableCol}>--</Text> */}
-                      <Text style={styles.tableCol}>--</Text>
-                      <Text style={styles.tableCol}>--</Text>
-                      <Text style={styles.tableCol}>--</Text>
-                    </>
-                  )}
+                  <>
+                    {/* <Text style={styles.tableCol}>--</Text> */}
+                    <Text style={styles.tableCol}>--</Text>
+                    <Text style={styles.tableCol}>--</Text>
+                    <Text style={styles.tableCol}>--</Text>
+                  </>
+                )}
               </View>
             ))}
           </View>
