@@ -7,6 +7,7 @@ import AttendanceFormComponent from "./AttendanceComponent";
 import UserInfoCompornent from "./UserInfoCompornent";
 import LeaveConutComponent from "./LeaveCountComponent";
 import LeaveRequestComponent from "./LeaveRequestComponent";
+import AttendanceListTable from "../attendancelist/AttendanceListTable";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -16,7 +17,7 @@ export default function Home() {
       xs: 12,
       md: spacingNumber,
     },
-  })
+  });
 
   if (!user) {
     // userがfalseの場合は、ログインページに遷移する
@@ -37,6 +38,9 @@ export default function Home() {
             </Grid>
             <Grid item {...styles().gridItemSpacing}>
               <LeaveRequestComponent />
+            </Grid>
+            <Grid item {...styles().gridItemSpacing}>
+              <AttendanceListTable />
             </Grid>
             {/* <useApplicationDataContext /> */}
           </Grid>
