@@ -34,14 +34,11 @@ export default function Home() {
             <Grid item {...styles(6).gridItemSpacing}>
               <UserInfoCompornent />
             </Grid>
-            {/* <Grid item {...styles().gridItemSpacing}>
+            <Grid item {...styles().gridItemSpacing}>
               <LeaveConutComponent />
             </Grid>
             <Grid item {...styles().gridItemSpacing}>
               <LeaveRequestComponent />
-            </Grid> */}
-            <Grid item {...styles().gridItemSpacing}>
-              <AttendanceList />
             </Grid>
             {/* <useApplicationDataContext /> */}
           </Grid>

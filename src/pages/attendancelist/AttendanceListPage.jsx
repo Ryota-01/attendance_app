@@ -38,7 +38,7 @@ export default function AttendanceList() {
 
   return (
     <>
-      {/* <NewSideBar> */}
+      <NewSideBar>
         <CardComponent title="勤怠実績">
           <Grid container>
             <Grid item {...styles.gridItem}>
@@ -46,7 +46,7 @@ export default function AttendanceList() {
             </Grid>
           </Grid>
         </CardComponent>
-      {/* </NewSideBar> */}
+      </NewSideBar>
     </>
   );
 }
