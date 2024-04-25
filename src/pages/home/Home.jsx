@@ -8,6 +8,7 @@ import UserInfoCompornent from "./UserInfoCompornent";
 import LeaveConutComponent from "./LeaveCountComponent";
 import LeaveRequestComponent from "./LeaveRequestComponent";
 import AttendanceListTable from "../attendancelist/AttendanceListTable";
+import AttendanceList from "../attendancelist/AttendanceListPage";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -33,14 +34,14 @@ export default function Home() {
             <Grid item {...styles(6).gridItemSpacing}>
               <UserInfoCompornent />
             </Grid>
-            <Grid item {...styles().gridItemSpacing}>
+            {/* <Grid item {...styles().gridItemSpacing}>
               <LeaveConutComponent />
             </Grid>
             <Grid item {...styles().gridItemSpacing}>
               <LeaveRequestComponent />
-            </Grid>
+            </Grid> */}
             <Grid item {...styles().gridItemSpacing}>
-              <AttendanceListTable />
+              <AttendanceList />
             </Grid>
             {/* <useApplicationDataContext /> */}
           </Grid>
