@@ -45,6 +45,7 @@ export default function AttendanceList() {
               <AttendanceListTable {...props} />
             </Grid>
           </Grid>
+          
         </CardComponent>
       </NewSideBar>
     </>
