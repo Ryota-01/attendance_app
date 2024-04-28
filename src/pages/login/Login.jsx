@@ -9,17 +9,33 @@ import {
   ThemeProvider,
   createTheme,
   Typography,
-  TextField,
+  InputAdornment,
+  IconButton,
+  OutlinedInput,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { auth } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
 import logo from "../../imeges/logo.svg";
+import { InfoBasicAlert } from "../../components/BasicAlert";
+
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,16 +62,6 @@ export default function Login() {
     },
   });
 
-  const textFieldStyle = (type, label) => ({
-    type: type,
-    label: label,
-    required: true,
-    fullWidth: true,
-    variant: "outlined",
-    size: "small",
-    margin: "normal",
-  });
-
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -70,26 +76,61 @@ export default function Login() {
         width={{ xs: "84%", md: "50%" }}
         margin={"50px auto"}
       >
-        <Box component="form" onSubmit={handleSubmit} >
-          <TextField
-            inputRef={emailRef}
-            {...textFieldStyle("email", "メールアドレス")}
-          />
-          <TextField
-            inputRef={passwordRef}
-            {...textFieldStyle("パスワード", "password")}
-          />
+        <Box component="form" onSubmit={handleSubmit}>
+          <FormControl
+            variant="outlined"
+            size="small"
+            sx={{ marginBottom: "24px" }}
+            fullWidth
+          >
+            <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
+            <OutlinedInput placeholder="登録済みのメールアドレス" inputRef={emailRef} type="email" label="ID" />
+          </FormControl>
+          <FormControl
+            variant="outlined"
+            size="small"
+            fullWidth
+            sx={{ marginBottom: "18px" }}
+          >
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              inputRef={passwordRef}
+              label="Password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
           <Typography variant="body2" sx={{ mb: 1 }}>
             {errorMessage}
           </Typography>
-          <ThemeProvider theme={darkTheme}>
-            <Button type="submit" variant="contained" onSubmit={handleSubmit}>
-              LOGIN
-            </Button>
-          </ThemeProvider>
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            ユーザー登録は<Link to={"/signup"}>こちら</Link>
-          </Typography>
+
+          <Box display={"flex"} justifyContent={"space-between"}>
+            <ThemeProvider theme={darkTheme}>
+              <Button type="submit" variant="contained" onSubmit={handleSubmit}>
+                LOGIN
+              </Button>
+            </ThemeProvider>
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              <Link to={"/signup"}>ユーザー登録はこちら</Link>
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ margin: "24px auto 0 auto" }}>
+          <InfoBasicAlert message="パスワードを忘れた方は管理者へお問合せください" />
         </Box>
       </CardComponent>
     </>

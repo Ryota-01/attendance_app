@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 
 //　上手くいったよ的なアラート
 export function BasicAlert({ message }) {
-  return <Alert severity="success">This is a success Alert.</Alert>;
+  return <Alert severity="success">{message}</Alert>;
 }
 
 // 何かお知らせしたい時のアラート

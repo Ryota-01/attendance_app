@@ -8,14 +8,19 @@ import {
   Box,
   Button,
   Typography,
-  TextField,
   ThemeProvider,
   createTheme,
+  InputAdornment,
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+  IconButton,
 } from "@mui/material";
 import { auth, db } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
 import { useAuthContext } from "../../context/AuthContext";
 import logo from "../../imeges/logo.svg";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function Signup() {
   const emailRef = useRef(null);
@@ -23,6 +28,15 @@ export default function Signup() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const { user } = useAuthContext();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword((show) => !show);
+  };
+
+  const handleMouseDownPassword = (e) => {
+    e.preventDefault();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,16 +74,6 @@ export default function Signup() {
     },
   });
 
-  const textFieldStyle = (type, label) => ({
-    type: type,
-    label: label,
-    required: true,
-    fullWidth: true,
-    variant: "outlined",
-    size: "small",
-    margin: "normal",
-  });
-
   return (
     <div>
       <ThemeProvider theme={darkTheme}>
@@ -86,26 +90,56 @@ export default function Signup() {
         margin={"50px auto"}
       >
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            inputRef={emailRef}
-            {...textFieldStyle("email", "メールアドレス")}
-          />
-          <TextField
-            inputRef={passwordRef}
-            {...textFieldStyle("password", "パスワード")}
-          />
+          <FormControl
+            variant="outlined"
+            size="small"
+            sx={{ marginBottom: "24px" }}
+            fullWidth
+          >
+            <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
+            <OutlinedInput inputRef={emailRef} type="email" label="ID" placeholder="e-mail" />
+          </FormControl>
+          <FormControl
+            variant="outlined"
+            size="small"
+            fullWidth
+            sx={{ marginBottom: "18px" }}
+          >
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              inputRef={passwordRef}
+              label="Password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
           <Typography variant="body2" sx={{ mb: 1 }}>
             {errorMessage}
           </Typography>
-          <ThemeProvider theme={darkTheme}>
-            <Button type="submit" variant="contained" onSubmit={handleSubmit}>
-              SIGNUP
-            </Button>
-          </ThemeProvider>
-
-          <Typography variant="body2" sx={{ mt: 2 }}>
-            ログインは<Link to={"/login"}>こちら</Link>
-          </Typography>
+          <Box display={"flex"} justifyContent={"space-between"}>
+            <ThemeProvider theme={darkTheme}>
+              <Button type="submit" variant="contained" onSubmit={handleSubmit}>
+                SIGNUP
+              </Button>
+            </ThemeProvider>
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              <Link to={"/login"}>ログインはこちら</Link>
+            </Typography>
+          </Box>
         </Box>
       </CardComponent>
     </div>

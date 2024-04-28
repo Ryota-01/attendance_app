@@ -17,16 +17,6 @@ if(process.env.NODE_ENV === "production") {
   firebaseConfig = firebaseConfigDev;
 }
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAxjtYQYgmUzgDZVNlX7dWOb3Fq0Z690zI",
-//   authDomain: "attendance-dev-20798.firebaseapp.com",
-//   projectId: "attendance-dev-20798",
-//   storageBucket: "attendance-dev-20798.appspot.com",
-//   messagingSenderId: "289901762448",
-//   appId: "1:289901762448:web:af05020be4a935b7480515",
-//   measurementId: "G-3MBN5WPN9D",
-// };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
