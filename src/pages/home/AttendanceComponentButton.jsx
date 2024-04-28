@@ -9,14 +9,14 @@ import {
 } from "firebase/firestore";
 import { Button, Stack } from "@mui/material";
 import { useAuthContext } from "../../context/AuthContext";
-import Snackbar from "../../components/Snackbar";
+import AttendanceDialog from "../../components/Dialog/AttendanceDialog";
 
 export default function AttendanceComponentButton() {
   const [currentDate, setCurrentDate] = useState(getFormattedDate());
   const [isClockInDisabled, setIsClockInDisabled] = useState();
   const [isClockOutDisabled, setIsClockOutDisabled] = useState(true);
-  const [isPopupMessage, setIsPopupMessage] = useState(false);
-  const [popupMessage, setPopupMessage] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState(false);
   const { user } = useAuthContext();
 
   //日付のフォーマット
@@ -45,6 +45,8 @@ export default function AttendanceComponentButton() {
       if (now >= midnight && now < midnight + 1000) {
         if (now.getDate() !== new Date(currentDate).getDate()) {
           setCurrentDate(getFormattedDate());
+          setIsClockInDisabled(false);
+          setIsClockOutDisabled(true);
         }
       }
     }, 1000);
@@ -72,15 +74,23 @@ export default function AttendanceComponentButton() {
         const snapShot = await getDoc(attendanceDataDocRef);
         if (snapShot.exists()) {
           const userData = snapShot.data();
-          setIsClockInDisabled(userData.isClockInDisabled);
-          setIsClockOutDisabled(userData.isClockOutDisabled);
+          if (userData.startTime && userData.endTime) {
+            setIsClockInDisabled(true);
+            setIsClockOutDisabled(true);
+          } else if (userData.endTime) {
+            setIsClockInDisabled(false);
+            setIsClockOutDisabled(false);
+          } else {
+            setIsClockInDisabled(true);
+            setIsClockOutDisabled(false);
+          }
         }
       } catch (e) {
         console.error(e.message);
       }
     };
     fetchData();
-  }, []);
+  }, [isClockInDisabled, isClockOutDisabled]);
 
   const getAttendanceCollection = async () => {
     // userコレクションを参照
@@ -112,21 +122,20 @@ export default function AttendanceComponentButton() {
         userID: user.uid,
         date: serverTimestamp(),
         startTime: serverTimestamp(),
-        isClockInDisabled: true,
         remarks: "",
       };
       const { attendanceDataDocRef } = await getAttendanceCollection();
       await setDoc(attendanceDataDocRef, value); // setDocはdocメソッドとセットで使う
       const popupMessage = () => {
         if (dayOfWeek === 5) {
-          return "おはようございます！今週も残り1日頑張りましょう！";
+          return "出勤しました。今週も残り1日頑張りましょう！";
         } else {
-          return "おはようございます！今日も１日頑張りましょう！";
+          return "出勤しました。今日も１日頑張りましょう！";
         }
       };
-      setIsPopupMessage(true);
-      setPopupMessage(popupMessage);
-      setIsClockInDisabled(value.isClockInDisabled);
+      setIsDialogOpen(true);
+      setDialogMessage(popupMessage);
+      setIsClockInDisabled(false);
     } catch (e) {
       console.error("error", e.message);
     }
@@ -139,19 +148,18 @@ export default function AttendanceComponentButton() {
       if (!attendanceDataDocRef.empty) {
         const value = {
           endTime: serverTimestamp(),
-          isClockOutDisabled: true,
         };
         await setDoc(attendanceDataDocRef, value, { merge: true });
         const popupMessage = () => {
           if (dayOfWeek === 5) {
-            return "お疲れさまでした！良い週末を！";
+            return "退勤しました。良い週末を！";
           } else {
-            return "お疲れさまでした！";
+            return "退勤しました。お疲れさまでした！";
           }
         };
-        setIsClockOutDisabled(value.isClockOutDisabled);
-        setIsPopupMessage(true);
-        setPopupMessage(popupMessage);
+        setIsDialogOpen(true);
+        setDialogMessage(popupMessage);
+        setIsClockOutDisabled(true);
       } else {
         console.log("対象のドキュメントが存在しません");
       }
@@ -193,7 +201,14 @@ export default function AttendanceComponentButton() {
           退 勤
         </Button>
       </Stack>
-      {isPopupMessage ? <Snackbar popupMessage={popupMessage} /> : <></>}
+      {isDialogOpen ? (
+        <AttendanceDialog
+          isDialogOpen={isDialogOpen}
+          dialogMessage={dialogMessage}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 }

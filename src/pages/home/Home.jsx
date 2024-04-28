@@ -7,8 +7,7 @@ import AttendanceFormComponent from "./AttendanceComponent";
 import UserInfoCompornent from "./UserInfoCompornent";
 import LeaveConutComponent from "./LeaveCountComponent";
 import LeaveRequestComponent from "./LeaveRequestComponent";
-import AttendanceListTable from "../attendancelist/AttendanceListTable";
-import AttendanceList from "../attendancelist/AttendanceListPage";
+import AttendanceDialog from "../../components/Dialog/AttendanceDialog";
 
 export default function Home() {
   const navigation = useNavigate();
@@ -42,6 +41,7 @@ export default function Home() {
             </Grid>
             {/* <useApplicationDataContext /> */}
           </Grid>
+          <AttendanceDialog />
         </NewSideBar>
       </>
     );
