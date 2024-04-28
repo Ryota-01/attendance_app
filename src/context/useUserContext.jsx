@@ -18,7 +18,7 @@ import { db } from "../firebase";
 const UserContext = createContext();
 
 // ユーザーコンテキストのカスタムフック
-export function useUserContext () {
+export function useUserContext() {
   return useContext(UserContext);
 }
 
@@ -27,14 +27,14 @@ export function UserProvider({ children }) {
   const { user } = useAuthContext();
   const [userData, setUserData] = useState(null);
   const value = {
-    userData
-  }
+    userData,
+  };
 
   useEffect(() => {
     const FetchUserData = async () => {
       try {
-        if(user.uid === null) {
-          return 
+        if (user.uid === null) {
+          return;
         }
         const usersCollectionRef = collection(db, "users");
         const userDocRef = doc(usersCollectionRef, user.uid);
@@ -47,8 +47,6 @@ export function UserProvider({ children }) {
     };
     FetchUserData();
   }, [user]);
-  console.log(userData)
-
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

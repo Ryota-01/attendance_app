@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Box, Button, Divider, Grid } from "@mui/material";
-import AddressInput from "../../components/FormComponents/AddressInput";
 import EmailInput from "../../components/FormComponents/EmailInput";
 import EmploymentTypeInput from "../../components/FormComponents/EmploymentTypeInput";
 import FirstNameFuriganaInput from "../../components/FormComponents/FirstNameFuriganaInput";
@@ -10,11 +9,9 @@ import LastNameFuriganaInput from "../../components/FormComponents/LastNameFurig
 import JoinDateInput from "../../components/FormComponents/JoinDateInput";
 import LastNameInput from "../../components/FormComponents/LastNameInput";
 import PhoneNumberInput from "../../components/FormComponents/PhoneNumberInput";
-import PostCodeInput from "../../components/FormComponents/PostCodeInput";
-import PrefecturesInput from "../../components/FormComponents/PrefecturesInput";
-import { WarningBasicAlert } from "../../components/BasicAlert";
 import ConfirmDialog from "../../components/Dialog/ConfirmDialog";
 import CardComponent from "../../components/CardComponent";
+import NewSideBar from "../../components/Sidebar/NewSideBar";
 
 export default function UserInfo() {
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
@@ -47,13 +44,7 @@ export default function UserInfo() {
   };
 
   return (
-    <Box sx={{ padding: "56px" }}>
-      <Box sx={{ marginBottom: "24px" }}>
-        <WarningBasicAlert
-          message={"ユーザー情報を作成してください"}
-          height={"100px"}
-        />
-      </Box>
+    <NewSideBar>
       <CardComponent title={"社員情報作成"}>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -90,23 +81,6 @@ export default function UserInfo() {
             </Grid>
             <Divider />
 
-            {/* <Grid container {...styles.gridContainer}>
-              郵便番号入力フォーム
-              <Grid item {...styles.gridItem}>
-                <PostCodeInput props={props} />
-              </Grid>
-              <Grid item {...styles.gridItem}></Grid>
-              都道府県入力フォーム
-              <Grid item {...styles.gridItem}>
-                <PrefecturesInput props={props} />
-              </Grid>
-              <Grid item {...styles.gridItem}></Grid>
-              住所入力フォーム
-              <Grid item {...styles.gridItem}>
-                <AddressInput props={props} />
-              </Grid>
-            </Grid>
-            <Divider /> */}
             <Grid container {...styles.gridContainer}>
               {/* 入社日フォーム */}
               <Grid item {...styles.gridItem}>
@@ -135,6 +109,6 @@ export default function UserInfo() {
           />
         )}
       </CardComponent>
-    </Box>
+    </NewSideBar>
   );
 }

@@ -8,16 +8,20 @@ import UserInfoCompornent from "./UserInfoCompornent";
 import LeaveConutComponent from "./LeaveCountComponent";
 import LeaveRequestComponent from "./LeaveRequestComponent";
 import AttendanceDialog from "../../components/Dialog/AttendanceDialog";
+import { useUserContext } from "../../context/useUserContext";
 
 export default function Home() {
   const navigation = useNavigate();
   const { user } = useAuthContext();
+  const { userData } = useUserContext();
   const styles = (spacingNumber) => ({
     gridItemSpacing: {
       xs: 12,
       md: spacingNumber,
     },
   });
+
+  console.log(userData);
 
   if (!user) {
     // userがfalseの場合は、ログインページに遷移する

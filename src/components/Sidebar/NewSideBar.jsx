@@ -2,13 +2,12 @@ import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
   Box,
   Button,
   Toolbar,
   List,
-  CssBaseline,
   Divider,
   IconButton,
   ListItem,
@@ -24,6 +23,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SidebarData } from "./SidebarData";
 import { auth } from "../../firebase";
 import logo from "../../imeges/logo.svg";
+import FetchUserInfoData from "../../hooks/FetchUserInfoData";
+import { useAuthContext } from "../../context/AuthContext";
+import PersonIcon from "@mui/icons-material/Person";
 
 const drawerWidth = 240;
 
@@ -100,8 +102,11 @@ export default function MiniDrawer({ children }) {
     navigate("/login");
     auth.signOut();
   };
+  const { user } = useAuthContext();
+  const userData = FetchUserInfoData(user.uid);
+  console.log(userData);
 
-  const matches = useMediaQuery('(min-width:600px)');
+  const matches = useMediaQuery("(min-width:600px)");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -148,48 +153,77 @@ export default function MiniDrawer({ children }) {
           </Toolbar>
         </AppBar>
       </ThemeProvider>
-      {open && <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {SidebarData.map((value, index) => (
-            <ListItem key={value} disablePadding>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-                to={value.link}
-              >
-                <ListItemIcon
+      {open && (
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            {SidebarData.map((value, index) => (
+              <ListItem key={value} disablePadding>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
+                  to={value.link}
                 >
-                  {value.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={value.title}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-      </Drawer>}
-
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {value.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={value.title}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {userData.admin === true && (
+              <ListItem disablePadding>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                  to="/createuserinfo"
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="社員情報作成"
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )}
+          </List>
+        </Drawer>
+      )}
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, width: "100%" }}>
         <DrawerHeader />
