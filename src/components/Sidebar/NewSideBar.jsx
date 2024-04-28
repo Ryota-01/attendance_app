@@ -19,13 +19,14 @@ import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import PersonIcon from "@mui/icons-material/Person";
+import InfoIcon from '@mui/icons-material/Info';
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SidebarData } from "./SidebarData";
 import { auth } from "../../firebase";
 import logo from "../../imeges/logo.svg";
 import FetchUserInfoData from "../../hooks/FetchUserInfoData";
 import { useAuthContext } from "../../context/AuthContext";
-import PersonIcon from "@mui/icons-material/Person";
 
 const drawerWidth = 240;
 
@@ -194,8 +195,8 @@ export default function MiniDrawer({ children }) {
             ))}
           </List>
           <Divider />
-          <List>
-            {userData.admin === true && (
+          {userData.admin === true && (
+            <List>
               <ListItem disablePadding>
                 <ListItemButton
                   sx={{
@@ -220,8 +221,32 @@ export default function MiniDrawer({ children }) {
                   />
                 </ListItemButton>
               </ListItem>
-            )}
-          </List>
+              <ListItem disablePadding>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                  to="/createinformation"
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <InfoIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="お知らせ作成"
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          )}
         </Drawer>
       )}
 

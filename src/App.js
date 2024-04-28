@@ -7,11 +7,11 @@ import CreateUserInfo from "./pages/createuserinfo/CreateUserInfo";
 import LeaveRequestForm from "./pages/leaverequest/LeaveRequestPage";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
-import Information from "./pages/information/Information";
 import PDFDownloadPage from "./pages/pdf/PDFDownloadPage";
 import PublicRoute from "./lib/PublicRoute";
 import PrivateRoute from "./lib/PrivateRoute";
 import SignUp from "./pages/signup/Signup";
+import CreateInfomation from "./pages/createInfomation/CreateInfomation";
 
 function App() {
   return (
@@ -37,10 +37,6 @@ function App() {
                 element={<PrivateRoute index element={<Home />} />}
               />
               <Route
-                path="/createuserinfo"
-                element={<PrivateRoute index element={<CreateUserInfo />} />}
-              />
-              <Route
                 path="/attendance"
                 element={<PrivateRoute index element={<Home />} />}
               />
@@ -59,8 +55,8 @@ function App() {
                 element={<PrivateRoute index element={<LeaveRequestForm />} />}
               />
               <Route
-                path="/information"
-                element={<PrivateRoute index element={<Information />} />}
+                path="/createinformation"
+                element={<PrivateRoute index element={<CreateInfomation />} />}
               />
             </Routes>
           </div>
