@@ -43,7 +43,6 @@ export default function Home() {
             <Grid item {...styles().gridItemSpacing}>
               <LeaveRequestComponent />
             </Grid>
-            {/* <useApplicationDataContext /> */}
           </Grid>
           <AttendanceDialog />
         </NewSideBar>

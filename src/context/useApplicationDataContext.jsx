@@ -31,7 +31,6 @@ export function ApplicationDataProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log(user)
     if (!user || user === null || user === undefined ) {
       return;
     }
@@ -55,7 +54,7 @@ export function ApplicationDataProvider({ children }) {
       }
     };
     fetchData();
-  }, [user]);
+  }, [user, applicationsData]);
 
   return (
     <ApplicationDataContext.Provider value={value}>

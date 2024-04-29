@@ -15,7 +15,6 @@ import { useApplicationDataContext } from "../../context/useApplicationDataConte
 
 function LeaveRequestComponentTable() {
   const { applicationsData } = useApplicationDataContext();
-  console.log(applicationsData);
   const columns = [
     { field: "leaveDate", headerName: "取得日" },
     { field: "applicantName", headerName: "申請者名" },
