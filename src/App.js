@@ -55,6 +55,10 @@ function App() {
                 element={<PrivateRoute index element={<LeaveRequestForm />} />}
               />
               <Route
+                path="/createuserinfo"
+                element={<PrivateRoute index element={<CreateUserInfo />} />}
+              />
+              <Route
                 path="/createinformation"
                 element={<PrivateRoute index element={<CreateInfomation />} />}
               />

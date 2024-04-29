@@ -1,16 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import NewSideBar from "../../components/Sidebar/NewSideBar";
 import CardComponent from "../../components/CardComponent";
 import { Box, Button, TextField } from "@mui/material";
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateInfomation() {
-  const [informationData, setInformationData] = useState();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const titleRef = useRef("");
   const contentRef = useRef("");
+  const navigate = useNavigate("");
 
   // 現在の年月日と時間を取得
   function formattedDate() {
@@ -22,17 +21,24 @@ export default function CreateInfomation() {
     return formattedDate;
   }
 
+  // 投稿ボタンを押した時の処理
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    const title = titleRef.current.value;
+    const content = contentRef.current.value;
     const value = {
-      title: titleRef.current.value,
-      content: contentRef.current.value,
+      title: title,
+      content: content,
+      createDate: serverTimestamp(),
     };
     try {
       const informationCollectionRef = collection(db, "information");
-      const informationDocRef = doc(informationCollectionRef, formattedDate());
+      const informationDocRef = doc(
+        informationCollectionRef,
+        `${title}_${formattedDate()}`
+      );
       await setDoc(informationDocRef, value);
-      console.log("success!");
+      navigate("/home");
     } catch (e) {
       console.error(e.message);
     }
@@ -69,7 +75,6 @@ export default function CreateInfomation() {
               >
                 投稿
               </Button>
-              <p>{informationData}</p>
             </Box>
           </form>
         </CardComponent>
