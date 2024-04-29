@@ -21,8 +21,6 @@ export default function Home() {
     },
   });
 
-  console.log(userData);
-
   if (!user) {
     // userがfalseの場合は、ログインページに遷移する
     return navigation("/login");

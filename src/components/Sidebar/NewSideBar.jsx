@@ -20,7 +20,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import PersonIcon from "@mui/icons-material/Person";
-import InfoIcon from '@mui/icons-material/Info';
+import InfoIcon from "@mui/icons-material/Info";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SidebarData } from "./SidebarData";
 import { auth } from "../../firebase";
@@ -105,8 +105,6 @@ export default function MiniDrawer({ children }) {
   };
   const { user } = useAuthContext();
   const userData = FetchUserInfoData(user.uid);
-  console.log(userData);
-
   const matches = useMediaQuery("(min-width:600px)");
 
   const handleDrawerOpen = () => {

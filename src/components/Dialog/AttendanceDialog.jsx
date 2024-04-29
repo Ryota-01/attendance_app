@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Dialog,
@@ -16,7 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function AttendanceDialog(props) {
   const dialogTitle = props.dialogMessage;
-  const isDialogOpen = props.isDialogOpen;
+  const isDialogOpen = props.isDialogOpen; // boolean
   const [open, setOpen] = useState(isDialogOpen);
 
   const handleClose = () => {

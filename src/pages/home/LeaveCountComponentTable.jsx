@@ -191,7 +191,6 @@ export default function LeaveCountComponentTable() {
           documents.push(doc.data());
         });
         setCurrentPaidHoliday(grantPaidHoliday - documents.length);
-        console.log(carriedPaidDate);
         const value = {
           nextGrantDate: nextGrantDate, // 次回の付与日
           grantPaidHoliday: grantPaidHoliday, // 付与日数
@@ -214,8 +213,8 @@ export default function LeaveCountComponentTable() {
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell align="center" >
+              {columns.map((column, value) => (
+                <TableCell key={value} align="center" >
                   {column.headerName}
                 </TableCell>
               ))}
