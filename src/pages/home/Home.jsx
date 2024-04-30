@@ -42,6 +42,7 @@ export default function Home() {
               <LeaveRequestComponent />
             </Grid>
           </Grid>
+          
           <AttendanceDialog />
         </NewSideBar>
       </>
