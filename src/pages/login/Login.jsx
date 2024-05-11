@@ -21,7 +21,6 @@ import CardComponent from "../../components/CardComponent";
 import logo from "../../imeges/logo.svg";
 import { InfoBasicAlert } from "../../components/BasicAlert";
 
-
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const emailRef = useRef(null);
@@ -37,6 +36,11 @@ export default function Login() {
     e.preventDefault();
   };
 
+  // エラーメッセージが表示された後に再入力をするとき、メッセージを非表示にする
+  const hideErrorMessage = () => {
+    setErrorMessage("");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -47,9 +51,24 @@ export default function Login() {
       );
       console.log("Success!");
       navigate("/");
-    } catch (e) {
-      console.log(e);
-      setErrorMessage(e.message);
+    } catch (err) {
+      if (
+        err.code === "auth/invalid-email" &&
+        emailRef.current.value.length === 0
+      ) {
+        setErrorMessage("*メールアドレスを入力してください");
+      } else if (err.code === "auth/invalid-credential") {
+        setErrorMessage("*メールアドレスまたはパスワードが一致しません。");
+      } else if (err.code === "auth/missing-password") {
+        setErrorMessage("*パスワードを入力してください");
+      } else if (passwordRef.current.value.length < 6) {
+        setErrorMessage("*パスワードは６文字以上入力してください");
+      } else {
+        alert(
+          "エラーのため登録ができませんでした。恐れ入りますが再度お試しください"
+        );
+      }
+      console.log(err.code);
     }
   };
 
@@ -84,7 +103,13 @@ export default function Login() {
             fullWidth
           >
             <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
-            <OutlinedInput placeholder="登録済みのメールアドレス" inputRef={emailRef} type="email" label="ID" />
+            <OutlinedInput
+              onChange={hideErrorMessage}
+              placeholder="登録済みのメールアドレス"
+              inputRef={emailRef}
+              type="email"
+              label="ID"
+            />
           </FormControl>
           <FormControl
             variant="outlined"
@@ -97,7 +122,9 @@ export default function Login() {
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
+              placeholder="6文字以上入力してください"
               type={showPassword ? "text" : "password"}
+              onChange={hideErrorMessage}
               inputRef={passwordRef}
               label="Password"
               endAdornment={
@@ -114,7 +141,12 @@ export default function Login() {
               }
             />
           </FormControl>
-          <Typography variant="body2" sx={{ mb: 1 }}>
+          <Typography
+            variant="body2"
+            color="red"
+            fontWeight="bold"
+            sx={{ mb: 2 }}
+          >
             {errorMessage}
           </Typography>
 

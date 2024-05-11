@@ -1,8 +1,7 @@
 {
   "projects": {
     "default": "attendance-dev-20798",
-    "dev": "attendance-develop",
-    "prod": "attendance-prod-2fc8a"
+    "dev": "attendance-develop"
   },
   "targets": {},
   "etags": {}

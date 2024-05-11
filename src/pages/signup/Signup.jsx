@@ -1,7 +1,6 @@
 import { React, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, getDoc } from "firebase/firestore";
 import {
   AppBar,
   Toolbar,
@@ -30,6 +29,7 @@ export default function Signup() {
   const { user } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
 
+  // パスワードを表示
   const handleClickShowPassword = () => {
     setShowPassword((show) => !show);
   };
@@ -38,6 +38,12 @@ export default function Signup() {
     e.preventDefault();
   };
 
+  // エラーメッセージが表示された後に再入力をするとき、メッセージを非表示にする
+  const hideErrorMessage = () => {
+    setErrorMessage("");
+  };
+
+  // SIGNUPボタンを押した時の処理
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,25 +52,27 @@ export default function Signup() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      console.log("登録");
       alert("サインアップが完了しました");
-      // usersコレクションを参照
-      const userCollectionRef = collection(db, user.uid);
-      // ユーザー情報のドキュメント
-      const userInfoDocRef = doc(userCollectionRef, "userInfo");
-      // ドキュメントを取得
-      const snapShot = await getDoc(userInfoDocRef);
-      if (snapShot.exists()) {
-        navigate("/home");
-      } else {
-        navigate("/createuserinfo");
-      }
+      navigate("/home");
     } catch (err) {
-      setErrorMessage(err.message);
-      console.log(errorMessage);
+      if (err.code === "auth/invalid-email") {
+        setErrorMessage("*無効なメールアドレスです");
+      } else if (err.code === "auth/email-already-in-use") {
+        setErrorMessage("*このメールアドレスは既に使用されています");
+      } else if (err.code === "auth/missing-password") {
+        setErrorMessage("*パスワードを入力してください");
+      } else if (passwordRef.current.value.length < 6) {
+        setErrorMessage("*パスワードは６文字以上入力してください");
+      } else {
+        alert(
+          "エラーのため登録ができませんでした。恐れ入りますが再度お試しください"
+        );
+      }
+      console.log(err.code);
     }
   };
 
+  //　カラーテーマ
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
@@ -97,7 +105,13 @@ export default function Signup() {
             fullWidth
           >
             <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
-            <OutlinedInput inputRef={emailRef} type="email" label="ID" placeholder="e-mail" />
+            <OutlinedInput
+              inputRef={emailRef}
+              onChange={hideErrorMessage}
+              type="email"
+              label="ID"
+              placeholder="e-mail"
+            />
           </FormControl>
           <FormControl
             variant="outlined"
@@ -112,7 +126,9 @@ export default function Signup() {
               id="outlined-adornment-password"
               type={showPassword ? "text" : "password"}
               inputRef={passwordRef}
+              onChange={hideErrorMessage}
               label="Password"
+              placeholder="6文字以上入力してください"
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -127,7 +143,12 @@ export default function Signup() {
               }
             />
           </FormControl>
-          <Typography variant="body2" sx={{ mb: 1 }}>
+          <Typography
+            variant="body2"
+            color="red"
+            fontWeight="bold"
+            sx={{ mb: 2 }}
+          >
             {errorMessage}
           </Typography>
           <Box display={"flex"} justifyContent={"space-between"}>
