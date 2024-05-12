@@ -81,6 +81,26 @@ export default function Login() {
     },
   });
 
+  // スタイル属性
+  const styles = (ref, onChange, type, label, placeholder) => ({
+    formContorolStyle: {
+      variant: "outlined",
+      size: "small",
+      fullWidth: "fullWidth",
+      sx: {
+        marginBottom: "24px",
+      },
+    },
+    outlinedInputStyle: {
+      inputRef: ref,
+      onChange: onChange,
+      type: type,
+      label: label,
+      placeholder: placeholder,
+      required: "required",
+    },
+  });
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -96,37 +116,31 @@ export default function Login() {
         margin={"50px auto"}
       >
         <Box component="form" onSubmit={handleSubmit}>
-          <FormControl
-            variant="outlined"
-            size="small"
-            sx={{ marginBottom: "24px" }}
-            fullWidth
-          >
+          <FormControl {...styles().formContorolStyle}>
             <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
             <OutlinedInput
-              onChange={hideErrorMessage}
-              placeholder="登録済みのメールアドレス"
-              inputRef={emailRef}
-              type="email"
-              label="ID"
+              {...styles(
+                emailRef,
+                hideErrorMessage,
+                "email",
+                "ID",
+                "登録済みのメールアドレス"
+              ).outlinedInputStyle}
             />
           </FormControl>
-          <FormControl
-            variant="outlined"
-            size="small"
-            fullWidth
-            sx={{ marginBottom: "18px" }}
-          >
+          <FormControl {...styles().formContorolStyle}>
             <InputLabel htmlFor="outlined-adornment-password">
-              Password
+              PASSWORD
             </InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
-              placeholder="6文字以上入力してください"
-              type={showPassword ? "text" : "password"}
-              onChange={hideErrorMessage}
-              inputRef={passwordRef}
-              label="Password"
+              {...styles(
+                passwordRef,
+                hideErrorMessage,
+                showPassword ? "text" : "password",
+                "PASSWORD",
+                "6文字以上入力してください"
+              ).outlinedInputStyle}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
