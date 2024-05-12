@@ -1,4 +1,5 @@
 import { React, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
@@ -14,8 +15,9 @@ import {
   FormControl,
   InputLabel,
   IconButton,
+  FormHelperText,
 } from "@mui/material";
-import { auth, db } from "../../firebase";
+import { auth } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
 import { useAuthContext } from "../../context/AuthContext";
 import logo from "../../imeges/logo.svg";
@@ -28,6 +30,11 @@ export default function Signup() {
   const [errorMessage, setErrorMessage] = useState("");
   const { user } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   // パスワードを表示
   const handleClickShowPassword = () => {
@@ -39,34 +46,20 @@ export default function Signup() {
   };
 
   // エラーメッセージが表示された後に再入力をするとき、メッセージを非表示にする
-  const hideErrorMessage = () => {
+  const hideErrorMessage = (e) => {
+    console.log(e);
     setErrorMessage("");
   };
 
   // SIGNUPボタンを押した時の処理
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSignup = async (e) => {
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        emailRef.current.value,
-        passwordRef.current.value
-      );
+      await createUserWithEmailAndPassword(auth, e.accountId, e.password);
       alert("サインアップが完了しました");
       navigate("/home");
     } catch (err) {
-      if (err.code === "auth/invalid-email") {
-        setErrorMessage("*無効なメールアドレスです");
-      } else if (err.code === "auth/email-already-in-use") {
-        setErrorMessage("*このメールアドレスは既に使用されています");
-      } else if (err.code === "auth/missing-password") {
-        setErrorMessage("*パスワードを入力してください");
-      } else if (passwordRef.current.value.length < 6) {
-        setErrorMessage("*パスワードは６文字以上入力してください");
-      } else {
-        alert(
-          "エラーのため登録ができませんでした。恐れ入りますが再度お試しください"
-        );
+      if (err.code === "auth/email-already-in-use") {
+        setErrorMessage("このメールアドレスはすでに登録されています");
       }
       console.log(err.code);
     }
@@ -82,24 +75,39 @@ export default function Signup() {
     },
   });
 
-  const styles = (ref, onChange, type, label, placeholder) => ({
+  const styles = {
     formContorolStyle: {
       variant: "outlined",
       size: "small",
       fullWidth: "fullWidth",
       sx: {
-        marginBottom: "24px",
+        mb: 2,
       },
     },
-    outlinedInputStyle: {
-      inputRef: ref,
-      onChange: onChange,
-      type: type,
-      label: label,
-      placeholder: placeholder,
+    idFormStyle: {
+      id: "accountId",
+      name: "accountId",
+      label: "ID",
+      type: "email",
+      variant: "outlined",
+      size: "small",
+      inputRef: emailRef,
+      onChange: hideErrorMessage,
       required: "required",
+      error: !errors.accountId || !errorMessage === null ? "" : "error",
     },
-  });
+    passwordFormStyle: {
+      id: "password",
+      name: "password",
+      label: "PASSWORD",
+      type: showPassword ? "text" : "password",
+      variant: "outlined",
+      size: "small",
+      inputRef: passwordRef,
+      required: "required",
+      error: errors.password && "error",
+    },
+  };
 
   return (
     <div>
@@ -116,28 +124,52 @@ export default function Signup() {
         width={{ xs: "84%", md: "50%" }}
         margin={"50px auto"}
       >
-        <Box component="form" onSubmit={handleSubmit}>
-          <FormControl {...styles().formContorolStyle}>
-            <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
+        <Box component="form" onSubmit={handleSubmit(handleSignup)}>
+          <FormControl {...styles.formContorolStyle}>
+            <InputLabel htmlFor="accountId">ID</InputLabel>
             <OutlinedInput
-              {...styles(emailRef, hideErrorMessage, "email", "ID", "e-mail")
-                .outlinedInputStyle}
+              {...register("accountId", {
+                required: {
+                  value: true,
+                  message: "メールアドレスを入力してください。",
+                },
+                pattern: {
+                  value:
+                    /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
+                  message: "name@example.comの形式で入力してください",
+                },
+              })}
+              {...styles.idFormStyle}
             />
+            {errors.accountId?.types?.required && (
+              <FormHelperText error>
+                {errors.accountId.types.required}
+              </FormHelperText>
+            )}
+            {errors.accountId?.types?.pattern && (
+              <FormHelperText error>
+                {errors.accountId.types.pattern}
+              </FormHelperText>
+            )}
+            {errorMessage && (
+              <FormHelperText error>{errorMessage}</FormHelperText>
+            )}
           </FormControl>
-          <FormControl {...styles().formContorolStyle}>
-            <InputLabel htmlFor="outlined-adornment-password">
-              PASSWORD
-            </InputLabel>
+          <FormControl {...styles.formContorolStyle}>
+            <InputLabel htmlFor="password">PASSWORD</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-password"
-              {...styles(
-                passwordRef,
-                hideErrorMessage,
-                showPassword ? "text" : "password",
-                "PASSWORD",
-                "6文字以上入力してください",
-                "e-mail"
-              ).outlinedInputStyle}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "パスワードを入力してください",
+                },
+                pattern: {
+                  value: /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
+                  message:
+                    "パスワードは6文字以上、半角英数字を含むように入力してください",
+                },
+              })}
+              {...styles.passwordFormStyle}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -151,15 +183,23 @@ export default function Signup() {
                 </InputAdornment>
               }
             />
+            {!errors.password ? (
+              <FormHelperText>6文字以上、半角英数字を含む</FormHelperText>
+            ) : (
+              <>
+                {errors.password?.types?.required && (
+                  <FormHelperText error>
+                    {errors.password.types.required}
+                  </FormHelperText>
+                )}
+                {errors.password?.types?.pattern && (
+                  <FormHelperText error>
+                    {errors.password.types.pattern}
+                  </FormHelperText>
+                )}
+              </>
+            )}
           </FormControl>
-          <Typography
-            variant="body2"
-            color="red"
-            fontWeight="bold"
-            sx={{ mb: 2 }}
-          >
-            {errorMessage}
-          </Typography>
           <Box display={"flex"} justifyContent={"space-between"}>
             <ThemeProvider theme={darkTheme}>
               <Button type="submit" variant="contained" onSubmit={handleSubmit}>

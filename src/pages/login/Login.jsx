@@ -1,4 +1,5 @@
 import { React, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {
@@ -14,12 +15,13 @@ import {
   OutlinedInput,
   InputLabel,
   FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { auth } from "../../firebase";
 import CardComponent from "../../components/CardComponent";
 import logo from "../../imeges/logo.svg";
-import { InfoBasicAlert } from "../../components/BasicAlert";
+import { InfoBasicAlert, WarningBasicAlert } from "../../components/BasicAlert";
 
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,6 +29,11 @@ export default function Login() {
   const passwordRef = useRef(null);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ criteriaMode: "all", mode: "onChange" });
 
   const handleClickShowPassword = () => {
     setShowPassword((show) => !show);
@@ -41,8 +48,7 @@ export default function Login() {
     setErrorMessage("");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
     try {
       await signInWithEmailAndPassword(
         auth,
@@ -82,24 +88,39 @@ export default function Login() {
   });
 
   // スタイル属性
-  const styles = (ref, onChange, type, label, placeholder) => ({
+  const styles = {
     formContorolStyle: {
       variant: "outlined",
       size: "small",
       fullWidth: "fullWidth",
       sx: {
-        marginBottom: "24px",
+        mb: 2,
       },
     },
-    outlinedInputStyle: {
-      inputRef: ref,
-      onChange: onChange,
-      type: type,
-      label: label,
-      placeholder: placeholder,
+    idFormStyle: {
+      id: "accountId",
+      name: "accountId",
+      label: "ID",
+      type: "email",
+      variant: "outlined",
+      size: "small",
+      inputRef: emailRef,
+      onChange: hideErrorMessage,
       required: "required",
+      error: !errors.accountId || !errorMessage === null ? "" : "error",
     },
-  });
+    passwordFormStyle: {
+      id: "password",
+      name: "password",
+      label: "PASSWORD",
+      type: showPassword ? "text" : "password",
+      variant: "outlined",
+      size: "small",
+      inputRef: passwordRef,
+      required: "required",
+      error: errors.password && "error",
+    },
+  };
 
   return (
     <>
@@ -115,32 +136,56 @@ export default function Login() {
         width={{ xs: "84%", md: "50%" }}
         margin={"50px auto"}
       >
-        <Box component="form" onSubmit={handleSubmit}>
-          <FormControl {...styles().formContorolStyle}>
+        {errorMessage && (
+          <Box sx={{ margin: "0 auto 20px auto" }}>
+            <WarningBasicAlert message={errorMessage} />
+          </Box>
+        )}
+        <Box component="form" onSubmit={handleSubmit(handleLogin)}>
+          <FormControl {...styles.formContorolStyle}>
             <InputLabel htmlFor="outlined-adornment-email">ID</InputLabel>
             <OutlinedInput
-              {...styles(
-                emailRef,
-                hideErrorMessage,
-                "email",
-                "ID",
-                "登録済みのメールアドレス"
-              ).outlinedInputStyle}
+              {...register("accountId", {
+                required: {
+                  value: true,
+                  message: "メールアドレスを入力してください。",
+                },
+                pattern: {
+                  value:
+                    /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
+                  message: "name@example.comの形式で入力してください",
+                },
+              })}
+              {...styles.idFormStyle}
             />
+            {errors.accountId?.types?.required && (
+              <FormHelperText error>
+                {errors.accountId.types.required}
+              </FormHelperText>
+            )}
+            {errors.accountId?.types?.pattern && (
+              <FormHelperText error>
+                {errors.accountId.types.pattern}
+              </FormHelperText>
+            )}
           </FormControl>
-          <FormControl {...styles().formContorolStyle}>
+          <FormControl {...styles.formContorolStyle}>
             <InputLabel htmlFor="outlined-adornment-password">
               PASSWORD
             </InputLabel>
             <OutlinedInput
-              id="outlined-adornment-password"
-              {...styles(
-                passwordRef,
-                hideErrorMessage,
-                showPassword ? "text" : "password",
-                "PASSWORD",
-                "6文字以上入力してください"
-              ).outlinedInputStyle}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "パスワードを入力してください",
+                },
+                pattern: {
+                  value: /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}$/i,
+                  message:
+                    "パスワードは6文字以上、半角英数字を含むように入力してください",
+                },
+              })}
+              {...styles.passwordFormStyle}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -154,15 +199,23 @@ export default function Login() {
                 </InputAdornment>
               }
             />
+            {!errors.password ? (
+              <FormHelperText>6文字以上、半角英数字を含む</FormHelperText>
+            ) : (
+              <>
+                {errors.password?.types?.required && (
+                  <FormHelperText error>
+                    {errors.password.types.required}
+                  </FormHelperText>
+                )}
+                {errors.password?.types?.pattern && (
+                  <FormHelperText error>
+                    {errors.password.types.pattern}
+                  </FormHelperText>
+                )}
+              </>
+            )}
           </FormControl>
-          <Typography
-            variant="body2"
-            color="red"
-            fontWeight="bold"
-            sx={{ mb: 2 }}
-          >
-            {errorMessage}
-          </Typography>
 
           <Box display={"flex"} justifyContent={"space-between"}>
             <ThemeProvider theme={darkTheme}>
