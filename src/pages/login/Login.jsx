@@ -64,7 +64,7 @@ export default function Login() {
       ) {
         setErrorMessage("*メールアドレスを入力してください");
       } else if (err.code === "auth/invalid-credential") {
-        setErrorMessage("*メールアドレスまたはパスワードが一致しません。");
+        setErrorMessage("メールアドレスまたはパスワードが一致しません。");
       } else if (err.code === "auth/missing-password") {
         setErrorMessage("*パスワードを入力してください");
       } else if (passwordRef.current.value.length < 6) {
@@ -105,7 +105,6 @@ export default function Login() {
       variant: "outlined",
       size: "small",
       inputRef: emailRef,
-      onChange: hideErrorMessage,
       required: "required",
       error: !errors.accountId || !errorMessage === null ? "" : "error",
     },
