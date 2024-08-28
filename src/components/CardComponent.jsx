@@ -25,6 +25,7 @@ function CardComponent(props) {
           boxShadow: "0 2px 12px lightgray",
         }}
       >
+        
         <Box
           sx={{
             background: bgColor,
