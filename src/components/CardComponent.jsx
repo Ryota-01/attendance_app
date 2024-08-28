@@ -33,7 +33,8 @@ function CardComponent(props) {
             bottom: 0,
             width: "4px",
           }}
-        ></Box>
+        >
+        </Box>
         <Box {...styles.box}>
           <Typography variant="h7" color="text.secondary" fontWeight={"bold"}>
             {title}
