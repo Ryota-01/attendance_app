@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 export default function Header() {
+  console.log("test");
   return (
     <header class="header">
       <ul class="header_item">
@@ -12,7 +13,7 @@ export default function Header() {
           <li class="header_item_list">勤怠一覧</li>
         </Link>
         <li class="header_item_list">社員名</li>
-        
+
       </ul>
     </header>
   )
