@@ -1,23 +1,27 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+//データベース（cloud firestore）をインポート
 import { getFirestore } from "firebase/firestore";
+//データベース（realtime database）をインポート
+import { getDatabase } from "firebase/database";
 import "firebase/compat/auth";
+import firebaseConfigDev from "./firebaseConfig.dev";
+import firebaseConfigProd from "./firebaseConfig.prod";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCKA4AqTuXvfmTsJg13bVXzEM_jH1ne7PQ",
-  authDomain: "attendance-b65d7.firebaseapp.com",
-  projectId: "attendance-b65d7",
-  storageBucket: "attendance-b65d7.appspot.com",
-  messagingSenderId: "479172396895",
-  appId: "1:479172396895:web:bc23fdfa171470fae698ea",
-  measurementId: "G-T4Q3QWW22E"
-};
+let firebaseConfig;
+
+if(process.env.NODE_ENV === "production") {
+  firebaseConfig = firebaseConfigProd
+} else {
+  firebaseConfig = firebaseConfigDev;
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-const fireStore = getFirestore(app);
+const db = getFirestore(app);
+const database = getDatabase(app);
 
-export { auth, fireStore, analytics };
+export { auth, db, analytics, database };
