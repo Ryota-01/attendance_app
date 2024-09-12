@@ -35,7 +35,6 @@ export default function AttendanceList() {
       xs: 12,
     },
   };
-
   return (
     <>
       <NewSideBar>
